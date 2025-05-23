@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderHud();
   renderLocation();
   renderTravelOptions();
+  renderDestinationSidebar();
 });
 
 function setupSidebar() {
@@ -42,6 +43,25 @@ function setupSidebar() {
     });
   });
 }
+
+function renderDestinationSidebar() {
+  const current = locations[player.location];
+  const list = document.getElementById('destination-list');
+  list.innerHTML = ''; // Clear previous
+
+  current.connections.forEach(dest => {
+    const li = document.createElement('li');
+    li.textContent = dest;
+    li.addEventListener('click', () => {
+      player.location = dest;
+      renderLocation();
+      renderTravelOptions();       // if still keeping those buttons
+      renderDestinationSidebar();  // refresh right sidebar
+    });
+    list.appendChild(li);
+  });
+}
+
 
 function setupStatsModal() {
   const statsBtn = document.querySelector('.sidebar li:nth-child(1)'); // or use text match

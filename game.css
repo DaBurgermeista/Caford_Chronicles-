@@ -28,6 +28,8 @@ body {
   display: flex;
   width: 100%;
   height: calc(100vh - 2.5rem);
+  justify-content: space-between;
+  position: relative;
 }
 
 .game-container {
@@ -200,6 +202,43 @@ body {
 
 .sidebar-wrapper.hidden {
   transform: translateX(-235px);
+}
+
+.sidebar-right {
+  width: 200px;
+  margin: 0;
+  align-self: stretch;
+  background-color: rgba(20, 20, 20, 0.9);
+  padding: 1rem;
+  color: #c5f5a3;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.5rem;
+  border-left: 2px solid #88b47f;
+  box-shadow: -2px 0 6px #4c6f3f;
+}
+
+.sidebar-right h3 {
+  margin-top: 0;
+  color: #e0d1a6;
+  text-shadow: 0 0 4px #a2967c;
+}
+
+.sidebar-right ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+.sidebar-right li {
+  padding: 0.5rem 0;
+  cursor: pointer;
+  border-bottom: 1px dashed #88b47f;
+  transition: color 0.2s;
+}
+
+.sidebar-right li:hover {
+  color: #fff1a8;
+  text-shadow: 0 0 6px #dabd50;
 }
 
 .modal {
