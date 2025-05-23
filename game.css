@@ -1,0 +1,292 @@
+body {
+  background-color: #000;
+  background: url('https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/cad90a2a-ca89-498f-ae03-26bd1f37c988/djpq3t6-f59b20c1-dea0-464f-be13-e6f7f134d58e.jpg/v1/fill/w_1170,h_651,q_75,strp/pixel__art_by_neosketcher1_djpq3t6-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NjUxIiwicGF0aCI6IlwvZlwvY2FkOTBhMmEtY2E4OS00OThmLWFlMDMtMjZiZDFmMzdjOTg4XC9kanBxM3Q2LWY1OWIyMGMxLWRlYTAtNDY0Zi1iZTEzLWU2ZjdmMTM0ZDU4ZS5qcGciLCJ3aWR0aCI6Ijw9MTE3MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.eG5IT3gLGdkLvqNKbaEFjqF6GSLe7U2Afp4yqgb7Ugc');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-attachment: fixed;
+  color: #c5f5a3;
+  font-family: 'Press Start 2P', monospace;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.hud {
+  width: 100vw;
+  max-width: 100%;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0.85);
+  border-bottom: 2px solid #88b47f;
+  padding: 0.5rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.5rem;
+}
+
+.content-row {
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 2.5rem);
+}
+
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  margin-left: 220px;
+}
+
+.game-screen pre {
+  background-color: rgba(26, 22, 18, 0.85);
+
+  border: 2px solid #88b47f;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  color: #c5f5a3;
+  text-align: center;
+  box-shadow: 0 0 6px #6a8e5c, 0 0 10px #4c6f3f;
+  filter: drop-shadow(0 0 4px #e0d1a6);
+}
+
+.dialog-box {
+  background-color: rgba(0, 0, 0, 0.85);
+  border: 2px solid #66ff66;
+  padding: 1rem;
+  width: 80%;
+  font-size: 0.5rem;
+  box-shadow: 0 0 6px #6a8e5c, 0 0 10px #4c6f3f;
+  filter: drop-shadow(0 0 4px #e0d1a6);
+}
+
+.dialog-box h3 {
+  color: #dabd50;
+}
+
+.travel-options {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.travel-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.45rem;
+  padding: 0.5rem 0.75rem;
+  background-color: rgba(26, 22, 18, 0.85);
+  color: #c5f5a3;
+  border: 2px solid #88b47f;
+  cursor: pointer;
+  text-shadow: 0 0 4px #4c6f3f;
+  transition: background 0.2s, color 0.2s;
+}
+
+.travel-btn:hover {
+  background-color: #c5f5a3;
+  color: #000;
+  border-color: #e0d1a6;
+}
+
+.action-bar {
+  margin-top: 1rem;
+}
+
+.action-bar button {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.5rem;
+  padding: 0.5rem 1rem;
+  margin: 0 0.25rem;
+  background-color: rgba(26, 22, 18, 0.85);
+
+  color: #d8fcb0;
+  border: 2px solid #88b47f;
+  cursor: pointer;
+}
+
+.action-bar button:hover {
+  background: #c5f5a3;
+  color: #141414;
+}
+
+.layout {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100vh;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar {
+  width: 200px;
+  background-color: rgba(20, 20, 20, 0.9);
+  /* border-right: 2px solid #88b47f; */
+  padding: 1rem;
+  /* box-shadow: 0 0 8px #4c6f3f; */
+  color: #c5f5a3;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.5rem;
+
+  transform: translateX(0);
+  transition: transform 0.3s ease;
+  z-index: 10;
+}
+
+.sidebar-tab {
+  position: relative;
+  width: 40px;
+  height: 100px;
+  background-color: rgba(20, 20, 20, 0.9);
+  border: 2px double #88b47f;
+  border-left: none;
+  border-top: none;
+  color: #c5f5a3;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.45rem;
+  writing-mode: vertical-rl;
+  text-align: center;
+  line-height: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* box-shadow: 0 0 6px #4c6f3f; */
+  cursor: pointer;
+  z-index: 15;
+}
+
+.sidebar-tab:hover {
+  background-color: #88b47f;
+  color: black;
+}
+
+.sidebar h3 {
+  margin-top: 0;
+  color: #e0d1a6;
+  text-shadow: 0 0 4px #a2967c;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+.sidebar li {
+  padding: 0.5rem 0;
+  cursor: pointer;
+  border-bottom: 1px dashed #88b47f;
+  transition: color 0.2s;
+}
+
+.sidebar li:hover {
+  color: #fff1a8;
+  text-shadow: 0 0 6px #dabd50;
+}
+
+.sidebar-wrapper {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  transition: transform 0.3s ease;
+  z-index: 20;
+}
+
+.sidebar-wrapper.hidden {
+  transform: translateX(-235px);
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(20, 20, 20, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background-color: rgba(0, 0, 0, 0.95);
+  border: 2px solid #88b47f;
+  color: #c5f5a3;
+  padding: 1rem;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.45rem;
+  width: 480px;
+  max-height: 95vh;
+  overflow-y: auto;
+  box-shadow: 0 0 10px #4c6f3f;
+}
+
+.modal-content button {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.5rem;
+  padding: 0.5rem 1rem;
+  margin-top: 1rem;
+  display: block;
+  margin: 1rem auto 0 auto;
+  background-color: rgba(26, 22, 18, 0.85);
+  color: #d8fcb0;
+  border: 2px solid #88b47f;
+  cursor: pointer;
+  text-transform: uppercase;
+  box-shadow: 0 0 6px #4c6f3f;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.modal-content button:hover {
+  background-color: #c5f5a3;
+  color: #141414;
+  box-shadow: 0 0 6px #c5f5a3, 0 0 12px #88b47f;
+}
+
+.console {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  max-height: 40vh;
+  background-color: rgba(0, 0, 0, 0.95);
+  border-top: 2px solid #88b47f;
+  color: #c5f5a3;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.45rem;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+}
+
+.console.hidden {
+  display: none;
+}
+
+.console-output {
+  padding: 0.5rem;
+  flex: 1;
+  overflow-y: auto;
+  white-space: pre-wrap;
+}
+
+#console-input {
+  background-color: #111;
+  border: none;
+  padding: 0.5rem;
+  color: #c5f5a3;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.45rem;
+  outline: none;
+}

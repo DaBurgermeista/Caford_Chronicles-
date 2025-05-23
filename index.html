@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Adventurer's Guild</title>
+    <meta charset="UTF-8" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="script.js"></script>
+  </head>
+  <body>
+    <div class="fog-overlay"></div>
+    <div class="menu-container">
+      <h1>Adventurer's Guild</h1>
+      <ul class="menu">
+        <li id="start">Start Game</li>
+        <li id="load">Load Game</li>
+        <li id="options">Options</li>
+        <li id="credits">Credits</li>
+      </ul>
+      <div id="message" class="message-box"></div>
+    </div>
+    <div class="credit">
+      Pixel art background by
+      <a href="https://www.deviantart.com/neosketcher1" target="_blank"
+        >NeoSketcher1</a
+      >
+    </div>
+    <div id="credits-modal" class="modal hidden">
+      <div class="modal-content">
+        <h2>Credits</h2>
+        <p>
+          Pixel art background by
+          <a href="https://www.deviantart.com/neosketcher1" target="_blank"
+            >NeoSketcher1</a
+          >
+        </p>
+        <p>UI Design by DaBurgermeista</p>
+        <p>Retro RPG framework coded from scratch</p>
+        <button id="close-modal">Close</button>
+      </div>
+    </div>
+  </body>
+</html>

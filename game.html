@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Adventurer's Guild - Game</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="game.css" />
+    <script type="module" src="game.js"></script>
+  </head>
+  <body>
+    <!-- HUD stays full width at top -->
+    <div class="hud">
+      <div class="stats">
+        🧍 Daveric | ❤️ HP: <span id="hud-hp">40</span>/<span id="hud-maxhp"
+          >40</span
+        >
+        | 🔵 MP: <span id="hud-mp">10</span>/<span id="hud-maxmp">10</span> | 💰
+        Gold: <span id="hud-gold">56</span>
+      </div>
+      <div class="location">📍 Whispering Glade</div>
+    </div>
+
+    <!-- Sidebar and game content are in a row below -->
+    <div class="content-row">
+      <div class="sidebar-wrapper">
+        <div class="sidebar">
+          <h3>Player Menu</h3>
+          <ul>
+            <li>Stats</li>
+            <li>Inventory</li>
+            <li>Quests</li>
+            <li>Save Game</li>
+            <li>Settings</li>
+          </ul>
+        </div>
+        <div class="sidebar-tab">TAB</div>
+      </div>
+
+      <div class="game-container">
+        <div class="game-screen">
+          <pre>
+        🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲
+        🌲      🧙‍♂️       🌲
+        🌲   A forest path  🌲
+        🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲
+          </pre>
+        </div>
+        <div id="travel-options" class="travel-options"></div>
+        <div class="dialog-box">
+          <h3 id="location-name">Location Name</h3>
+          <p id="location-description">
+            A soft wind brushes the trees. You hear faint chanting deeper in the
+            glade...
+          </p>
+        </div>
+
+        <div class="action-bar">
+          <button id="travel-button">Travel</button>
+        </div>
+      </div>
+    </div>
+    <div id="stats-modal" class="modal hidden">
+      <div class="modal-content">
+        <h2>Player Stats</h2>
+
+        <div class="stat-group">
+          <h3>Core Attributes</h3>
+          <ul>
+            <li>Strength: <span id="modal-str">10</span></li>
+            <li>Dexterity: <span id="modal-dex">10</span></li>
+            <li>Constitution: <span id="modal-con">10</span></li>
+            <li>Intelligence: <span id="modal-int">10</span></li>
+            <li>Wisdom: <span id="modal-wis">10</span></li>
+            <li>Charisma: <span id="modal-cha">10</span></li>
+          </ul>
+        </div>
+        <div class="stat-group">
+          <h3>Derived Stats</h3>
+          <ul>
+            <li>
+              HP: <span id="modal-hp">40</span> /
+              <span id="modal-maxhp">40</span>
+            </li>
+            <li>
+              MP: <span id="modal-mp">10</span> /
+              <span id="modal-maxmp">10</span>
+            </li>
+            <li>Stamina: <span id="modal-stamina">20</span></li>
+            <li>Armor: <span id="modal-armor">2</span></li>
+            <li>Crit Chance: <span id="modal-crit">5%</span></li>
+          </ul>
+        </div>
+        <div class="stat-group">
+          <h3>Progression</h3>
+          <ul>
+            <li>Level: <span id="modal-level">1</span></li>
+            <li>
+              XP: <span id="modal-xp">0</span> /
+              <span id="modal-xpnext">100</span>
+            </li>
+            <li>Gold: <span id="modal-gold">56</span></li>
+            <li>
+              Encumbrance: <span id="modal-weight">0</span> /
+              <span id="modal-maxweight">40</span>
+            </li>
+          </ul>
+        </div>
+        <button id="close-stats">Close</button>
+      </div>
+    </div>
+    <div id="dev-console" class="console hidden">
+      <div class="console-output" id="console-output"></div>
+      <input type="text" id="console-input" placeholder="> Type command..." />
+    </div>
+  </body>
+</html>
