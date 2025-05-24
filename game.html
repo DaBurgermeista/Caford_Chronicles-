@@ -7,6 +7,8 @@
       href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
       rel="stylesheet"
     />
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
+
     <link rel="stylesheet" href="game.css" />
     <script type="module" src="game.js"></script>
   </head>
@@ -42,12 +44,7 @@
       <!-- MAIN GAME VIEW-->
       <div class="game-container">
         <div class="game-screen">
-          <pre>
-        🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲
-        🌲      🧙‍♂️       🌲
-        🌲   A forest path  🌲
-        🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲
-          </pre>
+          <img id="location-image" src="" alt="Location Image" class="location-art hidden" />
         </div>
         <div id="travel-options" class="travel-options"></div>
         <div class="dialog-box">
@@ -56,12 +53,17 @@
             A soft wind brushes the trees. You hear faint chanting deeper in the
             glade...
           </p>
+          <h3>Items here:</h3>
           <p id="location-items" class="location-items"></p>
         </div>
 
         <div class="action-bar">
           <button id="travel-button">Travel</button>
+        <div class="enemy-container">
+          <h3 id="enemy-name">Enemy Name</h3>
+          <p id="enemy-description">A fearsome creature lurks nearby...</p>
         </div>
+      </div>
       </div>
       <!-- RIGHT SIDEBAR -->
       <div class="sidebar-right">
@@ -144,6 +146,12 @@
         </div>
         <button id="close-inventory">Close</button>
         <ul id="context-menu" class="context-menu hidden"></ul>
+        <ul id="tooltip" class="tooltip hidden">
+          <h2 id="tooltip-name">Item Name</h2>
+          <li id="tooltip-description">Item description goes here.</li>
+          <li id="tooltip-type">Type: Item Type</li>
+          <li id="tooltip-value">Value: 0 Gold</li>
+        </ul>
       </div>
     </div>
   </body>

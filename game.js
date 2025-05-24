@@ -125,42 +125,45 @@ function updateStat(id, value) {
 
 function renderLocation() {
   const locationData = locations[player.location];
-  
-  // Update HUD
+  document.body.className = ''; // Clear old theme
+  if (locationData.theme === 'forest') {
+    document.body.classList.add('forest-theme');
+  }
+
+  // HUD
   document.querySelector('.location').textContent = `📍 ${locationData.name}`;
 
-  // Update ASCII map
-  const gameScreen = document.querySelector('.game-screen pre');
-  gameScreen.textContent = locationData.asciiArt.join('\n');
-
-  // Update location title & description
+  // Title & description
   document.getElementById('location-name').textContent = locationData.name;
   document.getElementById('location-description').textContent = locationData.description;
 
-  // Render loot items
+  // Image or ASCII art
+  const img = document.getElementById('location-image');
+
+  if (locationData.image) {
+    img.src = locationData.image;
+    img.classList.remove('hidden');
+  } else {
+    img.classList.add('hidden');
+  }
+
+  // Loot
   const locationItemsEl = document.getElementById('location-items');
-  locationItemsEl.innerHTML = ''; // Clear previous items
-  
+  locationItemsEl.innerHTML = '';
   locationData.loot.forEach(item => {
-    if (!items[item.id]) {
-      console.warn(`Unknown item ID "${item.id}" at location "${locationData.name}"`);
-      return; // skip rendering this one
-    }
+    if (!items[item.id]) return;
     const span = document.createElement('span');
     span.className = 'location-loot-item';
     span.dataset.itemid = item.id;
     span.textContent = `${items[item.id].name} (x${item.quantity})`;
-    
-    span.addEventListener('click', (e) => {
-      pickUpItem(item.id);
-    });
-
+    span.addEventListener('click', () => pickUpItem(item.id));
     locationItemsEl.appendChild(span);
   });
 
-  // Refresh destination sidebar
+  // Destinations
   renderDestinationSidebar();
 }
+
 
 
 function logToConsole(text) {
@@ -224,23 +227,36 @@ function renderInventory() {
   list.innerHTML = '';
   console.log("Rendering inventory", player.inventory);
 
-
   player.inventory.forEach(entry => {
     const item = items[entry.id];
     const li = document.createElement('li');
     li.textContent = `${item.icon || ''} ${item.name} × ${entry.quantity}`;
     list.appendChild(li);
+
+    // Context menu on click
     li.addEventListener('mousedown', (e) => {
       e.preventDefault();
       console.log(`Clicked on item: ${entry.id}`);
       openContextMenu(entry.id, e.clientX, e.clientY);
     });
-  }); 
+
+    // Tooltip events
+    li.addEventListener("mouseenter", (e) => {
+      showTooltip(entry.id, e.clientX, e.clientY); // ✅ fixed here
+    });
+    li.addEventListener("mouseleave", hideTooltip);
+    li.addEventListener("mousemove", (e) => {
+      const tooltip = document.getElementById("tooltip");
+      tooltip.style.top = `${e.clientY + 10}px`;
+      tooltip.style.left = `${e.clientX + 10}px`;
+    });
+  });
 }
+
 
 let contextMenuJustOpened = false;
 
-function openContextMenu(itemId, x, y) {
+function openContextMenu(itemId, x, y, equipped = false) {
   console.log(`Opening context menu for ${itemId} at (${x}, ${y})`);
   const menu = document.getElementById('context-menu');
   const item = items[itemId];
@@ -250,7 +266,11 @@ function openContextMenu(itemId, x, y) {
   const actions = [];
 
   if (item.type === 'weapon' || item.type === 'armor') {
-    actions.push('Equip');
+    if (equipped){
+      actions.push('Unequip');
+    } else {
+      actions.push('Equip');
+    }
   }
 
   if (item.type === 'consumable') {
@@ -303,9 +323,57 @@ document.getElementById('context-menu').addEventListener('mousedown', (e) => {
 
 function handleItemAction(action, itemId) {
   if (action === 'equip') {
-    console.log(`Equipping ${itemId}`);
-    // TODO: implement equip logic
-  } else if (action === 'use') {
+  const item = items[itemId]; // 🔁 Get full item object
+  const invEntry = player.inventory.find(entry => entry.id === itemId);
+
+  if (invEntry) {
+    invEntry.quantity -= 1;
+    if (invEntry.quantity <= 0) {
+      player.inventory = player.inventory.filter(entry => entry.id !== itemId);
+    }
+  }
+
+  const slot = item.slot;
+  if (!slot) {
+    console.warn(`Item ${item.name} has no equip slot defined.`);
+    return;
+  }
+
+  // Drop currently equipped item back to inventory, if any
+  const equippedId = player.equipment[slot];
+  if (equippedId) {
+    const existing = player.inventory.find(entry => entry.id === equippedId);
+    if (existing) {
+      existing.quantity += 1;
+    } else {
+      player.inventory.push({ id: equippedId, quantity: 1 });
+    }
+  }
+
+  player.equipment[slot] = itemId;
+  console.log(`Equipped ${item.name} in ${slot} slot`);
+
+  renderEquipped();
+  renderInventory();
+
+  } else if (action === 'unequip') {
+  const item = items[itemId];
+  const slot = item.slot;
+
+  if (player.equipment[slot] === itemId) {
+    player.equipment[slot] = null;
+
+    const existing = player.inventory.find(entry => entry.id === itemId);
+    if (existing) {
+      existing.quantity += 1;
+    } else {
+      player.inventory.push({ id: itemId, quantity: 1 });
+    }
+
+    renderInventory();
+    renderEquipped();
+  }
+} else if (action === 'use') {
     console.log(`Using ${itemId}`);
     // TODO: implement use logic
   } else if (action === 'drop') {
@@ -336,18 +404,49 @@ function handleItemAction(action, itemId) {
 
 function renderEquipped() {
   const slots = {
-    "main-hand": player.equipment.weapon,
-    "off-hand": player.equipment.offhand,
-    "head": player.equipment.head,
-    "chest": player.equipment.armor,
-    "accessory": player.equipment.accessory
+    "main-hand": player.equipment["main-hand"],
+    "off-hand": player.equipment["off-hand"],
+    "head": player.equipment["head"],
+    "chest": player.equipment["chest"],
+    "accessory": player.equipment["accessory"]
   };
+
+  console.log("Rendering equipped items", slots);
 
   for (const [slot, itemId] of Object.entries(slots)) {
     const span = document.getElementById(`slot-${slot}`);
-    span.textContent = itemId ? items[itemId].name : "None";
+    
+    if (itemId) {
+      const item = items[itemId];
+      const newSpan = span.cloneNode(true);
+      newSpan.textContent = item.name;
+      newSpan.classList.add("equipped-item");
+      span.replaceWith(newSpan);
+
+      // ✅ Add context menu
+      newSpan.addEventListener("click", (e) => {
+        openContextMenu(itemId, e.clientX, e.clientY, true);
+      });
+
+      // ✅ Tooltip events
+      newSpan.addEventListener("mouseenter", (e) => {
+        showTooltip(itemId, e.clientX, e.clientY);
+      });
+      newSpan.addEventListener("mouseleave", hideTooltip);
+      newSpan.addEventListener("mousemove", (e) => {
+        const tooltip = document.getElementById("tooltip");
+        tooltip.style.top = `${e.clientY + 10}px`;
+        tooltip.style.left = `${e.clientX + 10}px`;
+      });
+
+    } else {
+      span.textContent = "None";
+      span.classList.remove("equipped-item");
+    }
   }
 }
+
+
 
 // ==== Vars for Dev Console ==== //
 const consoleEl = document.getElementById('dev-console');
@@ -417,4 +516,25 @@ function pickUpItem(itemId) {
 
   renderInventory();
   renderLocation();
+}
+
+function showTooltip(itemId, x, y) {
+  const tooltip = document.getElementById('tooltip');
+  const item = items[itemId];
+
+  if (!item) return;
+
+  document.getElementById('tooltip-name').textContent = item.name;
+  document.getElementById('tooltip-description').textContent = item.description || 'No description.';
+  document.getElementById('tooltip-type').textContent = `Type: ${item.type || 'Unknown'}`;
+  document.getElementById('tooltip-value').textContent = `Value: ${item.value || 0} Gold`;
+
+  tooltip.style.top = `${y + 10}px`;
+  tooltip.style.left = `${x + 10}px`;
+  tooltip.classList.remove('hidden');
+}
+
+function hideTooltip() {
+  const tooltip = document.getElementById('tooltip');
+  tooltip.classList.add('hidden');
 }

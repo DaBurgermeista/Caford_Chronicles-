@@ -53,8 +53,8 @@ export const player = {
   },
 
   equipment: {
-    weapon: null,
-    offhand: null,
+    "main-hand": null,
+    "off-hand": null,
     head: null,
     chest: null,
     accessory: null

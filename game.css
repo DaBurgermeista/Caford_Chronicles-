@@ -11,6 +11,11 @@ body {
   padding: 0;
   overflow: hidden;
 }
+body.forest-theme {
+  background: url('assets/forest_background.png') no-repeat center top;
+  background-size: cover;
+  background-attachment: fixed;
+}
 
 .hud {
   width: 100vw;
@@ -46,25 +51,33 @@ body {
 }
 
 .game-screen pre {
-  background-color: rgba(26, 22, 18, 0.85);
-
+  background-color: rgba(0, 0, 0, 0.85);
   border: 2px solid #88b47f;
   padding: 1rem;
   margin-bottom: 1rem;
   color: #c5f5a3;
   text-align: center;
-  box-shadow: 0 0 6px #6a8e5c, 0 0 10px #4c6f3f;
-  filter: drop-shadow(0 0 4px #e0d1a6);
 }
+
+.location-art {
+  display: block;
+  width: 128px;
+  height: 128px;
+  margin: 0 auto 1rem auto;
+  image-rendering: pixelated;
+  border: 2px solid #88b47f;
+  box-shadow: 0 0 6px #6a8e5c;
+}
+
 
 .dialog-box {
   background-color: rgba(0, 0, 0, 0.85);
-  border: 2px solid #66ff66;
+  border: 2px solid #88b47f;
   padding: 1rem;
   width: 80%;
   font-size: 0.5rem;
-  box-shadow: 0 0 6px #6a8e5c, 0 0 10px #4c6f3f;
-  filter: drop-shadow(0 0 4px #e0d1a6);
+  /* box-shadow: 0 0 6px #6a8e5c, 0 0 10px #4c6f3f;
+  filter: drop-shadow(0 0 4px #e0d1a6); */
 }
 
 .dialog-box h3 {
@@ -83,6 +96,20 @@ body {
   text-shadow: 0 0 5px #dabd50;
 }
 
+.enemy-container {
+  position: relative;
+  /* left: -200px; */
+  background-color: rgba(0, 0, 0, 0.85);
+  margin: 1rem;
+  border: 2px solid #88b47f;
+  padding: 1rem;
+  width: 80%;
+  font-size: 0.5rem;
+}
+
+.enemy-container h3 {
+  color: #dabd50;
+}
 
 .travel-options {
   display: flex;
@@ -239,7 +266,7 @@ body {
   transition: background 0.2s, color 0.2s;
 }
 
-#inventory-list li:hover {
+#inventory-list li:hover{
   background-color: #88b47f;
   color: #222;               
 }
@@ -262,12 +289,35 @@ body {
   padding: 0;
 }
 
-.inventory-list li,
-.equipped-gear li {
+.inventory-list li {
   margin-bottom: 0.5rem;
   padding: 0.25rem;
   border-bottom: 1px dashed #88b47f;
 }
+
+.equipped-gear li {
+  margin-bottom: 0.5rem;
+  padding: 0.25rem;
+  /* border-bottom: 1px dashed #88b47f; */
+  cursor: pointer;         
+  user-select: none;         
+  transition: background 0.2s, color 0.2s;
+}
+
+.equipped-item {
+  margin-bottom: 0.5rem;
+  padding: 0.25rem;
+  border-bottom: 1px dashed #88b47f;
+  cursor: pointer;         
+  user-select: none;         
+  transition: background 0.2s, color 0.2s;
+}
+
+.equipped-item:hover {
+  background-color: #88b47f;
+  color: #222; 
+}
+
 
 .context-menu {
   position: absolute;
@@ -304,6 +354,30 @@ body {
 .context-menu.hidden {
   display: none;
   pointer-events: none;
+}
+
+.tooltip {
+  position: absolute;
+  background-color: rgba(10, 10, 10, 0.95);
+  border: 2px solid #88b47f;
+  padding: 0.5rem;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.4rem;
+  color: #c5f5a3;
+  z-index: 9999;
+  list-style: none;
+  pointer-events: none;
+}
+
+.tooltip h2 {
+  margin-bottom: 0.25rem;
+  font-size: 0.5rem;
+  color: #e0d1a6;
+  text-decoration: underline;
+}
+
+.tooltip.hidden {
+  display: none;
 }
 
 .sidebar-right {
