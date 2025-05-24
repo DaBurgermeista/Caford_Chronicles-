@@ -30,7 +30,7 @@
           <h3>Player Menu</h3>
           <ul>
             <li>Stats</li>
-            <li>Inventory</li>
+            <li id="open-inventory">Inventory</li>
             <li>Quests</li>
             <li>Save Game</li>
             <li>Settings</li>
@@ -121,6 +121,29 @@
     <div id="dev-console" class="console hidden">
       <div class="console-output" id="console-output"></div>
       <input type="text" id="console-input" placeholder="> Type command..." />
+    </div>
+    <div id="inventory-modal" class="modal hidden">
+      <div class="modal-content inventory-layout">
+        <h2>Inventory</h2>
+        <div class="inventory-columns">
+          <div class="inventory-list">
+            <h3>Backpack</h3>
+            <ul id="inventory-list"></ul>
+          </div>
+          <div class="equipped-gear">
+            <h3>Equipped</h3>
+            <ul>
+              <li>Main-hand: <span id="slot-main-hand">None</span></li>
+              <li>Off-hand: <span id="slot-off-hand">None</span></li>
+              <li>Head: <span id="slot-head">None</span></li>
+              <li>Chest: <span id="slot-chest">None</span></li>
+              <li>Accessory: <span id="slot-accessory">None</span></li>
+            </ul>
+          </div>
+        </div>
+        <button id="close-inventory">Close</button>
+        <ul id="context-menu" class="context-menu hidden"></ul>
+      </div>
     </div>
   </body>
 </html>

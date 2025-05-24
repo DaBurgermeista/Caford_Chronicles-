@@ -2,7 +2,7 @@ export const locations = {
   'Whispering Glade': {
     id: 'whispering-glade',
     name: 'Whispering Glade',
-    description: 'Tall trees surround you, and the air hums with faint magic.',
+    description: 'Tall trees surround you, their ancient trunks twisted with age. Shafts of golden sunlight pierce the leafy canopy, illuminating patches of wildflowers and mossy stones. The air hums with faint magic, carrying the soft whispers of unseen spirits and the distant call of birds. Every step feels watched, yet oddly welcoming, as if the forest itself is alive and curious about your presence.',
     asciiArt: [
       '🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲',
       '🌲      🧙‍♂️       🌲',

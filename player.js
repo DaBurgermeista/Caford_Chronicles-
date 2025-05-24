@@ -54,9 +54,16 @@ export const player = {
 
   equipment: {
     weapon: null,
-    armor: null,
-    accessory: null,
+    offhand: null,
+    head: null,
+    chest: null,
+    accessory: null
   },
+
+  inventory: [
+    {id: 'healing_potion', quantity: 3},
+    {id: 'iron_sword', quantity: 1}
+  ],
 
   statusEffects: {
     buffs: [],

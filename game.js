@@ -1,13 +1,17 @@
 import { player } from './player.js';
+console.log("Loaded player:", player);
 import { locations } from './location.js';
+console.log("Loaded locations:", locations);
+import { items } from './items.js';
+console.log("Loaded items:", items);
 
 document.addEventListener('DOMContentLoaded', () => {
   setupSidebar();
   setupStatsModal();
   renderHud();
   renderLocation();
-  renderTravelOptions();
   renderDestinationSidebar();
+  renderInventory();
 });
 
 function setupSidebar() {
@@ -55,7 +59,6 @@ function renderDestinationSidebar() {
     li.addEventListener('click', () => {
       player.location = dest;
       renderLocation();
-      renderTravelOptions();       // if still keeping those buttons
       renderDestinationSidebar();  // refresh right sidebar
     });
     list.appendChild(li);
@@ -133,24 +136,7 @@ function renderLocation() {
   document.getElementById('location-name').textContent = locationData.name;
   document.getElementById('location-description').textContent =
     locationData.description;
-}
-
-function renderTravelOptions() {
-  const current = locations[player.location];
-  const container = document.getElementById('travel-options');
-  container.innerHTML = ''; // Clear old options
-
-  current.connections.forEach((destination) => {
-    const btn = document.createElement('button');
-    btn.textContent = `Go to ${destination}`;
-    btn.classList.add('travel-btn');
-    btn.addEventListener('click', () => {
-      player.location = destination;
-      renderLocation();
-      renderTravelOptions();
-    });
-    container.appendChild(btn);
-  });
+  renderDestinationSidebar();
 }
 
 function logToConsole(text) {
@@ -200,13 +186,122 @@ function executeCommand(command) {
         player.location = dest;
         logToConsole(`Traveled to ${dest}`);
         renderLocation();
-        renderTravelOptions();
       } else {
         logToConsole(`You can't go to "${dest}" from here.`);
       }
       break;
     default:
       logToConsole(`Unknown command: ${cmd}`);
+  }
+}
+
+function renderInventory() {
+  const list = document.getElementById('inventory-list');
+  list.innerHTML = '';
+  console.log("Rendering inventory", player.inventory);
+
+
+  player.inventory.forEach(entry => {
+    const item = items[entry.id];
+    const li = document.createElement('li');
+    li.textContent = `${item.icon || ''} ${item.name} × ${entry.quantity}`;
+    list.appendChild(li);
+    li.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      console.log(`Clicked on item: ${entry.id}`);
+      openContextMenu(entry.id, e.clientX, e.clientY);
+    });
+  }); 
+}
+
+let contextMenuJustOpened = false;
+
+function openContextMenu(itemId, x, y) {
+  console.log(`Opening context menu for ${itemId} at (${x}, ${y})`);
+  const menu = document.getElementById('context-menu');
+  const item = items[itemId];
+  menu.innerHTML = '';
+
+  // Determine available actions
+  const actions = [];
+
+  if (item.type === 'weapon' || item.type === 'armor') {
+    actions.push('Equip');
+  }
+
+  if (item.type === 'consumable') {
+    actions.push('Use');
+  }
+
+  actions.push('Drop');
+
+  // Add actions to menu
+  actions.forEach(action => {
+    const li = document.createElement('li');
+    li.textContent = action;
+    li.addEventListener('click', () => {
+      handleItemAction(action.toLowerCase(), itemId);
+      closeContextMenu();
+    });
+    menu.appendChild(li);
+  });
+
+  // Position and show
+  const modal = document.querySelector('.modal-content');
+  const rect = modal.getBoundingClientRect();
+  menu.style.top = `${y - rect.top}px`;
+  menu.style.left = `${x - rect.left}px`;
+  menu.classList.remove('hidden');
+  contextMenuJustOpened = true;
+  setTimeout(() => {
+    contextMenuJustOpened = false;
+  }, 350); // Increased delay to 350ms
+  console.log(menu, menu.innerHTML); // <-- Add this
+}
+
+function closeContextMenu() {
+  document.getElementById('context-menu').classList.add('hidden');
+}
+
+document.addEventListener('click', (e) => {
+  if (contextMenuJustOpened) return;
+  const menu = document.getElementById('context-menu');
+  // Only close if click is outside the menu itself
+  if (!menu.contains(e.target)) {
+    closeContextMenu();
+  }
+});
+
+// Prevent clicks inside the context menu from closing it
+document.getElementById('context-menu').addEventListener('mousedown', (e) => {
+  e.stopPropagation();
+});
+
+function renderEquipped() {
+  const slots = {
+    "main-hand": player.equipment.weapon,
+    "off-hand": player.equipment.offhand,
+    "head": player.equipment.head,
+    "chest": player.equipment.armor,
+    "accessory": player.equipment.accessory
+  };
+
+  for (const [slot, itemId] of Object.entries(slots)) {
+    const span = document.getElementById(`slot-${slot}`);
+    span.textContent = itemId ? items[itemId].name : "None";
+  }
+}
+
+function handleItemAction(action, itemId) {
+  if (action === 'equip') {
+    console.log(`Equipping ${itemId}`);
+    // TODO: implement equip logic
+  } else if (action === 'use') {
+    console.log(`Using ${itemId}`);
+    // TODO: implement use logic
+  } else if (action === 'drop') {
+    console.log(`Dropping ${itemId}`);
+    // TODO: implement remove logic
   }
 }
 
@@ -238,10 +333,21 @@ consoleInput.addEventListener('keydown', (e) => {
   }
 });
 
+document.getElementById('open-inventory').addEventListener('click', () => {
+  document.getElementById('inventory-modal').classList.remove('hidden');
+  renderInventory();
+  renderEquipped();
+  renderStatsToModal();
+});
+
+document.getElementById('close-inventory').addEventListener('click', () => {
+  document.getElementById('inventory-modal').classList.add('hidden');
+});
+
 document.getElementById('travel-button').addEventListener('click', () => {
   const current = player.location;
   const next = locations[current].connections[0]; // only one other for now
   player.location = next;
   renderLocation();
-  renderTravelOptions();
+  renderDestinationSidebar();
 });
