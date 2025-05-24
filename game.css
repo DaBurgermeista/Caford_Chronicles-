@@ -221,6 +221,14 @@ body {
   margin-bottom: 0.5rem;
   padding: 0.25rem;
   border-bottom: 1px dashed #88b47f;
+  cursor: pointer;         
+  user-select: none;         
+  transition: background 0.2s, color 0.2s;
+}
+
+#inventory-list li:hover {
+  background-color: #88b47f;
+  color: #222;               
 }
 
 .inventory-layout {
@@ -252,7 +260,7 @@ body {
   position: absolute;
   min-width: 120px;
   background: #222;
-  border: 2px solid #66ff66;
+  border: 2px solid #88b47f;
   color: #c5f5a3;
   font-family: 'Press Start 2P', monospace;
   font-size: 0.5rem;
@@ -262,6 +270,7 @@ body {
   z-index: 10010;
   box-shadow: 0 0 8px #4c6f3f;
   border-radius: 4px;
+  pointer-events: auto;
 }
 
 .context-menu li {
@@ -281,6 +290,7 @@ body {
 
 .context-menu.hidden {
   display: none;
+  pointer-events: none;
 }
 
 .sidebar-right {
