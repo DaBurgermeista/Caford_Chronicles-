@@ -125,19 +125,43 @@ function updateStat(id, value) {
 
 function renderLocation() {
   const locationData = locations[player.location];
-
-  // Update location text in HUD
+  
+  // Update HUD
   document.querySelector('.location').textContent = `📍 ${locationData.name}`;
 
-  // Update Game Screen
+  // Update ASCII map
   const gameScreen = document.querySelector('.game-screen pre');
   gameScreen.textContent = locationData.asciiArt.join('\n');
 
+  // Update location title & description
   document.getElementById('location-name').textContent = locationData.name;
-  document.getElementById('location-description').textContent =
-    locationData.description;
+  document.getElementById('location-description').textContent = locationData.description;
+
+  // Render loot items
+  const locationItemsEl = document.getElementById('location-items');
+  locationItemsEl.innerHTML = ''; // Clear previous items
+  
+  locationData.loot.forEach(item => {
+    if (!items[item.id]) {
+      console.warn(`Unknown item ID "${item.id}" at location "${locationData.name}"`);
+      return; // skip rendering this one
+    }
+    const span = document.createElement('span');
+    span.className = 'location-loot-item';
+    span.dataset.itemid = item.id;
+    span.textContent = `${items[item.id].name} (x${item.quantity})`;
+    
+    span.addEventListener('click', (e) => {
+      pickUpItem(item.id);
+    });
+
+    locationItemsEl.appendChild(span);
+  });
+
+  // Refresh destination sidebar
   renderDestinationSidebar();
 }
+
 
 function logToConsole(text) {
   const output = document.getElementById('console-output');
@@ -277,6 +301,39 @@ document.getElementById('context-menu').addEventListener('mousedown', (e) => {
   e.stopPropagation();
 });
 
+function handleItemAction(action, itemId) {
+  if (action === 'equip') {
+    console.log(`Equipping ${itemId}`);
+    // TODO: implement equip logic
+  } else if (action === 'use') {
+    console.log(`Using ${itemId}`);
+    // TODO: implement use logic
+  } else if (action === 'drop') {
+    console.log(`Dropping ${itemId}`);
+    // Remove from player inventory
+    const invEntry = player.inventory.find(entry => entry.id === itemId);
+    if (invEntry) {
+      invEntry.quantity -= 1;
+      if (invEntry.quantity <= 0) {
+        player.inventory = player.inventory.filter(entry => entry.id !== itemId);
+      }
+    }
+    // Add to current location's loot
+    const loc = locations[player.location];
+    if (loc) {
+      // If item already in loot, increment quantity, else add new entry
+      let lootEntry = loc.loot.find(entry => entry.id === itemId);
+      if (lootEntry) {
+        lootEntry.quantity = (lootEntry.quantity || 1) + 1;
+      } else {
+        loc.loot.push({ id: itemId, quantity: 1 });
+      }
+    }
+    renderInventory();
+    renderLocation();
+  }
+}
+
 function renderEquipped() {
   const slots = {
     "main-hand": player.equipment.weapon,
@@ -289,19 +346,6 @@ function renderEquipped() {
   for (const [slot, itemId] of Object.entries(slots)) {
     const span = document.getElementById(`slot-${slot}`);
     span.textContent = itemId ? items[itemId].name : "None";
-  }
-}
-
-function handleItemAction(action, itemId) {
-  if (action === 'equip') {
-    console.log(`Equipping ${itemId}`);
-    // TODO: implement equip logic
-  } else if (action === 'use') {
-    console.log(`Using ${itemId}`);
-    // TODO: implement use logic
-  } else if (action === 'drop') {
-    console.log(`Dropping ${itemId}`);
-    // TODO: implement remove logic
   }
 }
 
@@ -351,3 +395,26 @@ document.getElementById('travel-button').addEventListener('click', () => {
   renderLocation();
   renderDestinationSidebar();
 });
+
+function pickUpItem(itemId) {
+  const loc = locations[player.location];
+  const lootEntry = loc.loot.find(entry => entry.id === itemId);
+  if (!lootEntry) return;
+
+  // Add to player inventory
+  let invEntry = player.inventory.find(entry => entry.id === itemId);
+  if (invEntry) {
+    invEntry.quantity += 1;
+  } else {
+    player.inventory.push({ id: itemId, quantity: 1 });
+  }
+
+  // Remove from location loot
+  lootEntry.quantity -= 1;
+  if (lootEntry.quantity <= 0) {
+    loc.loot = loc.loot.filter(entry => entry.id !== itemId);
+  }
+
+  renderInventory();
+  renderLocation();
+}

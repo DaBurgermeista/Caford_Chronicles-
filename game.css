@@ -71,6 +71,19 @@ body {
   color: #dabd50;
 }
 
+.location-loot-item {
+  color: #88b47f;
+  font-style: italic;
+  text-decoration: underline dotted;
+  cursor: pointer;
+}
+
+.location-loot-item:hover {
+  color: #fff1a8;
+  text-shadow: 0 0 5px #dabd50;
+}
+
+
 .travel-options {
   display: flex;
   justify-content: center;
