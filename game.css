@@ -474,6 +474,14 @@ legend {
   color: #222; 
 }
 
+.equip-slot {
+  border: 1px dashed #88b47f;
+  padding: 0.25rem;
+}
+.equip-slot.dragover {
+  background-color: rgba(136, 180, 127, 0.3);
+}
+
 
 .context-menu {
   position: absolute;

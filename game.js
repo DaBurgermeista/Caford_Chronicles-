@@ -8,6 +8,15 @@ import { enemies } from './enemy.js';
 console.log("Loaded enemies:", enemies);
 
 let currentEnemy = null; // Initialize current enemy
+let draggedItemID = null; // For drag-and-drop 
+function getEquippedWeapon() {
+  const id = player.equipment["main-hand"];
+  return id ? items[id] : null;
+}
+
+
+// functionality
+let isDragging = false; // Track if an item is being dragged
 
 document.addEventListener('DOMContentLoaded', () => {
   setupSidebar();
@@ -256,6 +265,60 @@ function executeCommand(command) {
   }
 }
 
+document.querySelectorAll('.equipped-gear li').forEach(slotEl => {
+  const slotType = slotEl.textContent.split(':')[0].toLowerCase(); // e.g., "main-hand"
+
+  slotEl.dataset.slot = slotType;
+
+  slotEl.addEventListener("dragover", (e) => {
+    e.preventDefault(); // required to allow drop
+    slotEl.classList.add("dragover");
+  });
+
+  slotEl.addEventListener("dragleave", () => {
+    slotEl.classList.remove("dragover");
+  });
+
+  slotEl.addEventListener("drop", (e) => {
+    e.preventDefault();
+    slotEl.classList.remove("dragover");
+
+    const itemId = e.dataTransfer.getData("text/plain");
+    const item = player.inventory.find(i => i.id === itemId);
+    if (item && item.slot === slotType) {
+      equipItemToSlot(itemId, slotType);
+    }
+  });
+});
+
+function equipItemToSlot(itemId, slotType) {
+  const inventoryIndex = player.inventory.findIndex(i => i.id === itemId);
+  if (inventoryIndex === -1) return;
+
+  const itemData = items[itemId]; // grab full item details
+  if (!itemData) {
+    console.warn(`Cannot equip itemId "${itemId}" — item not found in items.js`);
+    return;
+  }
+
+  // Remove 1 quantity
+  const entry = player.inventory[inventoryIndex];
+  if (entry.quantity > 1) {
+    entry.quantity--;
+  } else {
+    player.inventory.splice(inventoryIndex, 1);
+  }
+
+  // Equip it
+  player.equipment[slotType] = itemId; // store just the ID
+
+  console.log(`Equipped ${itemId} to ${slotType}`);
+
+  renderInventory();
+  renderEquipped();
+}
+
+
 function renderInventory() {
   const list = document.getElementById('inventory-list');
   list.innerHTML = '';
@@ -264,15 +327,61 @@ function renderInventory() {
   player.inventory.forEach(entry => {
     const item = items[entry.id];
     const li = document.createElement('li');
+    li.setAttribute('draggable', 'true');
+    li.dataset.itemId = entry.id; // Store item ID for drag-and-drop
     li.textContent = `${item.icon || ''} ${item.name} × ${entry.quantity}`;
+    // Drag behavior
+    li.addEventListener("dragstart", (e) => {
+      e.dataTransfer.setData("text/plain", item.id);
+      e.currentTarget.classList.add("dragging");
+    });
+
+    li.addEventListener("dragend", (e) => {
+      e.currentTarget.classList.remove("dragging");
+    });
     list.appendChild(li);
 
     // Context menu on click
-    li.addEventListener('mousedown', (e) => {
+    li.addEventListener('contextmenu', (e) => {
       e.preventDefault();
       console.log(`Clicked on item: ${entry.id}`);
-      openContextMenu(entry.id, e.clientX, e.clientY);
+      if (!isDragging){
+        openContextMenu(entry.id, e.clientX, e.clientY);
+      }
     });
+
+    document.querySelectorAll('.equip-slot').forEach(slotEl => {
+    const slotType = slotEl.dataset.slot;
+
+    // Allow drop
+    slotEl.addEventListener('dragover', (e) => {
+      e.preventDefault(); // must be here to allow drop
+      slotEl.classList.add('dragover');
+    });
+
+    // Remove visual cue
+    slotEl.addEventListener('dragleave', () => {
+      slotEl.classList.remove('dragover');
+    });
+
+    // Handle drop
+    slotEl.addEventListener('drop', (e) => {
+    e.preventDefault();
+    slotEl.classList.remove('dragover');
+
+    const itemId = e.dataTransfer.getData('text/plain');
+    const inventoryEntry = player.inventory.find(i => i.id === itemId);
+    const item = items[itemId]; // <== Get item definition from master list
+
+    if (inventoryEntry && item && item.slot === slotType) {
+      equipItemToSlot(itemId, slotType);
+    } else {
+      console.log("Can't equip item here.");
+      console.log(`Item: ${item ? item.name : 'Unknown'} | Slot: ${slotType}`);
+    }
+  });
+  });
+
 
     // Tooltip events
     li.addEventListener("mouseenter", (e) => {
@@ -394,7 +503,11 @@ function handleItemAction(action, itemId) {
   const item = items[itemId];
   const slot = item.slot;
 
-  if (player.equipment[slot] === itemId) {
+  const equipped = player.equipment[slot];
+
+  const equippedId = typeof equipped === 'string' ? equipped : equipped?.id;
+
+  if (equippedId === itemId) {
     player.equipment[slot] = null;
 
     const existing = player.inventory.find(entry => entry.id === itemId);
@@ -404,8 +517,11 @@ function handleItemAction(action, itemId) {
       player.inventory.push({ id: itemId, quantity: 1 });
     }
 
+    console.log(`Unequipped ${itemId} from ${slot}`);
     renderInventory();
     renderEquipped();
+  } else {
+    console.warn(`Item ${itemId} not found equipped in ${slot}`);
   }
 } else if (action === 'use') {
     console.log(`Using ${itemId}`);
@@ -451,7 +567,9 @@ function renderEquipped() {
     const span = document.getElementById(`slot-${slot}`);
     
     if (itemId) {
-      const item = items[itemId];
+      const item = typeof itemId === 'string' ? items[itemId] : itemId;
+      player.equipment[slot] = item;
+
       const newSpan = span.cloneNode(true);
       newSpan.textContent = item.name;
       newSpan.classList.add("equipped-item");
@@ -598,43 +716,46 @@ function startCombat(enemy) {
 
 function playerAction(type) {
   switch (type) {
-    case 'attack':
-      logCombat("🗡️ You attack the enemy!");
-      let weaponDamage = 0; // Placeholder for weapon damage calculation
-      let weapon = null;
+    case 'attack': {
+      logCombat(`🗡️ You attack the enemy!`);
+
+      let weapon = getEquippedWeapon(); // always use this now
+      let weaponDamage = 0;
       let rawDamage = 0;
-      const isCrit = Math.random() < player.derivedStats.critChance / 100; // Convert to decimal
-      console.log(`Crit chance: ${player.derivedStats.critChance}%`);
+
+      const isCrit = Math.random() < player.derivedStats.critChance / 100;
       const strMod = (player.coreStats.strength - 10) / 2;
       const dexMod = (player.coreStats.dexterity - 10) / 2;
-      console.log(`strMod ${strMod}`);
-      if (player.equipment['main-hand']) {
-        weapon = items[player.equipment['main-hand']];
+
+      console.log(`Crit chance: ${player.derivedStats.critChance}%`);
+      console.log(`strMod: ${strMod}`);
+
+      if (weapon) {
         console.log(`Using weapon: ${weapon.name}`);
         const [min, max] = weapon.damage;
-        console.log(`Weapon damage range: ${min} - ${max}`);
         weaponDamage = Math.floor(Math.random() * (max - min + 1)) + min;
+        console.log(`Weapon damage range: ${min} - ${max}`);
         console.log(`Calculated weapon damage: ${weaponDamage}`);
-        
       } else {
-        // No weapon equipped, use base damage of 1 to 2
-        weaponDamage = Math.floor(Math.random() * 2) + 1; // Random damage between 1 and 2
-        console.log("No weapon equipped, using base damage of 1-2");
+        weaponDamage = Math.floor(Math.random() * 2) + 1;
+        console.log("🛑 No weapon equipped, using base damage 1-2");
       }
-      if (player.equipment['main-hand'] && weapon.tags.includes('light')){
-        if (dexMod > strMod) {
-          rawDamage = weaponDamage + dexMod;
-          console.log(`Using dexterity mod for light weapon: ${rawDamage} (${weaponDamage} + ${dexMod})`);
-        }
+
+      // Apply correct modifier
+      if (weapon && weapon.tags && weapon.tags.includes("light")) {
+        rawDamage = weaponDamage + dexMod;
+        console.log(`Using dexterity mod for Light weapon: ${rawDamage}`);
       } else {
         rawDamage = weaponDamage + strMod;
-        console.log(`Raw damage after weapon and strength mod: ${rawDamage} (${weaponDamage} + ${strMod})`);
+        console.log(`Raw damage after weapon and strength mod: ${rawDamage}`);
       }
+
+      // Crit bonus
       if (isCrit) {
-        rawDamage *= player.derivedStats.critDamage / 100; // Convert crit damage to decimal
-        logCombat(`💥 Critical hit! Damage: ${rawDamage.toFixed(2)}`);
+        rawDamage += player.derivedStats.critDamage / 100 * rawDamage;
+        logCombat(`💥 Critical Hit! Damage: ${Math.floor(rawDamage)}`);
       } else {
-        logCombat(`⚔️ You will hit the ${currentEnemy.name} for ${rawDamage} damage.`);
+        logCombat(`✖️ You will hit the ${currentEnemy.name} for ${Math.floor(rawDamage)} damage!`);
       }
       
       // Check to see if the enemy can evade
@@ -685,6 +806,7 @@ function playerAction(type) {
       }
 
       break;
+    }
     case 'skill':
       logCombat("🔥 You prepare a skill... (not implemented)");
       break;
@@ -776,4 +898,41 @@ function enemyTurn() {
   console.log('Enemy takes its turn!');
   // Implement enemy logic here
   // For now, just log a message
+}
+
+// When dragging starts, store the item ID
+document.addEventListener("dragstart", (e) => {
+  if (e.target.classList.contains("inventory-item")) {
+    draggedItemId = e.target.dataset.itemId;
+    isDragging = true;
+  }
+});
+
+document.addEventListener("dragend", () => {
+  isDragging = false;
+});
+
+// Allow drop target
+document.querySelectorAll(".inventory-item").forEach(item => {
+  item.addEventListener("click", (e) => {
+    if (isDragging) return; // prevent click if dragging
+    // Your context menu logic here
+    openContextMenu(e, item.dataset.itemId);
+  });
+});
+
+function isSlotCompatible(itemId, slot) {
+  const item = player.inventory.find(i => i.id === itemId);
+  return item && item.slot === slot;
+}
+
+function equipItem(itemId, slot) {
+  const itemIndex = player.inventory.findIndex(i => i.id === itemId);
+  if (itemIndex !== -1) {
+    const item = player.inventory[itemIndex];
+    player.equipment[slot] = item;
+    player.inventory.splice(itemIndex, 1);
+    updateInventoryUI();
+    updateEquipmentUI();
+  }
 }
