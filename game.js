@@ -158,12 +158,12 @@ function renderLocation() {
   // Image or ASCII art
   const img = document.getElementById('location-image');
 
-  if (locationData.image) {
-    img.src = locationData.image;
-    img.classList.remove('hidden');
-  } else {
-    img.classList.add('hidden');
-  }
+  // if (locationData.image) {
+  //   img.src = locationData.image;
+  //   img.classList.remove('hidden');
+  // } else {
+  //   img.classList.add('hidden');
+  // }
 
   document.getElementById('action-log').innerHTML = ''; // Clear previous actions log
   if (!locationData.discovered){
@@ -558,13 +558,27 @@ function hideTooltip() {
 }
 
 document.getElementById('explore-button').addEventListener('click', () => {
-  if(Math.random() < 0.5) {
-    const enemy = enemies.goblin_raider; // Example enemy, replace with random logic
-    startCombat(enemy);
-  } else {
-    log("🌿 You explore the area but find nothing of interest.");
-  }
+  handleExplore();
 })
+
+function handleExplore() {
+  const locationID = player.location;
+  const current = locations[locationID];
+
+  // 20% chance to trigger combat
+  if (Math.random() < 0.2 && current.hostiles && current.hostiles.length > 0) {
+    const randomID = current.hostiles[Math.floor(Math.random() * current.hostiles.length)];
+    const selectedEnemy = enemies[randomID];
+
+    if (selectedEnemy) {
+      startCombat(selectedEnemy); // your combat function
+      return;
+    }
+  }
+
+  // otherwise just do normal exploration log
+  log("🌿 You explore the area but find nothing of interest.");
+}
 
 function startCombat(enemy) {
   currentEnemy = structuredClone(enemy); // Clone to avoid modifying original

@@ -1,3 +1,5 @@
+import { enemies } from "./enemy.js";
+
 export const locations = {
   'Whispering Glade': {
     id: 'whispering-glade',
@@ -12,6 +14,7 @@ export const locations = {
     theme: 'forest', // for future background styling
     events: [],
     npcs: [],
+    hostiles: ['goblin_raider'],
     loot: [],
     tags: ['safe', 'nature', 'starter'],
 
@@ -30,6 +33,7 @@ export const locations = {
     theme: 'ruins',
     events: ['ambush'],
     npcs: ['Ghostly Guard'],
+    hostiles: [],
     loot: ['rusted sword', 'tattered journal'],
     tags: ['danger', 'ruins'],
 
