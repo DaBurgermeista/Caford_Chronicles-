@@ -124,6 +124,14 @@ export function renderStatsToModal() {
   document.getElementById(
     'modal-crit'
   ).textContent = `${player.derivedStats.critChance}%`;
+  document.getElementById('modal-level').textContent = player.level;
+  document.getElementById('modal-xp').textContent = player.xp;
+  document.getElementById('modal-xp-next').textContent =
+    player.xpToNext;
+  document.getElementById('modal-gold').textContent = player.gold;
+  document.getElementById('modal-weight').textContent = player.progression.encumbrance.weight;
+  document.getElementById('modal-max-weight').textContent =
+    player.progression.encumbrance.maxWeight;
 }
 
 function renderHud() {
@@ -658,15 +666,16 @@ function playerAction(type) {
       updateEnemyHPBar(currentEnemy);
 
       if (currentEnemy.stats.hp <= 0) {
-        logCombat(`🎉 You defeated ${currentEnemy.name}!`);
+        log(`You defeated ${currentEnemy.name}!`);
         // award XP
         player.xp += currentEnemy.xpReward || 0;
-        logCombat(`You gain ${currentEnemy.xpReward || 0} XP!`);
+        log(`You gain ${currentEnemy.xpReward || 0} XP!`);
         // award gold
         const goldReward = currentEnemy.goldReward || [0, 0];
         const goldAmount = Math.floor(Math.random() * (goldReward[1] - goldReward[0] + 1)) + goldReward[0];
         player.gold += goldAmount;
         logCombat(`You find ${goldAmount} gold on the ${currentEnemy.name}.`);
+        player.progression.kills += 1; // Increment kill count
         renderHud();
         renderStatsToModal();
         // Remove enemy from combat
