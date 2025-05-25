@@ -1,4 +1,4 @@
-# Adventurer's Guild
+# Adventurer's Guild ![Favicon](assets/favicon.png)
 
 **Adventurer's Guild** is a retro-styled, singleplayer browser RPG inspired by classic pixel games. Built using HTML, CSS, and JavaScript, the game immerses players in a fantasy world where they explore, loot, fight enemies, and build their character through stats and gear.
 
@@ -33,7 +33,7 @@
 
 ## Future Goals
 
-### 1. **Combat System Enhancements**
+### 1. **Combat System Enhancements** ![Mossling](assets/mossling_32x32.png)
 
 - Add combat animations.
 - Implement status effects (e.g., poison, stun).
