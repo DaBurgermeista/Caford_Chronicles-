@@ -4,6 +4,8 @@ import { locations } from './location.js';
 console.log("Loaded locations:", locations);
 import { items } from './items.js';
 console.log("Loaded items:", items);
+import { enemies } from './enemy.js';
+console.log("Loaded enemies:", enemies);
 
 document.addEventListener('DOMContentLoaded', () => {
   setupSidebar();
@@ -12,6 +14,17 @@ document.addEventListener('DOMContentLoaded', () => {
   renderLocation();
   renderDestinationSidebar();
   renderInventory();
+  startCombat(enemies.goblin_raider); // Start combat with a goblin raider for testing
+
+  // Setup listeners for combat actions
+  const combatActions = document.querySelector('.combat-actions');
+  combatActions.addEventListener('click', (e) => {
+    const action = e.target.dataset.action;
+    if (action) {
+      playerAction(action);
+    }
+  });
+
 });
 
 function setupSidebar() {
@@ -128,6 +141,8 @@ function renderLocation() {
   document.body.className = ''; // Clear old theme
   if (locationData.theme === 'forest') {
     document.body.classList.add('forest-theme');
+  } else if (locationData.theme === 'ruins') {
+    document.body.classList.add('ruins-theme');
   }
 
   // HUD
@@ -537,4 +552,82 @@ function showTooltip(itemId, x, y) {
 function hideTooltip() {
   const tooltip = document.getElementById('tooltip');
   tooltip.classList.add('hidden');
+}
+
+function startCombat(enemy) {
+  const currentEnemy = enemy;
+  updateCombatUI(enemy);
+  showCombatUI();
+  logCombat("You ready your weapon and prepare for battle!");
+}
+
+function playerAction(type) {
+  switch (type) {
+    case 'attack':
+      logCombat("🗡️ You attack the enemy!");
+      break;
+    case 'skill':
+      logCombat("🔥 You prepare a skill... (not implemented)");
+      break;
+    case 'item':
+      logCombat("🧪 You reach for an item... (not implemented)");
+      break;
+    case 'flee':
+      logCombat("🏃 You attempt to flee... (not implemented)");
+      break;
+    default:
+      logCombat("🤔 Unknown action.");
+  }
+
+  // Next: enemyTurn() would go here
+}
+
+function logCombat(message) {
+  const logBox = document.getElementById('combat-log');
+  const entry = document.createElement('p');
+  entry.textContent = message;
+  logBox.appendChild(entry);
+  logBox.scrollTop = logBox.scrollHeight; // Auto-scroll
+}
+
+function showCombatUI() {
+  document.getElementById('combat-ui').classList.remove('hidden');
+}
+
+function updateCombatUI(enemy) {
+  // Set name and description
+  document.getElementById('enemy-name').textContent = enemy.name;
+  document.getElementById('enemy-description').textContent = enemy.description;
+
+  // Set ASCII art
+  const asciiElem = document.getElementById('enemy-ascii');
+  if (asciiElem) {
+    asciiElem.textContent = enemy.asciiArt ? enemy.asciiArt.join('\n') : '';
+  }
+
+  // Update HP bar
+  updateEnemyHPBar(enemy);
+
+  // Show the combat UI
+  document.getElementById('combat-ui').classList.remove('hidden');
+}
+
+function updateEnemyHPBar(enemy) {
+  const hpFill = document.getElementById('enemy-hp-fill');
+  const percent = (enemy.stats.hp / enemy.stats.maxHp) * 100;
+  hpFill.style.width = `${percent}%`;
+
+  const hpText = document.getElementById('enemy-hp-text');
+  if (hpText) {
+    hpText.textContent = `${enemy.stats.hp} / ${enemy.stats.maxHp}`;
+  }
+}
+
+
+
+
+function enemyTurn() {
+  console.log('Enemy takes its turn!');
+  // Implement enemy logic here
+  // For now, just log a message
 }

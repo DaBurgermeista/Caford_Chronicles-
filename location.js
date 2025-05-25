@@ -24,7 +24,7 @@ export const locations = {
     image: 'assets/ruined_outpost_128x128.png',
     connections: ['Whispering Glade'],
     ambientSound: 'wind-howl.mp3',
-    theme: 'ruin',
+    theme: 'ruins',
     events: ['ambush'],
     npcs: ['Ghostly Guard'],
     loot: ['rusted sword', 'tattered journal'],

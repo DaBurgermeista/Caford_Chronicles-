@@ -3,30 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <title>Adventurer's Guild - Game</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
     <link rel="icon" type="image/png" href="assets/favicon.png" />
-
     <link rel="stylesheet" href="game.css" />
     <script type="module" src="game.js"></script>
   </head>
+
   <body>
-    <!-- HUD stays full width at top -->
+    <!-- HUD -->
     <div class="hud">
       <div class="stats">
-        🧍 Daveric | ❤️ HP: <span id="hud-hp">40</span>/<span id="hud-maxhp"
-          >40</span
-        >
-        | 🔵 MP: <span id="hud-mp">10</span>/<span id="hud-maxmp">10</span> | 💰
-        Gold: <span id="hud-gold">56</span>
+        🧍 Daveric | ❤️ HP: <span id="hud-hp">40</span>/<span id="hud-maxhp">40</span>
+        | 🔵 MP: <span id="hud-mp">10</span>/<span id="hud-maxmp">10</span>
+        | 💰 Gold: <span id="hud-gold">56</span>
       </div>
       <div class="location">📍 Whispering Glade</div>
     </div>
 
-    <!-- LEFT SIDEBAR -->
+    <!-- Main Layout Row -->
     <div class="content-row">
+
+      <!-- LEFT SIDEBAR -->
       <div class="sidebar-wrapper">
         <div class="sidebar">
           <h3>Player Menu</h3>
@@ -41,17 +38,19 @@
         <div class="sidebar-tab">TAB</div>
       </div>
 
-      <!-- MAIN GAME VIEW-->
+      <!-- GAME MAIN VIEW -->
       <div class="game-container">
+
         <div class="game-screen">
           <img id="location-image" src="" alt="Location Image" class="location-art hidden" />
         </div>
+
         <div id="travel-options" class="travel-options"></div>
+
         <div class="dialog-box">
           <h3 id="location-name">Location Name</h3>
           <p id="location-description">
-            A soft wind brushes the trees. You hear faint chanting deeper in the
-            glade...
+            A soft wind brushes the trees. You hear faint chanting deeper in the glade...
           </p>
           <h3>Items here:</h3>
           <p id="location-items" class="location-items"></p>
@@ -59,19 +58,48 @@
 
         <div class="action-bar">
           <button id="travel-button">Travel</button>
-        <div class="enemy-container">
-          <h3 id="enemy-name">Enemy Name</h3>
-          <p id="enemy-description">A fearsome creature lurks nearby...</p>
         </div>
-      </div>
-      </div>
-      <!-- RIGHT SIDEBAR -->
+
+        <div class="combat-ui hidden" id="combat-ui">
+          <div class="enemy-panel">
+            <h3 id="enemy-name">Goblin Raider</h3>
+            <div class="health-bar">
+              <div id="enemy-hp-fill" class="hp-fill"></div>
+              <span id="enemy-hp-text" class="hp-text">30 / 30</span>
+            </div>
+            <pre id="enemy-ascii"></pre>
+            <p id="enemy-description">Snarling and bloodied, but unrelenting</p>
+          </div>
+        </div>
+
+        <div class="log-box" id="combat-log">
+          <p>You ready your weapon...</p>
+        </div>
+
+        <div class="combat-actions">
+          <button data-action="attack">Attack</button>
+          <button data-action="skills">Skills</button>
+          <button data-action="items">Items</button>
+          <button data-action="flee">Flee</button>
+        </div>
+
+        <div class="player-panel">
+          <p>❤️ HP: <span id="player-hp">40</span> / <span id="player-maxhp">40</span></p>
+          <p>🔵 MP: <span id="player-mp">10</span> / <span id="player-maxmp">10</span></p>
+          <p>⚡ Stamina: <span id="player-stamina">20</span></p>
+        </div>
+
+      </div> <!-- end .game-container -->
+
+      <!-- RIGHT SIDEBAR (properly inside content-row) -->
       <div class="sidebar-right">
         <h3>Destinations</h3>
         <ul id="destination-list"></ul>
       </div>
 
-    </div>
+    </div> <!-- end .content-row -->
+
+    <!-- MODALS -->
     <div id="stats-modal" class="modal hidden">
       <div class="modal-content">
         <h2>Player Stats</h2>
@@ -87,44 +115,37 @@
             <li>Charisma: <span id="modal-cha">10</span></li>
           </ul>
         </div>
+
         <div class="stat-group">
           <h3>Derived Stats</h3>
           <ul>
-            <li>
-              HP: <span id="modal-hp">40</span> /
-              <span id="modal-maxhp">40</span>
-            </li>
-            <li>
-              MP: <span id="modal-mp">10</span> /
-              <span id="modal-maxmp">10</span>
-            </li>
+            <li>HP: <span id="modal-hp">40</span> / <span id="modal-maxhp">40</span></li>
+            <li>MP: <span id="modal-mp">10</span> / <span id="modal-maxmp">10</span></li>
             <li>Stamina: <span id="modal-stamina">20</span></li>
             <li>Armor: <span id="modal-armor">2</span></li>
             <li>Crit Chance: <span id="modal-crit">5%</span></li>
           </ul>
         </div>
+
         <div class="stat-group">
           <h3>Progression</h3>
           <ul>
             <li>Level: <span id="modal-level">1</span></li>
-            <li>
-              XP: <span id="modal-xp">0</span> /
-              <span id="modal-xpnext">100</span>
-            </li>
+            <li>XP: <span id="modal-xp">0</span> / <span id="modal-xpnext">100</span></li>
             <li>Gold: <span id="modal-gold">56</span></li>
-            <li>
-              Encumbrance: <span id="modal-weight">0</span> /
-              <span id="modal-maxweight">40</span>
-            </li>
+            <li>Encumbrance: <span id="modal-weight">0</span> / <span id="modal-maxweight">40</span></li>
           </ul>
         </div>
+
         <button id="close-stats">Close</button>
       </div>
     </div>
+
     <div id="dev-console" class="console hidden">
       <div class="console-output" id="console-output"></div>
       <input type="text" id="console-input" placeholder="> Type command..." />
     </div>
+
     <div id="inventory-modal" class="modal hidden">
       <div class="modal-content inventory-layout">
         <h2>Inventory</h2>
@@ -156,3 +177,4 @@
     </div>
   </body>
 </html>
+
