@@ -60,9 +60,10 @@
           <button id="travel-button">Travel</button>
         </div>
 
-        <div class="combat-ui hidden" id="combat-ui">
+        <fieldset class="combat-ui hidden" id="combat-ui">
+          <legend id="enemy-name">Combat</legend>
           <div class="enemy-panel">
-            <h3 id="enemy-name">Goblin Raider</h3>
+            <!-- <h3 id="enemy-name">Goblin Raider</h3> -->
             <div class="health-bar">
               <div id="enemy-hp-fill" class="hp-fill"></div>
               <span id="enemy-hp-text" class="hp-text">30 / 30</span>
@@ -70,13 +71,14 @@
             <pre id="enemy-ascii"></pre>
             <p id="enemy-description">Snarling and bloodied, but unrelenting</p>
           </div>
-        </div>
+          <img id="enemy-image" src="" alt="Enemy Image" class="enemy-art hidden" />
+        </fieldset>
 
         <div class="log-box" id="combat-log">
           <p>You ready your weapon...</p>
         </div>
 
-        <div class="combat-actions">
+        <div class="combat-actions hidden" id="combat-actions">
           <button data-action="attack">Attack</button>
           <button data-action="skills">Skills</button>
           <button data-action="items">Items</button>

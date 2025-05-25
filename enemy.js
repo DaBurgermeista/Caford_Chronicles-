@@ -10,6 +10,7 @@ export const enemies = {
       " <|=|=>  ",
       "  / \\    "
     ],
+    image: 'assets/goblin_warrior_32x32.png',
     stats: {
       hp: 30,
       maxHp: 30,

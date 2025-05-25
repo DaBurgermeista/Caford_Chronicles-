@@ -114,6 +114,7 @@ body.ruins-theme {
 }
 
 .combat-ui {
+  display: flex;
   background-color: rgba(0, 0, 0, 0.85);
   border: 2px solid #88b47f;
   padding: 1rem;
@@ -121,7 +122,55 @@ body.ruins-theme {
   width: 100%;
   font-size: 0.45rem;
   box-shadow: 0 0 6px #4c6f3f;
+  min-height: 200px;
 }
+
+.enemy-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: center;
+  text-align: left;
+}
+
+.enemy-art {
+  height: auto;
+  max-height: 96px; /* Limit to 3 tiles tall */
+  width: auto;
+  aspect-ratio: 1 / 1;
+  align-self: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  image-rendering: pixelated;
+  border: 2px solid #88b47f;
+  box-shadow: 0 0 4px #4c6f3f;
+  flex-shrink: 0;
+}
+
+
+
+.combat-ui.hidden,
+.combat-actions.hidden {
+  display: none;
+}
+
+fieldset {
+  border: 2px solid #88b47f;
+  padding: 1rem;
+  margin: 1rem 0;
+  background-color: rgba(0, 0, 0, 0.85);
+}
+
+legend {
+  color: #e0d1a6;
+  font-size: 0.6rem;
+  font-family: 'Press Start 2P', monospace;
+  padding: 0 0.5rem;
+  text-shadow: 0 0 4px #4c6f3f;
+}
+
 
 .health-bar {
   position: relative;
@@ -180,9 +229,11 @@ body.ruins-theme {
   padding: 0.5rem;
   background-color: rgba(10, 10, 10, 0.9);
   color: #dabd50;
+  font-size: 0.5rem;
   max-height: 150px;
   overflow-y: auto;
   border: 1px dashed #88b47f;
+  overflow: hidden;
 }
 
 

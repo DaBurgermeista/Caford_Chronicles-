@@ -602,14 +602,53 @@ function playerAction(type) {
         rawDamage *= player.derivedStats.critDamage / 100; // Convert crit damage to decimal
         logCombat(`💥 Critical hit! Damage: ${rawDamage.toFixed(2)}`);
       } else {
-        logCombat(`⚔️ You hit ${currentEnemy.name} for ${rawDamage} damage.`);
+        logCombat(`⚔️ You will hit the ${currentEnemy.name} for ${rawDamage} damage.`);
       }
-      currentEnemy.stats.hp -= rawDamage
+      
+      // Check to see if the enemy can evade
+      const evadeChance = currentEnemy.stats.evasion || 0;
+      logCombat(`🌀 ${currentEnemy.name} has an evade chance of ${evadeChance * 100}%`);
+      if (Math.random() < evadeChance) {
+        logCombat(`🚫 ${currentEnemy.name} evaded your attack!`);
+        return; // Exit if the attack was evaded
+      }
+
+      // Check if the enemy has armor
+      const enemyArmor = currentEnemy.stats.armor || 0;
+      if (enemyArmor > 0) {
+        const effectiveDamage = Math.max(rawDamage - enemyArmor, 0); // Ensure damage doesn't go below 0
+        if (effectiveDamage <= 0) {
+          logCombat(`🛡️ ${currentEnemy.name} blocked your attack with armor! No damage dealt.`);
+          return; // Exit if no damage was dealt
+        } else {
+          logCombat(`🛡️ ${currentEnemy.name} has armor! Effective damage: ${effectiveDamage}`);
+          currentEnemy.stats.hp -= effectiveDamage;
+          logCombat(`💔 ${currentEnemy.name} takes ${effectiveDamage} damage!`);
+        }
+      } else {
+        logCombat(`💔 ${currentEnemy.name} takes ${rawDamage} damage!`);
+        currentEnemy.stats.hp -= rawDamage
+      }
+      // Update combat UI and enemy HP bar
       updateCombatUI(currentEnemy);
       updateEnemyHPBar(currentEnemy);
 
       if (currentEnemy.stats.hp <= 0) {
         logCombat(`🎉 You defeated ${currentEnemy.name}!`);
+        // award XP
+        player.xp += currentEnemy.xpReward || 0;
+        logCombat(`You gain ${currentEnemy.xpReward || 0} XP!`);
+        // award gold
+        const goldReward = currentEnemy.goldReward || [0, 0];
+        const goldAmount = Math.floor(Math.random() * (goldReward[1] - goldReward[0] + 1)) + goldReward[0];
+        player.gold += goldAmount;
+        logCombat(`You find ${goldAmount} gold on the ${currentEnemy.name}.`);
+        renderHud();
+        renderStatsToModal();
+        // Remove enemy from combat
+        currentEnemy = null;
+        // Hide combat UI 
+        endCombat();
       }
 
       break;
@@ -629,6 +668,13 @@ function playerAction(type) {
   // Next: enemyTurn() would go here
 }
 
+function endCombat() {
+  document.getElementById('combat-ui').classList.add('hidden');
+  document.getElementById('combat-actions').classList.add('hidden');
+  logCombat("🛑 Combat has ended.");
+}
+
+
 function logCombat(message) {
   const logBox = document.getElementById('combat-log');
   const entry = document.createElement('p');
@@ -639,6 +685,7 @@ function logCombat(message) {
 
 function showCombatUI() {
   document.getElementById('combat-ui').classList.remove('hidden');
+  document.getElementById('combat-actions').classList.remove('hidden');
 }
 
 function updateCombatUI(enemy) {
@@ -650,6 +697,14 @@ function updateCombatUI(enemy) {
   const asciiElem = document.getElementById('enemy-ascii');
   if (asciiElem) {
     asciiElem.textContent = enemy.asciiArt ? enemy.asciiArt.join('\n') : '';
+  }
+  // Set enemy image
+  const enemyImage = document.getElementById('enemy-image');
+  if (enemy.image) {
+    enemyImage.src = enemy.image;
+    enemyImage.classList.remove('hidden');
+  } else {
+    enemyImage.classList.add('hidden');
   }
 
   // Update HP bar
