@@ -165,6 +165,14 @@ function renderLocation() {
     img.classList.add('hidden');
   }
 
+  document.getElementById('action-log').innerHTML = ''; // Clear previous actions log
+  if (!locationData.discovered){
+    log(locationData.discoverText || `You arrive at ${locationData.name}.`);
+    locationData.discovered = true; // Mark as discovered
+  } else {
+    log(locationData.revisitText || `You return to ${locationData.name}.`);
+  }
+
   // Loot
   const locationItemsEl = document.getElementById('location-items');
   locationItemsEl.innerHTML = '';
