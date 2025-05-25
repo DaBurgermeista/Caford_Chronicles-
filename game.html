@@ -37,33 +37,14 @@
         </div>
         <div class="sidebar-tab">TAB</div>
       </div>
-
-      <!-- GAME MAIN VIEW -->
-      <div class="game-container">
-
-        <div class="game-screen">
-          <img id="location-image" src="" alt="Location Image" class="location-art hidden" />
-        </div>
-
-        <div id="travel-options" class="travel-options"></div>
-
-        <div class="dialog-box">
-          <h3 id="location-name">Location Name</h3>
-          <p id="location-description">
-            A soft wind brushes the trees. You hear faint chanting deeper in the glade...
-          </p>
-          <h3>Items here:</h3>
-          <p id="location-items" class="location-items"></p>
-        </div>
-
-        <div class="action-bar">
-          <button id="travel-button">Travel</button>
-        </div>
-
-        <fieldset class="combat-ui hidden" id="combat-ui">
+      <!-- END LEFT SIDEBAR -->
+       <!-- Combat UI -->
+       <fieldset class="combat-ui hidden" id="combat-ui">
           <legend id="enemy-name">Combat</legend>
           <div class="enemy-panel">
             <!-- <h3 id="enemy-name">Goblin Raider</h3> -->
+            <img id="enemy-image" src="" alt="Enemy Image" class="enemy-art hidden" />
+
             <div class="health-bar">
               <div id="enemy-hp-fill" class="hp-fill"></div>
               <span id="enemy-hp-text" class="hp-text">30 / 30</span>
@@ -71,21 +52,54 @@
             <pre id="enemy-ascii"></pre>
             <p id="enemy-description">Snarling and bloodied, but unrelenting</p>
           </div>
-          <img id="enemy-image" src="" alt="Enemy Image" class="enemy-art hidden" />
-        </fieldset>
-
-        <div class="log-box" id="combat-log">
-          <p>You ready your weapon...</p>
-        </div>
-
-        <div class="combat-actions hidden" id="combat-actions">
+          <div class="combat-actions hidden" id="combat-actions">
           <button data-action="attack">Attack</button>
           <button data-action="skills">Skills</button>
           <button data-action="items">Items</button>
           <button data-action="flee">Flee</button>
         </div>
+        </fieldset>
+        
+        <!-- END Combat UI -->
+      <!-- GAME MAIN VIEW -->
+      <div class="game-container">
 
-        <div class="player-panel">
+        <div class="game-screen">
+          <img id="location-image" src="" alt="Location Image" class="location-art hidden" />
+        </div>
+
+
+        <div id="travel-options" class="travel-options"></div>
+
+        <fieldset class="dialog-box">
+          <legend id="location-name">Location Name</legend>
+          <p id="location-description">
+            A soft wind brushes the trees. You hear faint chanting deeper in the glade...
+          </p>
+          <fieldset class="location-items">
+            <legend>Items here:</legend>
+            <p id="location-items" class="location-items"></p>
+          </fieldset>
+          <fieldset class="action-log">
+            <legend>Log</legend>
+            <div id="action-log" class="log"></div>
+          </fieldset>
+        </fieldset>
+
+        <div class="action-bar" id="action-bar">
+          <button id="explore-button">Explore</button>
+          <!-- <button id="travel-button">Travel</button> -->
+        </div>
+
+
+
+        <div class="log-box hidden" id="combat-log">
+          <p>You ready your weapon...</p>
+        </div>
+
+        
+
+        <div class="player-panel hidden">
           <p>❤️ HP: <span id="player-hp">40</span> / <span id="player-maxhp">40</span></p>
           <p>🔵 MP: <span id="player-mp">10</span> / <span id="player-maxmp">10</span></p>
           <p>⚡ Stamina: <span id="player-stamina">20</span></p>

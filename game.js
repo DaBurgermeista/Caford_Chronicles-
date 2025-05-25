@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderDestinationSidebar();
   renderInventory();
 
-  startCombat(enemies.goblin_raider); // Start combat with a goblin raider for testing
+  //startCombat(enemies.goblin_raider); // Start combat with a goblin raider for testing
 
   // Setup listeners for combat actions
   const combatActions = document.querySelector('.combat-actions');
@@ -505,14 +505,6 @@ document.getElementById('close-inventory').addEventListener('click', () => {
   document.getElementById('inventory-modal').classList.add('hidden');
 });
 
-document.getElementById('travel-button').addEventListener('click', () => {
-  const current = player.location;
-  const next = locations[current].connections[0]; // only one other for now
-  player.location = next;
-  renderLocation();
-  renderDestinationSidebar();
-});
-
 function pickUpItem(itemId) {
   const loc = locations[player.location];
   const lootEntry = loc.loot.find(entry => entry.id === itemId);
@@ -556,6 +548,15 @@ function hideTooltip() {
   const tooltip = document.getElementById('tooltip');
   tooltip.classList.add('hidden');
 }
+
+document.getElementById('explore-button').addEventListener('click', () => {
+  if(Math.random() < 0.5) {
+    const enemy = enemies.goblin_raider; // Example enemy, replace with random logic
+    startCombat(enemy);
+  } else {
+    log("🌿 You explore the area but find nothing of interest.");
+  }
+})
 
 function startCombat(enemy) {
   currentEnemy = structuredClone(enemy); // Clone to avoid modifying original
@@ -671,6 +672,8 @@ function playerAction(type) {
 function endCombat() {
   document.getElementById('combat-ui').classList.add('hidden');
   document.getElementById('combat-actions').classList.add('hidden');
+  document.getElementById('combat-log').classList.add('hidden');
+  document.getElementById('player-panel').classList.add('hidden');
   logCombat("🛑 Combat has ended.");
 }
 
@@ -683,9 +686,21 @@ function logCombat(message) {
   logBox.scrollTop = logBox.scrollHeight; // Auto-scroll
 }
 
+function log(message) {
+  const logBox = document.getElementById('action-log');
+  const entry = document.createElement('p');
+  entry.textContent = message;
+  logBox.appendChild(entry);
+  logBox.scrollTop = logBox.scrollHeight; // Auto-scroll
+}
+
 function showCombatUI() {
   document.getElementById('combat-ui').classList.remove('hidden');
   document.getElementById('combat-actions').classList.remove('hidden');
+  document.getElementById('combat-log').innerHTML = ''; // Clear previous log
+  document.getElementById('combat-log').classList.remove('hidden');
+  document.getElementById('player-panel').classList.remove('hidden');
+
 }
 
 function updateCombatUI(enemy) {
