@@ -7,6 +7,8 @@ console.log("Loaded items:", items);
 import { enemies } from './enemy.js';
 console.log("Loaded enemies:", enemies);
 
+let currentEnemy = null; // Initialize current enemy
+
 document.addEventListener('DOMContentLoaded', () => {
   setupSidebar();
   setupStatsModal();
@@ -14,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderLocation();
   renderDestinationSidebar();
   renderInventory();
+
   startCombat(enemies.goblin_raider); // Start combat with a goblin raider for testing
 
   // Setup listeners for combat actions
@@ -555,7 +558,7 @@ function hideTooltip() {
 }
 
 function startCombat(enemy) {
-  const currentEnemy = enemy;
+  currentEnemy = structuredClone(enemy); // Clone to avoid modifying original
   updateCombatUI(enemy);
   showCombatUI();
   logCombat("You ready your weapon and prepare for battle!");
@@ -565,6 +568,50 @@ function playerAction(type) {
   switch (type) {
     case 'attack':
       logCombat("🗡️ You attack the enemy!");
+      let weaponDamage = 0; // Placeholder for weapon damage calculation
+      let weapon = null;
+      let rawDamage = 0;
+      const isCrit = Math.random() < player.derivedStats.critChance / 100; // Convert to decimal
+      console.log(`Crit chance: ${player.derivedStats.critChance}%`);
+      const strMod = (player.coreStats.strength - 10) / 2;
+      const dexMod = (player.coreStats.dexterity - 10) / 2;
+      console.log(`strMod ${strMod}`);
+      if (player.equipment['main-hand']) {
+        weapon = items[player.equipment['main-hand']];
+        console.log(`Using weapon: ${weapon.name}`);
+        const [min, max] = weapon.damage;
+        console.log(`Weapon damage range: ${min} - ${max}`);
+        weaponDamage = Math.floor(Math.random() * (max - min + 1)) + min;
+        console.log(`Calculated weapon damage: ${weaponDamage}`);
+        
+      } else {
+        // No weapon equipped, use base damage of 1 to 2
+        weaponDamage = Math.floor(Math.random() * 2) + 1; // Random damage between 1 and 2
+        console.log("No weapon equipped, using base damage of 1-2");
+      }
+      if (player.equipment['main-hand'] && weapon.tags.includes('light')){
+        if (dexMod > strMod) {
+          rawDamage = weaponDamage + dexMod;
+          console.log(`Using dexterity mod for light weapon: ${rawDamage} (${weaponDamage} + ${dexMod})`);
+        }
+      } else {
+        rawDamage = weaponDamage + strMod;
+        console.log(`Raw damage after weapon and strength mod: ${rawDamage} (${weaponDamage} + ${strMod})`);
+      }
+      if (isCrit) {
+        rawDamage *= player.derivedStats.critDamage / 100; // Convert crit damage to decimal
+        logCombat(`💥 Critical hit! Damage: ${rawDamage.toFixed(2)}`);
+      } else {
+        logCombat(`⚔️ You hit ${currentEnemy.name} for ${rawDamage} damage.`);
+      }
+      currentEnemy.stats.hp -= rawDamage
+      updateCombatUI(currentEnemy);
+      updateEnemyHPBar(currentEnemy);
+
+      if (currentEnemy.stats.hp <= 0) {
+        logCombat(`🎉 You defeated ${currentEnemy.name}!`);
+      }
+
       break;
     case 'skill':
       logCombat("🔥 You prepare a skill... (not implemented)");
@@ -622,9 +669,6 @@ function updateEnemyHPBar(enemy) {
     hpText.textContent = `${enemy.stats.hp} / ${enemy.stats.maxHp}`;
   }
 }
-
-
-
 
 function enemyTurn() {
   console.log('Enemy takes its turn!');
