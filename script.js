@@ -13,6 +13,13 @@ let selectedIndex = 0;
 
 menuItems[selectedIndex].classList.add('selected');
 
+fetch('version.json')
+  .then((res) => res.json())
+  .then((data) => {
+    document.getElementById('version').textContent = `Version: ${data.version}`;
+  });
+
+
 function typeMessage(message) {
   // Clear Stuff
   clearTimeout(fadeTimeout);
