@@ -14,7 +14,9 @@ export const locations = {
     theme: 'forest', // for future background styling
     events: [],
     npcs: [],
-    hostiles: ['goblin_raider'],
+    hostiles: ['goblin_raider', 'whisper_wisp', 'mossling', 
+      'verdant_shade', 'gladefang_wolf', 'barbed_stag', 'needlewing_swarm',
+      'chanter_of_bark', 'fey_trickster', 'hallow_eyed_watcher', 'the_thorned_sentinel',],
     loot: [],
     tags: ['safe', 'nature', 'starter'],
 
@@ -33,7 +35,7 @@ export const locations = {
     theme: 'ruins',
     events: ['ambush'],
     npcs: ['Ghostly Guard'],
-    hostiles: [],
+    hostiles: ['bandit'],
     loot: ['rusted sword', 'tattered journal'],
     tags: ['danger', 'ruins'],
 

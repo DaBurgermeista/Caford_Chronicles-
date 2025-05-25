@@ -566,7 +566,7 @@ function handleExplore() {
   const current = locations[locationID];
 
   // 20% chance to trigger combat
-  if (Math.random() < 0.2 && current.hostiles && current.hostiles.length > 0) {
+  if (/*Math.random() < 0.2 && */current.hostiles && current.hostiles.length > 0) {
     const randomID = current.hostiles[Math.floor(Math.random() * current.hostiles.length)];
     const selectedEnemy = enemies[randomID];
 
@@ -584,6 +584,7 @@ function startCombat(enemy) {
   currentEnemy = structuredClone(enemy); // Clone to avoid modifying original
   updateCombatUI(enemy);
   showCombatUI();
+  log(`⚔️ A wild ${currentEnemy.name} appears!`);
   logCombat("You ready your weapon and prepare for battle!");
 }
 
