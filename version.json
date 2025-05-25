@@ -1,0 +1,9 @@
+{
+  "version": "0.1.0a",
+  "changelog": [
+    "Initial playable loop established",
+    "Basic location travel",
+    "Combat system with enemy stat blocks",
+    "Inventory modal and right-click context menu"
+  ]
+}
