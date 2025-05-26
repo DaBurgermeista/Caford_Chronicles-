@@ -122,8 +122,9 @@ export const items = {
   "mystic_charm": {
     id: "mystic_charm",
     name: "Mystic Charm",
-    type: "artifact",
+    type: "accessory",
     subtype: "enchanted",
+    slot: "accessory",
     effects: [{ type: "buff", stat: "wisdom", amount: 2 }],
     stackable: false,
     value: 125,
@@ -152,6 +153,7 @@ export const items = {
     name: "Ancient Relic",
     type: "artifact",
     subtype: "mystical",
+    slot: "accessory",
     effects: [{ type: "buff", stat: "intelligence", amount: 3 }],
     stackable: false,
     value: 200,

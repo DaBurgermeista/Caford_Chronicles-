@@ -1,4 +1,4 @@
-import { player } from './player.js';
+import { player, applyItemEffects, removeItemEffects } from './player.js';
 console.log("Loaded player:", player);
 import { locations } from './location.js';
 console.log("Loaded locations:", locations);
@@ -410,7 +410,7 @@ function openContextMenu(itemId, x, y, equipped = false) {
   // Determine available actions
   const actions = [];
 
-  if (item.type === 'weapon' || item.type === 'armor') {
+  if (item.type === 'weapon' || item.type === 'armor' || item.type === 'accessory') {
     if (equipped){
       actions.push('Unequip');
     } else {
@@ -496,8 +496,9 @@ function handleItemAction(action, itemId) {
   }
 
   player.equipment[slot] = itemId;
+  applyItemEffects(item); // Apply any effects from the item
   console.log(`Equipped ${item.name} in ${slot} slot`);
-
+  renderStatsToModal();
   renderEquipped();
   renderInventory();
 
@@ -518,8 +519,9 @@ function handleItemAction(action, itemId) {
     } else {
       player.inventory.push({ id: itemId, quantity: 1 });
     }
-
+    removeItemEffects(item); // Remove any effects from the item
     console.log(`Unequipped ${itemId} from ${slot}`);
+    renderStatsToModal();
     renderInventory();
     renderEquipped();
   } else {

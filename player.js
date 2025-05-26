@@ -56,9 +56,9 @@ export const player = {
   equipment: {
     "main-hand": null,
     "off-hand": null,
-    head: null,
-    chest: null,
-    accessory: null
+    "head": null,
+    "chest": null,
+    "accessory": null
   },
 
   inventory: [
@@ -80,3 +80,24 @@ export const player = {
     notoriety: 0,
   },
 };
+
+export function applyItemEffects(item) {
+  if (!item.effects) return;
+  item.effects.forEach(effect => {
+    if (effect.type === "buff") {
+      player.coreStats[effect.stat] += effect.amount;
+      console.log(`Applied buff: ${effect.stat} +${effect.amount}`);
+      
+    }
+  });
+}
+
+export function removeItemEffects(item) {
+  if (!item.effects) return;
+  item.effects.forEach(effect => {
+    if (effect.type === "buff") {
+      player.coreStats[effect.stat] -= effect.amount;
+      console.log(`Removed buff: ${effect.stat} -${effect.amount}`);
+    }
+  });
+}
