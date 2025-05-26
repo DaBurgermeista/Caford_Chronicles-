@@ -1,9 +1,25 @@
 {
-  "version": "0.1.0a",
-  "changelog": [
-    "Initial playable loop established",
-    "Basic location travel",
-    "Combat system with enemy stat blocks",
-    "Inventory modal and right-click context menu"
+  "version": "v0.1.1a",
+  "title": "The Chanting Deepens",
+  "date": "2025-05-25",
+  "status": "Alpha",
+  "features": [
+    {
+      "title": "Story Event System",
+      "description": "Modular event system implemented in events.js with trigger, chance, and completed flags. Includes new helper: showStoryEventDialog() for interactive choices."
+    },
+    {
+      "title": "New Event: The Faint Chanting",
+      "description": "Triggered upon entering Whispering Glade. Player choice driven by Wisdom stat. Can result in damage or a reward (Mystic Charm)."
+    }
+  ],
+  "improvements": [
+    "log(), renderHud(), and renderInventory() are now exported to support modular systems.",
+    "Event structure supports completion checks via this.completed.",
+    "Improved modularity and separation of logic between game.js, events.js, and UI."
+  ],
+  "fixes": [
+    "Event logic no longer retriggers after being marked complete.",
+    "Adjusted modal behavior for story dialog to avoid UI overlap."
   ]
 }
