@@ -132,6 +132,34 @@ export const items = {
     icon: "✨",
     rarity: "rare",
     tags: ["artifact", "enchanted", "wisdom"]
+  },
+  "silver_leaf": {
+    id: "silver_leaf",
+    name: "Silver Leaf",
+    type: "collectible",
+    subtype: "nature",
+    stackable: true,
+    maxStack: 10,
+    value: 5,
+    weight: 0.05,
+    description: "A rare leaf with a silvery sheen.",
+    icon: "🍂",
+    rarity: "uncommon",
+    tags: ["collectible", "nature"]
+  },
+  "ancient_relic": {
+    id: "ancient_relic",
+    name: "Ancient Relic",
+    type: "artifact",
+    subtype: "mystical",
+    effects: [{ type: "buff", stat: "intelligence", amount: 3 }],
+    stackable: false,
+    value: 200,
+    weight: 0.2,
+    description: "An artifact from a forgotten age, pulsing with arcane energy.",
+    icon: "🪄",
+    rarity: "legendary",
+    tags: ["artifact", "mystical", "intelligence"]
   }
 };
 

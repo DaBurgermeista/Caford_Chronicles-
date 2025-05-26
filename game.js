@@ -693,20 +693,25 @@ function handleExplore() {
   const locationID = player.location;
   const current = locations[locationID];
 
-  // 20% chance to trigger combat
-  if (/*Math.random() < 0.2 && */current.hostiles && current.hostiles.length > 0) {
-    const randomID = current.hostiles[Math.floor(Math.random() * current.hostiles.length)];
-    const selectedEnemy = enemies[randomID];
+  const eventTriggered = triggerEventsFor(current, 'onExplore');
 
-    if (selectedEnemy) {
-      startCombat(selectedEnemy); // your combat function
-      return;
+  if (!eventTriggered) {
+    // No event occurred, so roll for combat
+    if (Math.random() < 0.2 && current.hostiles && current.hostiles.length > 0) {
+      const randomID = current.hostiles[Math.floor(Math.random() * current.hostiles.length)];
+      const selectedEnemy = enemies[randomID];
+
+      if (selectedEnemy) {
+        startCombat(selectedEnemy);
+        return;
+      }
     }
-  }
 
-  // otherwise just do normal exploration log
-  log("🌿 You explore the area but find nothing of interest.");
+    // If no combat either
+    log("🌿 You explore the area but find nothing of interest.");
+  }
 }
+
 
 function startCombat(enemy) {
   currentEnemy = structuredClone(enemy); // Clone to avoid modifying original
@@ -963,12 +968,20 @@ export function showStoryEventDialog(title, description, choices) {
 }
 
 
-function triggerEventsFor(location, triggerType) {
-  if (!location.events) return;
+export function triggerEventsFor(location, triggerType) {
+  if (!location.events) return false;
 
-  location.events.forEach(event => {
-    if (event.trigger === triggerType && Math.random() < event.chance) {
+  for (const event of location.events) {
+    if (
+      event.trigger === triggerType &&
+      !player.progression.completedEvents.includes(event.id) &&
+      Math.random() < event.chance
+    ) {
       event.effect(player, location);
+      return true; // An event triggered
     }
-  });
+  }
+
+  return false; // No event triggered
 }
+

@@ -13,7 +13,7 @@ export const locations = {
     // Optional Features
     ambientSound: 'birds-chirping.mp3',
     theme: 'forest', // for future background styling
-    events: [events['forest-chant']],
+    events: [events['forest-chant'], events['glade-hollow-tree']],
     npcs: [],
     hostiles: ['goblin_raider', 'whisper_wisp', 'mossling', 
       'verdant_shade', 'gladefang_wolf', 'barbed_stag', 'needlewing_swarm',
@@ -34,7 +34,7 @@ export const locations = {
     // Optional Features
     ambientSound: 'wind-howl.mp3',
     theme: 'ruins',
-    events: ['ambush'],
+    events: [events['ruins-collapse'], events['ruins-echoes']],
     npcs: ['Ghostly Guard'],
     hostiles: ['bandit'],
     loot: ['rusted sword', 'tattered journal'],
