@@ -143,7 +143,7 @@ export function renderStatsToModal() {
     player.progression.encumbrance.maxWeight;
 }
 
-function renderHud() {
+export function renderHud() {
   document.getElementById('hud-hp').textContent = player.derivedStats.hp;
   document.getElementById('hud-maxhp').textContent = player.derivedStats.maxHp;
   document.getElementById('hud-mp').textContent = player.derivedStats.mp;
@@ -189,6 +189,8 @@ function renderLocation() {
   } else {
     log(locationData.revisitText || `You return to ${locationData.name}.`);
   }
+
+  triggerEventsFor(locationData, 'onEnter'); // Trigger any events for this location
 
   // Loot
   const locationItemsEl = document.getElementById('location-items');
@@ -319,7 +321,7 @@ function equipItemToSlot(itemId, slotType) {
 }
 
 
-function renderInventory() {
+export function renderInventory() {
   const list = document.getElementById('inventory-list');
   list.innerHTML = '';
   console.log("Rendering inventory", player.inventory);
@@ -840,7 +842,7 @@ function logCombat(message) {
   logBox.scrollTop = logBox.scrollHeight; // Auto-scroll
 }
 
-function log(message) {
+export function log(message) {
   const logBox = document.getElementById('action-log');
   const entry = document.createElement('p');
   entry.textContent = message;
@@ -935,4 +937,38 @@ function equipItem(itemId, slot) {
     updateInventoryUI();
     updateEquipmentUI();
   }
+}
+
+export function showStoryEventDialog(title, description, choices) {
+  const modal = document.getElementById("story-event-modal");
+  const titleElem = document.getElementById("story-event-title");
+  const textElem = document.getElementById("story-event-text");
+  const choicesContainer = document.getElementById("story-event-choices");
+
+  titleElem.textContent = title;
+  textElem.textContent = description;
+  choicesContainer.innerHTML = ""; // Clear previous buttons
+
+  choices.forEach(choice => {
+    const btn = document.createElement("button");
+    btn.textContent = choice.text;
+    btn.onclick = () => {
+      modal.classList.add("hidden");
+      choice.action();
+    };
+    choicesContainer.appendChild(btn);
+  });
+
+  modal.classList.remove("hidden");
+}
+
+
+function triggerEventsFor(location, triggerType) {
+  if (!location.events) return;
+
+  location.events.forEach(event => {
+    if (event.trigger === triggerType && Math.random() < event.chance) {
+      event.effect(player, location);
+    }
+  });
 }

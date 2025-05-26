@@ -117,6 +117,21 @@ export const items = {
     icon: "🗝️",
     rarity: "rare",
     tags: ["quest", "key", "story"]
+  },
+
+  "mystic_charm": {
+    id: "mystic_charm",
+    name: "Mystic Charm",
+    type: "artifact",
+    subtype: "enchanted",
+    effects: [{ type: "buff", stat: "wisdom", amount: 2 }],
+    stackable: false,
+    value: 125,
+    weight: 0.1,
+    description: "A charm that hums with gentle energy.",
+    icon: "✨",
+    rarity: "rare",
+    tags: ["artifact", "enchanted", "wisdom"]
   }
 };
 

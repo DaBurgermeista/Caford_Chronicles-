@@ -1,4 +1,5 @@
 import { enemies } from "./enemy.js";
+import { events } from "./events.js";
 
 export const locations = {
   'Whispering Glade': {
@@ -12,7 +13,7 @@ export const locations = {
     // Optional Features
     ambientSound: 'birds-chirping.mp3',
     theme: 'forest', // for future background styling
-    events: [],
+    events: [events['forest-chant']],
     npcs: [],
     hostiles: ['goblin_raider', 'whisper_wisp', 'mossling', 
       'verdant_shade', 'gladefang_wolf', 'barbed_stag', 'needlewing_swarm',

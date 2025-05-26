@@ -46,6 +46,7 @@ export const player = {
     stepsTaken: 0,
     kills: 0,
     questsCompleted: 0,
+    completedEvents: [],
     encumbrance: {
       weight: 0,
       maxWeight: 40,
