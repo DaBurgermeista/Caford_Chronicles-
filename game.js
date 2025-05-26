@@ -158,6 +158,9 @@ function updateStat(id, value) {
 
 function renderLocation() {
   const locationData = locations[player.location];
+  console.log("Current location:", player.location);
+  console.log("All locations:", Object.keys(locations));
+
   document.body.className = ''; // Clear old theme
   if (locationData.theme === 'forest') {
     document.body.classList.add('forest-theme');
@@ -669,10 +672,14 @@ function pickUpItem(itemId) {
 function showTooltip(itemId, x, y) {
   const tooltip = document.getElementById('tooltip');
   const item = items[itemId];
+  document.getElementById('tooltip-damage').textContent = ''; // Clear previous damage text
 
   if (!item) return;
 
   document.getElementById('tooltip-name').textContent = item.name;
+  if (item.type === 'weapon') {
+    document.getElementById('tooltip-damage').textContent = `Damage: ${item.damage ? `${item.damage[0]} - ${item.damage[1]}` : ''}`;
+  }
   document.getElementById('tooltip-description').textContent = item.description || 'No description.';
   document.getElementById('tooltip-type').textContent = `Type: ${item.type || 'Unknown'}`;
   document.getElementById('tooltip-value').textContent = `Value: ${item.value || 0} Gold`;
@@ -710,7 +717,7 @@ function handleExplore() {
     }
 
     // If no combat either
-    log("🌿 You explore the area but find nothing of interest.");
+    log("🌿 You explore the area but find nothing of interest this time.");
   }
 }
 

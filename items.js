@@ -151,7 +151,7 @@ export const items = {
   "ancient_relic": {
     id: "ancient_relic",
     name: "Ancient Relic",
-    type: "artifact",
+    type: "accessory",
     subtype: "mystical",
     slot: "accessory",
     effects: [{ type: "buff", stat: "intelligence", amount: 3 }],
