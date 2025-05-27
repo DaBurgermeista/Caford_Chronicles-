@@ -130,6 +130,7 @@ export const items = {
     value: 125,
     weight: 0.1,
     description: "A charm that hums with gentle energy.",
+    flavor: "An old relic said to ward of spirits.",
     icon: "✨",
     rarity: "rare",
     tags: ["artifact", "enchanted", "wisdom"]

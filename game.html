@@ -20,6 +20,38 @@
       <div class="location">📍 Whispering Glade</div>
     </div>
 
+    <div id="combat-wrapper" class="draggable-window">
+      <fieldset class="combat-ui hidden" id="combat-ui">
+        <legend id="enemy-name">Combat</legend>
+        <div class="enemy-panel">
+          <!-- <h3 id="enemy-name">Goblin Raider</h3> -->
+          <img id="enemy-image" src="" alt="Enemy Image" class="enemy-art hidden" />
+
+          <div class="health-bar">
+            <div id="enemy-hp-fill" class="hp-fill"></div>
+            <span id="enemy-hp-text" class="hp-text">30 / 30</span>
+          </div>
+          <pre id="enemy-ascii"></pre>
+          <p id="enemy-description">Snarling and bloodied, but unrelenting</p>
+        </div>
+        <div class="combat-actions hidden" id="combat-actions">
+          <button data-action="attack">Attack</button>
+          <button data-action="skills">Skills</button>
+          <button data-action="items">Items</button>
+          <button data-action="flee">Flee</button>
+        </div>
+      </fieldset>
+    </div>
+
+    <div id="player-stats-wrapper" class="draggable-window">
+      <fieldset class="player-panel hidden" id="player-panel">
+          <legend id="player-name">Daveric</legend>
+          <p>❤️ HP: <span id="player-hp">40</span> / <span id="player-maxhp">40</span></p>
+          <p>🔵 MP: <span id="player-mp">10</span> / <span id="player-maxmp">10</span></p>
+          <p>⚡ Stamina: <span id="player-stamina">20</span></p>
+        </fieldset>
+    </div>
+
     <!-- Main Layout Row -->
     <div class="content-row">
 
@@ -38,35 +70,7 @@
         <div class="sidebar-tab">TAB</div>
       </div>
       <!-- END LEFT SIDEBAR -->
-       <!-- Combat UI -->
-       <fieldset class="combat-ui hidden" id="combat-ui">
-          <legend id="enemy-name">Combat</legend>
-          <div class="enemy-panel">
-            <!-- <h3 id="enemy-name">Goblin Raider</h3> -->
-            <img id="enemy-image" src="" alt="Enemy Image" class="enemy-art hidden" />
 
-            <div class="health-bar">
-              <div id="enemy-hp-fill" class="hp-fill"></div>
-              <span id="enemy-hp-text" class="hp-text">30 / 30</span>
-            </div>
-            <pre id="enemy-ascii"></pre>
-            <p id="enemy-description">Snarling and bloodied, but unrelenting</p>
-          </div>
-          <div class="combat-actions hidden" id="combat-actions">
-          <button data-action="attack">Attack</button>
-          <button data-action="skills">Skills</button>
-          <button data-action="items">Items</button>
-          <button data-action="flee">Flee</button>
-        </div>
-        </fieldset>
-        <fieldset class="player-panel hidden" id="player-panel">
-          <legend id="player-name">Daveric</legend>
-          <p>❤️ HP: <span id="player-hp">40</span> / <span id="player-maxhp">40</span></p>
-          <p>🔵 MP: <span id="player-mp">10</span> / <span id="player-maxmp">10</span></p>
-          <p>⚡ Stamina: <span id="player-stamina">20</span></p>
-        </fieldset>
-        
-        <!-- END Combat UI -->
       <!-- GAME MAIN VIEW -->
       <div class="game-container">
 
@@ -76,26 +80,27 @@
 
 
         <div id="travel-options" class="travel-options"></div>
+        <div id="dialog-wrapper">
+          <fieldset class="dialog-box">
+            <legend id="location-name">Location Name</legend>
+            <p id="location-description">
+              A soft wind brushes the trees. You hear faint chanting deeper in the glade...
+            </p>
+            <fieldset class="location-items">
+              <legend>Items here:</legend>
+              <p id="location-items" class="location-items"></p>
+            </fieldset>
 
-        <fieldset class="dialog-box">
-          <legend id="location-name">Location Name</legend>
-          <p id="location-description">
-            A soft wind brushes the trees. You hear faint chanting deeper in the glade...
-          </p>
-          <fieldset class="location-items">
-            <legend>Items here:</legend>
-            <p id="location-items" class="location-items"></p>
+            <fieldset class="action-log">
+              <legend>Log</legend>
+              <div id="action-log" class="log"></div>
+            </fieldset>
           </fieldset>
 
-          <fieldset class="action-log">
-            <legend>Log</legend>
-            <div id="action-log" class="log"></div>
-          </fieldset>
-        </fieldset>
-
-        <div class="action-bar" id="action-bar">
-          <button id="explore-button">Explore</button>
-          <!-- <button id="travel-button">Travel</button> -->
+          <div class="action-bar" id="action-bar">
+            <button id="explore-button">Explore</button>
+            <!-- <button id="travel-button">Travel</button> -->
+          </div>
         </div>
 
 
@@ -227,13 +232,13 @@
         
       </div>
     </div>
-    <ul id="tooltip" class="tooltip hidden">
-          <h2 id="tooltip-name">Item Name</h2>
-          <li id="tooltip-damage"></li>
-          <li id="tooltip-description">Item description goes here.</li>
-          <li id="tooltip-type">Type: Item Type</li>
-          <li id="tooltip-value">Value: 0 Gold</li>
-        </ul>
+    <div id="tooltip" class="tooltip hidden">
+      <h2 id="tooltip-name" class="tooltip-line">Item Name</h2>
+      <p id="tooltip-damage" class="tooltip-pne"></p>
+      <p id="tooltip-description" class="tooltip-pne">Item description goes here.</p>
+      <p id="tooltip-type" class="tooltip-pne">Type: Item Type</p>
+      <p id="tooltip-value" class="tooltip-pne">Value: 0 Gold</p>
+    </div>
   </body>
 </html>
 

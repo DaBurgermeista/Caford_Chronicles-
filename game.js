@@ -43,10 +43,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  makeDraggable(document.getElementById('combat-wrapper'));
+  makeDraggable(document.getElementById('player-stats-wrapper'));
+
+
 });
 
 function setupSidebar() {
   const sidebar = document.querySelector('.sidebar-wrapper');
+  const sidebarR = document.querySelector('.sidebar-right');
   const tab = document.querySelector('.sidebar-tab');
   const menuItems = document.querySelectorAll('.sidebar li');
 
@@ -61,6 +66,7 @@ function setupSidebar() {
     if (e.key === 'Tab') {
       e.preventDefault();
       sidebar.classList.toggle('hidden');
+      sidebarR.classList.toggle('hidden');
       tab.textContent = sidebar.classList.contains('hidden') ? 'TAB' : 'CLOSE';
     }
   });
@@ -688,13 +694,23 @@ function showTooltip(itemId, x, y) {
 
   if (!item) return;
 
-  document.getElementById('tooltip-name').textContent = item.name;
+  document.getElementById('tooltip-name').innerHTML = `<span style="color:#fff1a8">${item.name}</span>`;
+
   if (item.type === 'weapon') {
     document.getElementById('tooltip-damage').textContent = `Damage: ${item.damage ? `${item.damage[0]} - ${item.damage[1]}` : ''}`;
   }
   document.getElementById('tooltip-description').textContent = item.description || 'No description.';
   document.getElementById('tooltip-type').textContent = `Type: ${item.type || 'Unknown'}`;
   document.getElementById('tooltip-value').textContent = `Value: ${item.value || 0} Gold`;
+
+  let flavorP = tooltip.querySelector('#tooltip-flavor');
+  if (!flavorP && item.flavor) {
+    flavorP = document.createElement("p");
+    flavorP.id = "tooltip-flavor";
+    flavorP.className = "tooltip-line";
+    flavorP.innerHTML = `<em>"${item.flavor}"</em>`;
+    tooltip.appendChild(flavorP);
+  }
 
   tooltip.style.top = `${y + 10}px`;
   tooltip.style.left = `${x + 10}px`;
@@ -1106,4 +1122,41 @@ function renderNpcSidebar(npcList) {
     npcUl.classList.toggle("hidden");
     toggle.textContent = npcUl.classList.contains("hidden") ? "NPCs ▸" : "NPCs ▾";
   };
+}
+
+function makeDraggable(el) {
+  let offsetX = 0, offsetY = 0, startX = 0, startY = 0;
+
+  const header = el.querySelector('.modal-content') || el; // you can scope drag to header or whole box
+
+  header.style.cursor = 'move';
+  header.onmousedown = dragMouseDown;
+
+  function dragMouseDown(e) {
+    e = e || window.event;
+    e.preventDefault();
+    startX = e.clientX;
+    startY = e.clientY;
+
+    document.onmouseup = closeDragElement;
+    document.onmousemove = elementDrag;
+  }
+
+  function elementDrag(e) {
+    e = e || window.event;
+    e.preventDefault();
+
+    offsetX = startX - e.clientX;
+    offsetY = startY - e.clientY;
+    startX = e.clientX;
+    startY = e.clientY;
+
+    el.style.top = (el.offsetTop - offsetY) + "px";
+    el.style.left = (el.offsetLeft - offsetX) + "px";
+  }
+
+  function closeDragElement() {
+    document.onmouseup = null;
+    document.onmousemove = null;
+  }
 }

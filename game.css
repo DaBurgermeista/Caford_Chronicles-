@@ -49,12 +49,12 @@ body.ruins-theme {
 
 /* Center the game-container between sidebars */
 .game-container {
-  display: flex;
+  display: flex; 
   flex-direction: column;
   align-items: center;
   padding: 1rem;
   margin: 0 auto; /* Center horizontally */
-  flex: 1 1 0;
+  flex: 1 0 0;
   max-width: 700px; /* Optional: limit width for better centering */
   min-width: 400px;
 }
@@ -88,15 +88,24 @@ body.ruins-theme {
   background-color: rgba(0, 0, 0, 0.85);
   border: 2px solid #88b47f;
   padding: 1rem;
-  width: 80%;
+  width: 480px;
+  max-width: 90vw;
   font-size: 0.5rem;
-  /* box-shadow: 0 0 6px #6a8e5c, 0 0 10px #4c6f3f;
-  filter: drop-shadow(0 0 4px #e0d1a6); */
 }
 
 .dialog-box h3 {
   color: #dabd50;
 }
+
+#dialog-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  width: fit-content;
+}
+
 
 .location-loot-item {
   color: #88b47f;
@@ -433,6 +442,10 @@ legend {
   transform: translateX(-235px);
 }
 
+.sidebar-right.hidden {
+  transform: translateX(235px);
+}
+
 #inventory-list {
   list-style: none;
   padding: 0;
@@ -548,24 +561,33 @@ legend {
 
 .tooltip {
   position: absolute;
-  background-color: rgba(10, 10, 10, 0.95); 
+  background-color: rgba(10, 10, 10, 0.95);
   border: 2px solid #88b47f;
-  border-radius: 2.5px;
-  padding: 0.5rem;
+  border-radius: 4px;
+  padding: 0.75rem;
   font-family: 'Press Start 2P', monospace;
-  font-size: 0.4rem;
+  font-size: 0.45rem;
   color: #c5f5a3;
   z-index: 10001;
-  list-style: none;
+  width: max-content;
+  max-width: 240px;
   pointer-events: none;
+  text-align: left;
 }
 
 .tooltip h2 {
-  margin-bottom: 0.25rem;
-  font-size: 0.5rem;
+  margin: 0 0 0.5rem 0;
+  font-size: 0.55rem;
   color: #e0d1a6;
-  text-decoration: underline;
 }
+
+.tooltip-line em {
+  color: #dabd50;
+  font-style: italic;
+  display: block;
+  margin-top: 0.5rem;
+}
+
 
 .tooltip.hidden {
   display: none;
@@ -592,6 +614,7 @@ legend {
   color: #c5f5a3;
   font-family: 'Press Start 2P', monospace;
   font-size: 0.5rem;
+  transition: transform 0.3s ease;
   /* border-left: 2px solid #88b47f;
   box-shadow: -2px 0 6px #4c6f3f; */
 }
@@ -769,3 +792,14 @@ legend {
   font-size: 0.45rem;
   outline: none;
 }
+
+.draggable-window {
+  position: absolute;
+  width: fit-content;
+  max-width: 90vw;
+  top: 100px;
+  left: 100px;
+  z-index: 999;
+  cursor: move;
+}
+
