@@ -6,7 +6,7 @@ export const npcs = {
     portrait: "assets/npcs/old_mystic.png", // You can update this to your image path
     dialogue: {
       "start": {
-        text: "🌫️ *A hunched figure emerges from the mist, eyes glowing faintly beneath a hood.*\n\n\"Ah... another soul adrift in the glade.\"",
+        text: `<span style="color: #dabd50;"><em>A hunched figure emerges from the mist, eyes glowing faintly beneath a hood.</em></span><br><br>\"Ah... another soul adrift in the glade.\"`,
         options: [
           { text: "Who are you?", next: "who" },
           { text: "What is this place?", next: "where" },
@@ -30,7 +30,7 @@ export const npcs = {
         ]
       },
       "warning": {
-        text: "*The Mystic leans closer, voice dropping to a rasp.*\n\n\"There is a presence... a hollow song beneath the earth. Something is waking.\"",
+        text: `<span style="color: #dabd50;"><em>The Mystic leans closer, voice dropping to a rasp.</em></span><br><br>\"There is a presence... a hollow song beneath the earth. Something is waking.\"`,
         options: [
           { text: "What should I do?", next: "hint" },
           { text: "You’re mad.", next: "mad" },
@@ -46,7 +46,7 @@ export const npcs = {
         ]
       },
       "peaceful": {
-        text: "*The Mystic chuckles softly.*\n\n\"Then you are either truly brave... or blissfully blind. Time will reveal which.\"",
+        text: `<span style="color: #dabd50;"><em>The Mystic chuckles softly.</em></span><br><br>\"Then you are either truly brave... or blissfully blind. Time will reveal which.\"`,
         options: [
           { text: "So what’s your advice?", next: "hint" },
           { text: "You’re weird.", next: "mad" },
@@ -54,21 +54,21 @@ export const npcs = {
         ]
       },
       "hint": {
-        text: "\"Return to me when the sun is swallowed and the wind carries no birdsong... Only then shall I guide you further.\"\n\n*He turns away, vanishing as silently as he appeared.*",
+        text: "\"Return to me when the sun is swallowed and the wind carries no birdsong... Only then shall I guide you further.\"<br><br>*He turns away, vanishing as silently as he appeared.*",
         options: [
           { text: "I'll be back.", next: "end" }
         ]
         // A quest hook could be triggered here in the future
       },
       "mad": {
-        text: "*The Mystic gives you a tired smile.*\n\n\"Many have said the same... before vanishing forever.\"",
+        text: `<span style="color: #dabd50;"><em>The Mystic gives you a tired smile.</em></span><br><br>\"Many have said the same... before vanishing forever.\"`,
         options: [
           { text: "Creepy.", next: "end" },
           { text: "Goodbye.", next: "end" }
         ]
       },
       "end": {
-        text: "*The Old Mystic bows faintly.*\n\n\"Tread carefully, wanderer. Not all paths lead home...\""
+        text: `<span style="color: #dabd50;"><em>The Old Mystic bows faintly.</em></span><br><br>\"Tread carefully, wanderer. Not all paths lead home...\"`
       }
     }
   }

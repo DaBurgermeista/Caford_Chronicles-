@@ -17,7 +17,7 @@ export function talkToNpc(npcId) {
 function renderNpcDialogue() {
   const node = currentNpc.dialogue[currentNode];
   document.getElementById('npc-name').textContent = currentNpc.name;
-  document.getElementById('npc-dialogue-text').textContent = node.text;
+  document.getElementById('npc-dialogue-text').innerHTML = node.text;
   document.getElementById('npc-portrait').src = currentNpc.portrait || '';
 
   const optionsDiv = document.getElementById('npc-options');
