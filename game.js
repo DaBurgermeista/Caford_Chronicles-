@@ -751,7 +751,7 @@ function showTooltip(itemId, x, y) {
   console.log(`Showing tooltip for: ${itemId}`);
   const tooltip = document.getElementById('tooltip');
   const item = items[itemId];
-  document.getElementById('tooltip-damage').textContent = ''; // Clear previous damage text
+  document.getElementById('tooltip-damage').textContent = '';
 
   if (!item) return;
 
@@ -765,6 +765,11 @@ function showTooltip(itemId, x, y) {
   document.getElementById('tooltip-value').textContent = `Value: ${item.value || 0} Gold`;
 
   let flavorP = tooltip.querySelector('#tooltip-flavor');
+
+  if (flavorP) {
+    flavorP.remove();
+  }
+
   if (!flavorP && item.flavor) {
     flavorP = document.createElement("p");
     flavorP.id = "tooltip-flavor";
@@ -776,7 +781,6 @@ function showTooltip(itemId, x, y) {
   tooltip.style.top = `${y + 10}px`;
   tooltip.style.left = `${x + 10}px`;
   tooltip.classList.remove('hidden');
-  console.log(`Finished Tooltip function: ${item.id}`);
 }
 
 function hideTooltip() {

@@ -882,6 +882,8 @@ legend {
 .drag-handle {
   background-color: rgba(20, 20, 20, 0.9);
   border-bottom: 2px solid #88b47f;
+  height: 30px;
+  margin-top: 0;
   color: #fff1a8;
   padding: 0.25rem 0.5rem;
   font-size: 0.45rem;
