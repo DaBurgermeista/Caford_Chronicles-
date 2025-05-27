@@ -548,14 +548,14 @@ legend {
 
 .tooltip {
   position: absolute;
-  background-color: rgba(10, 10, 10, 0.95);
+  background-color: rgba(10, 10, 10, 0.95); 
   border: 2px solid #88b47f;
   border-radius: 2.5px;
   padding: 0.5rem;
   font-family: 'Press Start 2P', monospace;
   font-size: 0.4rem;
   color: #c5f5a3;
-  z-index: 9999;
+  z-index: 10001;
   list-style: none;
   pointer-events: none;
 }
@@ -569,6 +569,17 @@ legend {
 
 .tooltip.hidden {
   display: none;
+}
+
+.tooltip-item {
+  color: #88b47f;
+  text-decoration: underline dotted;
+  cursor: help;
+}
+
+.tooltip-item:hover {
+  color: #fff1a8;
+  text-shadow: 0 0 5px #dabd50;
 }
 
 .sidebar-right {
@@ -654,7 +665,7 @@ legend {
   font-size: 0.45rem;
   width: 480px;
   max-height: 95vh;
-  overflow-y: auto;
+  overflow-y: visible;
   box-shadow: 0 0 10px #4c6f3f;
 }
 
@@ -715,6 +726,10 @@ legend {
   margin-bottom: 0.25rem;
   color: #dabd50;
   font-size: 0.5rem;
+}
+
+#story-event-modal .modal-content {
+  overflow: visible;
 }
 
 

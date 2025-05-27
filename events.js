@@ -28,15 +28,16 @@ export const events = {
                 } else {
                   player.inventory.push({ id: "mystic_charm", quantity: 1 });
                 }
-
-                return "You find a forgotten altar. A glowing charm lies waiting. It hums with gentle energy.";
                 player.progression.completedEvents.push("forest-chant");
                 renderInventory();
+                renderHud();
+                return "You find a forgotten altar. You find a glowing <span class='tooltip-item' data-itemid='mystic_charm'>Mystic Charm</span> nestled in the roots. It hums with gentle energy.";
               } else {
                 player.derivedStats.hp = Math.max(0, player.derivedStats.hp - 5);
+                renderHud();
                 return "You stumble through brambles, bloodied and confused. The chanting fades.";
               }
-              renderHud();
+              
             }
           },
           {
@@ -58,7 +59,6 @@ export const events = {
     effect: (player, location) => {
         if (player.progression.completedEvents.includes("glade-hollow-tree")) {
         return "The hollow is empty now, just a silent knot in the bark.";
-        return;
         }
 
         showStoryEventDialog(
@@ -70,14 +70,14 @@ export const events = {
             action: () => {
                 if (player.coreStats.dexterity >= 8) {
                 player.inventory.push({ id: "silver_leaf", quantity: 1 });
-                return "You deftly retrieve a rare Silver Leaf from inside!";
                 player.progression.completedEvents.push("glade-hollow-tree");
                 renderInventory();
+                return "You deftly retrieve a rare Silver Leaf from inside!";
                 } else {
                 player.derivedStats.hp = Math.max(0, player.derivedStats.hp - 3);
-                return "You reach in and something bites! You pull your hand back, bleeding.";
-                }
                 renderHud();
+                return "You reach in and something bites! You pull your hand back, bleeding.";
+                }               
             }
             },
             {
@@ -150,14 +150,15 @@ export const events = {
             action: () => {
                 if (player.coreStats.strength >= 9) {
                 player.inventory.push({ id: "ancient_relic", quantity: 1 });
-                return "You climb down and recover an Ancient Relic from the rubble.";
                 player.progression.completedEvents.push("ruins-collapse");
                 renderInventory();
+                renderHud();
+                return "You climb down and recover an Ancient Relic from the rubble.";
                 } else {
                 player.derivedStats.hp = Math.max(0, player.derivedStats.hp - 4);
+                renderHud();
                 return "You lose your footing and land hard. The relic remains out of reach.";
                 }
-                renderHud();
             }
             },
             {

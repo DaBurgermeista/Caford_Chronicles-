@@ -681,6 +681,7 @@ function pickUpItem(itemId) {
 }
 
 function showTooltip(itemId, x, y) {
+  console.log(`Showing tooltip for: ${itemId}`);
   const tooltip = document.getElementById('tooltip');
   const item = items[itemId];
   document.getElementById('tooltip-damage').textContent = ''; // Clear previous damage text
@@ -698,6 +699,7 @@ function showTooltip(itemId, x, y) {
   tooltip.style.top = `${y + 10}px`;
   tooltip.style.left = `${x + 10}px`;
   tooltip.classList.remove('hidden');
+  console.log(`Finished Tooltip function: ${item.id}`);
 }
 
 function hideTooltip() {
@@ -971,27 +973,24 @@ export function showStoryEventDialog(title, description, choices) {
   const choicesContainer = document.getElementById("story-event-choices");
 
   titleElem.textContent = title;
-  textElem.textContent = description;
+  textElem.innerHTML = description;
   choicesContainer.innerHTML = ""; // Clear previous
 
-  // Store result text here
   let postActionText = "";
 
   choices.forEach(choice => {
     const btn = document.createElement("button");
     btn.textContent = choice.text;
     btn.onclick = () => {
-      // Run their action but don't close modal
       const result = choice.action();
       if (typeof result === 'string') {
         postActionText = result;
       }
 
-      // Replace choices with just a "Close" button and result (if any)
       choicesContainer.innerHTML = "";
       if (postActionText) {
         const resultP = document.createElement("p");
-        resultP.textContent = postActionText;
+        resultP.innerHTML = postActionText;
         resultP.style.marginTop = "1rem";
         resultP.style.color = "#baff5b";
         choicesContainer.appendChild(resultP);
@@ -1001,14 +1000,37 @@ export function showStoryEventDialog(title, description, choices) {
       closeBtn.textContent = "Close";
       closeBtn.onclick = () => modal.classList.add("hidden");
       choicesContainer.appendChild(closeBtn);
+
+      // ✅ Rebind tooltips after dynamic result HTML is added
+      bindTooltips(choicesContainer);
     };
     choicesContainer.appendChild(btn);
   });
 
   modal.classList.remove("hidden");
+
+  // ✅ Initial bind for tooltip-items in description
+  bindTooltips(modal);
 }
 
+// ✅ Helper function to rebind tooltip listeners
+function bindTooltips(root) {
+  root.querySelectorAll('.tooltip-item').forEach(el => {
+    const itemId = el.dataset.itemid;
 
+    el.addEventListener('mouseenter', (e) => {
+      showTooltip(itemId, e.clientX, e.clientY);
+    });
+
+    el.addEventListener('mouseleave', hideTooltip);
+
+    el.addEventListener('mousemove', (e) => {
+      const tooltip = document.getElementById("tooltip");
+      tooltip.style.top = `${e.clientY + 10}px`;
+      tooltip.style.left = `${e.clientX + 10}px`;
+    });
+  });
+}
 
 
 export function triggerEventsFor(location, triggerType) {
@@ -1018,7 +1040,7 @@ export function triggerEventsFor(location, triggerType) {
     console.log(`Event's here ${event.name}, Chance: ${event.chance}`)
     if (
       event.trigger === triggerType &&
-      !player.progression.completedEvents.includes(event.id) &&
+      // !player.progression.completedEvents.includes(event.id) &&
       Math.random() < event.chance
     ) {
       event.effect(player, location);
