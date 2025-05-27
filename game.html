@@ -86,6 +86,10 @@
             <legend>Items here:</legend>
             <p id="location-items" class="location-items"></p>
           </fieldset>
+          <fieldset class="location-npcs">
+            <legend>NPC's:</legend>
+            <p id="location-npcs", class="location-npcs"></p>
+          </fieldset>
           <fieldset class="action-log">
             <legend>Log</legend>
             <div id="action-log" class="log"></div>
@@ -185,6 +189,16 @@
         <p id="story-event-text">Event description goes here.</p>
         <div id="story-event-choices"></div>
       </fieldset>
+    </div>
+
+    <div id="npc-modal" class="modal hidden">
+      <div class="modal-content">
+        <img id="npc-portrait" class="location-art" />
+        <h2 id="npc-name">NPC Name</h2>
+        <p id="npc-dialogue-text">Dialogue line here...</p>
+        <div id="npc-options"></div>
+        <button onclick="closeNpcModal()">Close</button>
+      </div>
     </div>
 
 

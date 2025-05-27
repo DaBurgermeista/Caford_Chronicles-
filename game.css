@@ -110,6 +110,30 @@ body.ruins-theme {
   text-shadow: 0 0 5px #dabd50;
 }
 
+
+
+.location-npcs legend {
+  color: #e0d1a6;
+  text-shadow: 0 0 4px #a2967c;
+  font-size: 0.55rem;
+  padding: 0 0.5rem;
+}
+
+.location-npcs span {
+  color: #88b47f;
+  text-decoration: underline dotted;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-right: 0.5rem;
+  display: inline-block;
+}
+
+.location-npcs span:hover {
+  color: #fff1a8;
+  text-shadow: 0 0 5px #dabd50;
+}
+
+
 .enemy-container {
   position: relative;
   /* left: -200px; */
@@ -648,6 +672,10 @@ legend {
   text-shadow: 0 0 2px #4c6f3f;
   margin-top: 0.5rem;
   box-shadow: 0 0 6px #4c6f3f;
+
+  appearance: none;
+  -webkit-appearance: none; /* for Safari/Chrome */
+  -moz-appearance: none;    /* for Firefox */
 }
 
 .modal-content select:focus {
@@ -655,6 +683,11 @@ legend {
   background-color: #c5f5a3;
   color: #000;
   border-color: #e0d1a6;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23c5f5a3" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 0.6rem center;
+  background-size: 1rem;
+  padding-right: 2rem; /* Space for arrow */
 }
 
 .modal-content label {

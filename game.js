@@ -6,6 +6,8 @@ import { items } from './items.js';
 console.log("Loaded items:", items);
 import { enemies } from './enemy.js';
 console.log("Loaded enemies:", enemies);
+import { talkToNpc } from './npc.js';
+import { npcs } from '/npcs.js';
 
 let currentEnemy = null; // Initialize current enemy
 let draggedItemID = null; // For drag-and-drop 
@@ -14,6 +16,7 @@ function getEquippedWeapon() {
   return id ? items[id] : null;
 }
 
+window.talkToNpc = talkToNpc;
 
 // functionality
 let isDragging = false; // Track if an item is being dragged
@@ -163,6 +166,14 @@ function renderLocation() {
   console.log("Current location:", player.location);
   console.log("All locations:", Object.keys(locations));
 
+  const npcList = locationData.npcs || [];
+  const npcHTML = npcList.map(id => {
+    const npc = npcs[id];
+    return `<span class="location-npc-item" onclick="talkToNpc('${id}')">${npc.name}</span>`;
+  }).join(", ");
+
+  document.getElementById("location-npcs").innerHTML = npcHTML;
+
   document.body.className = ''; // Clear old theme
   if (locationData.theme === 'forest') {
     document.body.classList.add('forest-theme');
@@ -179,13 +190,6 @@ function renderLocation() {
 
   // Image or ASCII art
   const img = document.getElementById('location-image');
-
-  // if (locationData.image) {
-  //   img.src = locationData.image;
-  //   img.classList.remove('hidden');
-  // } else {
-  //   img.classList.add('hidden');
-  // }
 
   document.getElementById('action-log').innerHTML = ''; // Clear previous actions log
   if (!locationData.discovered){

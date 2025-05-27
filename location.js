@@ -14,7 +14,7 @@ export const locations = {
     ambientSound: 'birds-chirping.mp3',
     theme: 'forest', // for future background styling
     events: [events['forest-chant'], events['glade-hollow-tree']],
-    npcs: [],
+    npcs: ["old_mystic"],
     hostiles: ['goblin_raider', 'whisper_wisp', 'mossling', 
       'verdant_shade', 'gladefang_wolf', 'barbed_stag', 'needlewing_swarm',
       'chanter_of_bark', 'fey_trickster', 'hallow_eyed_watcher', 'the_thorned_sentinel',],
