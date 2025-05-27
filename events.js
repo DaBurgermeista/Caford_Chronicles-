@@ -29,12 +29,12 @@ export const events = {
                   player.inventory.push({ id: "mystic_charm", quantity: 1 });
                 }
 
-                log("You find a forgotten altar. A glowing charm lies waiting. It hums with gentle energy.");
+                return "You find a forgotten altar. A glowing charm lies waiting. It hums with gentle energy.";
                 player.progression.completedEvents.push("forest-chant");
                 renderInventory();
               } else {
                 player.derivedStats.hp = Math.max(0, player.derivedStats.hp - 5);
-                log("You stumble through brambles, bloodied and confused. The chanting fades.");
+                return "You stumble through brambles, bloodied and confused. The chanting fades.";
               }
               renderHud();
             }
@@ -42,7 +42,7 @@ export const events = {
           {
             text: "Ignore It",
             action: () => {
-              log("You keep moving. The chanting fades. But you feel watched...");
+              return "You keep moving. The chanting fades. But you feel watched...";
             }
           }
         ]
@@ -57,7 +57,7 @@ export const events = {
     description: "You find an ancient tree with a dark hollow. Something gleams inside.",
     effect: (player, location) => {
         if (player.progression.completedEvents.includes("glade-hollow-tree")) {
-        log("The hollow is empty now, just a silent knot in the bark.");
+        return "The hollow is empty now, just a silent knot in the bark.";
         return;
         }
 
@@ -70,12 +70,12 @@ export const events = {
             action: () => {
                 if (player.coreStats.dexterity >= 8) {
                 player.inventory.push({ id: "silver_leaf", quantity: 1 });
-                log("You deftly retrieve a rare Silver Leaf from inside!");
+                return "You deftly retrieve a rare Silver Leaf from inside!";
                 player.progression.completedEvents.push("glade-hollow-tree");
                 renderInventory();
                 } else {
                 player.derivedStats.hp = Math.max(0, player.derivedStats.hp - 3);
-                log("You reach in and something bites! You pull your hand back, bleeding.");
+                return "You reach in and something bites! You pull your hand back, bleeding.";
                 }
                 renderHud();
             }
@@ -83,7 +83,7 @@ export const events = {
             {
             text: "Leave it alone",
             action: () => {
-                log("You decide not to risk it. The forest watches in silence.");
+                return "You decide not to risk it. The forest watches in silence.";
             }
             }
         ]
@@ -91,22 +91,44 @@ export const events = {
     }
     },
     "ruins-echoes": {
-    id: "ruins-echoes",
-    name: "Echoes of War",
-    trigger: "onEnter",
-    chance: 1.0,
-    description: "You step through the crumbling arch and feel a sudden chill, as if the ruin remembers something...",
-    effect: (player, location) => {
+      id: "ruins-echoes",
+      name: "Echoes of War",
+      trigger: "onEnter",
+      chance: 0.3,
+      description: "You step through the crumbling arch and feel a sudden chill, as if the ruin remembers something...",
+      effect: (player, location) => {
         if (player.progression.completedEvents.includes("ruins-echoes")) {
-        log("The silence feels heavier than before, like the ruin is watching you.");
-        return;
+          showStoryEventDialog(
+            "Echoes of War",
+            "The silence feels heavier than before, like the ruin is watching you.",
+            [
+              {
+                text: "Close",
+                action: () => {
+                  return "You quietly move on, trying not to disturb the ghosts of the past.";
+                }
+              }
+            ]
+          );
+          return;
         }
 
-        log("Ghostly figures shimmer into view — soldiers locked in eternal battle. You watch as they vanish into dust.");
-        player.progression.completedEvents.push("ruins-echoes");
-        player.progression.xp += 10;
-        renderHud();
-    }
+        showStoryEventDialog(
+          "Echoes of War",
+          "Ghostly figures shimmer into view — soldiers locked in eternal battle. You watch as they vanish into dust.",
+          [
+            {
+              text: "Continue",
+              action: () => {
+                player.progression.completedEvents.push("ruins-echoes");
+                player.progression.xp += 10;
+                renderHud();
+                return "The vision fades. You feel the weight of unseen memories... and gain 10 XP.";
+              }
+            }
+          ]
+        );
+      }
     },
     "ruins-collapse": {
     id: "ruins-collapse",
@@ -116,8 +138,7 @@ export const events = {
     description: "The ground shifts underfoot. A nearby passage groans ominously...",
     effect: (player, location) => {
         if (player.progression.completedEvents.includes("ruins-collapse")) {
-        log("You remember where the collapse happened and avoid it carefully.");
-        return;
+        return "You remember where the collapse happened and avoid it carefully.";
         }
 
         showStoryEventDialog(
@@ -129,12 +150,12 @@ export const events = {
             action: () => {
                 if (player.coreStats.strength >= 9) {
                 player.inventory.push({ id: "ancient_relic", quantity: 1 });
-                log("You climb down and recover an Ancient Relic from the rubble.");
+                return "You climb down and recover an Ancient Relic from the rubble.";
                 player.progression.completedEvents.push("ruins-collapse");
                 renderInventory();
                 } else {
                 player.derivedStats.hp = Math.max(0, player.derivedStats.hp - 4);
-                log("You lose your footing and land hard. The relic remains out of reach.");
+                return "You lose your footing and land hard. The relic remains out of reach.";
                 }
                 renderHud();
             }
@@ -142,7 +163,7 @@ export const events = {
             {
             text: "Stay above",
             action: () => {
-                log("You back away cautiously. Whatever’s down there will have to wait.");
+                return "You back away cautiously. Whatever’s down there will have to wait.";
             }
             }
         ]

@@ -609,6 +609,25 @@ legend {
   text-shadow: 0 0 6px #dabd50;
 }
 
+#npc-list {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 0.5rem;
+}
+
+#npc-list li {
+  padding: 0.25rem 0;
+  border-bottom: 1px dashed #88b47f;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+#npc-list li:hover {
+  color: #fff1a8;
+  text-shadow: 0 0 6px #dabd50;
+}
+
+
 .modal {
   position: fixed;
   top: 0;

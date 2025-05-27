@@ -6,7 +6,7 @@ import { items } from './items.js';
 console.log("Loaded items:", items);
 import { enemies } from './enemy.js';
 console.log("Loaded enemies:", enemies);
-import { talkToNpc } from './npc.js';
+import { talkToNpc, closeNpcModal } from './npc.js';
 import { npcs } from '/npcs.js';
 
 let currentEnemy = null; // Initialize current enemy
@@ -16,6 +16,7 @@ function getEquippedWeapon() {
   return id ? items[id] : null;
 }
 
+window.closeNpcModal = closeNpcModal;
 window.talkToNpc = talkToNpc;
 
 // functionality
@@ -169,10 +170,14 @@ function renderLocation() {
   const npcList = locationData.npcs || [];
   const npcHTML = npcList.map(id => {
     const npc = npcs[id];
+    if (!npc) {
+      console.warn(`Missing NPC definition for ID: ${id}`);
+      return '';
+    }
     return `<span class="location-npc-item" onclick="talkToNpc('${id}')">${npc.name}</span>`;
-  }).join(", ");
+  }).filter(Boolean).join(", ");
 
-  document.getElementById("location-npcs").innerHTML = npcHTML;
+  renderNpcSidebar(locationData.npcs || []);
 
   document.body.className = ''; // Clear old theme
   if (locationData.theme === 'forest') {
@@ -967,14 +972,35 @@ export function showStoryEventDialog(title, description, choices) {
 
   titleElem.textContent = title;
   textElem.textContent = description;
-  choicesContainer.innerHTML = ""; // Clear previous buttons
+  choicesContainer.innerHTML = ""; // Clear previous
+
+  // Store result text here
+  let postActionText = "";
 
   choices.forEach(choice => {
     const btn = document.createElement("button");
     btn.textContent = choice.text;
     btn.onclick = () => {
-      modal.classList.add("hidden");
-      choice.action();
+      // Run their action but don't close modal
+      const result = choice.action();
+      if (typeof result === 'string') {
+        postActionText = result;
+      }
+
+      // Replace choices with just a "Close" button and result (if any)
+      choicesContainer.innerHTML = "";
+      if (postActionText) {
+        const resultP = document.createElement("p");
+        resultP.textContent = postActionText;
+        resultP.style.marginTop = "1rem";
+        resultP.style.color = "#baff5b";
+        choicesContainer.appendChild(resultP);
+      }
+
+      const closeBtn = document.createElement("button");
+      closeBtn.textContent = "Close";
+      closeBtn.onclick = () => modal.classList.add("hidden");
+      choicesContainer.appendChild(closeBtn);
     };
     choicesContainer.appendChild(btn);
   });
@@ -983,16 +1009,22 @@ export function showStoryEventDialog(title, description, choices) {
 }
 
 
+
+
 export function triggerEventsFor(location, triggerType) {
   if (!location.events) return false;
 
   for (const event of location.events) {
+    console.log(`Event's here ${event.name}, Chance: ${event.chance}`)
     if (
       event.trigger === triggerType &&
       !player.progression.completedEvents.includes(event.id) &&
       Math.random() < event.chance
     ) {
       event.effect(player, location);
+      console.log(`Event: ${event.name} triggered.`);
+      event.showStoryEventDialog;
+
       return true; // An event triggered
     }
   }
@@ -1031,3 +1063,25 @@ document.getElementById('ui-scale').addEventListener('change', (e) => {
   applyUIScale(scale);
 });
 
+function renderNpcSidebar(npcList) {
+  const npcUl = document.getElementById("npc-list");
+  npcUl.innerHTML = ''; // Clear previous list
+
+  npcList.forEach(id => {
+    const npc = npcs[id];
+    if (!npc) return;
+
+    const li = document.createElement("li");
+    li.textContent = npc.name;
+    li.classList.add("sidebar-npc-entry");
+    li.onclick = () => talkToNpc(id);
+    npcUl.appendChild(li);
+  });
+
+  // Show toggle arrow correctly
+  const toggle = document.getElementById("npc-toggle");
+  toggle.onclick = () => {
+    npcUl.classList.toggle("hidden");
+    toggle.textContent = npcUl.classList.contains("hidden") ? "NPCs ▸" : "NPCs ▾";
+  };
+}

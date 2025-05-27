@@ -86,10 +86,7 @@
             <legend>Items here:</legend>
             <p id="location-items" class="location-items"></p>
           </fieldset>
-          <fieldset class="location-npcs">
-            <legend>NPC's:</legend>
-            <p id="location-npcs", class="location-npcs"></p>
-          </fieldset>
+
           <fieldset class="action-log">
             <legend>Log</legend>
             <div id="action-log" class="log"></div>
@@ -114,6 +111,9 @@
       <div class="sidebar-right">
         <h3>Destinations</h3>
         <ul id="destination-list"></ul>
+        
+        <h3 id="npc-toggle" style="cursor: pointer;">NPC's</h3>
+        <ul id="npc-list" class="hidden"></ul>
       </div>
 
     </div> <!-- end .content-row -->
@@ -189,6 +189,7 @@
         <p id="story-event-text">Event description goes here.</p>
         <div id="story-event-choices"></div>
       </fieldset>
+      <button id="close-event">Close</button>
     </div>
 
     <div id="npc-modal" class="modal hidden">
