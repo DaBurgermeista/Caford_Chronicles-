@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Adventurer's Guild - Game</title>
+    <title>Caford Chronicles - Game</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
     <link rel="icon" type="image/png" href="assets/favicon.png" />
     <link rel="stylesheet" href="game.css" />
@@ -124,7 +124,7 @@
     </div> <!-- end .content-row -->
 
     <!-- MODALS -->
-    <div id="stats-modal" class="modal hidden">
+    <div id="stats-modal" class="modal hidden draggable-window">
       <div class="modal-content">
         <h2>Player Stats</h2>
 
@@ -197,7 +197,7 @@
       <!-- <button id="close-event">Close</button> -->
     </div>
 
-    <div id="npc-modal" class="modal hidden">
+    <div id="npc-modal" class="modal hidden draggable-window">
       <div class="modal-content">
         <img id="npc-portrait" class="location-art" />
         <h2 id="npc-name">NPC Name</h2>
@@ -208,8 +208,9 @@
     </div>
 
 
-    <div id="inventory-modal" class="modal hidden">
+    <div id="inventory-modal" class="modal hidden draggable-window">
       <div class="modal-content inventory-layout">
+        <div class="drag-handle"></div>
         <h2>Inventory</h2>
         <div class="inventory-columns">
           <div class="inventory-list">

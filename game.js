@@ -45,7 +45,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   makeDraggable(document.getElementById('combat-wrapper'));
   makeDraggable(document.getElementById('player-stats-wrapper'));
+  makeDraggable(document.getElementById('npc-modal'));
+  makeDraggable(document.getElementById('stats-modal'));
+  makeDraggable(document.getElementById('inventory-modal'), '.drag-handle');
 
+
+  document.getElementById('options-modal').addEventListener('click', (e) => {
+    if (e.target.id === 'options-modal') {
+      e.currentTarget.classList.add('hidden');
+    }
+  });
 
 });
 
@@ -59,6 +68,7 @@ function setupSidebar() {
 
   tab.addEventListener('click', () => {
     sidebar.classList.toggle('hidden');
+    sidebarR.classList.toggle('hidden');
     tab.textContent = sidebar.classList.contains('hidden') ? 'TAB' : 'CLOSE';
   });
 
@@ -1124,35 +1134,33 @@ function renderNpcSidebar(npcList) {
   };
 }
 
-function makeDraggable(el) {
+function makeDraggable(container, handleSelector = null) {
+  const handle = handleSelector
+    ? container.querySelector(handleSelector)
+    : container;
+
   let offsetX = 0, offsetY = 0, startX = 0, startY = 0;
 
-  const header = el.querySelector('.modal-content') || el; // you can scope drag to header or whole box
-
-  header.style.cursor = 'move';
-  header.onmousedown = dragMouseDown;
+  handle.style.cursor = 'move';
+  handle.onmousedown = dragMouseDown;
 
   function dragMouseDown(e) {
-    e = e || window.event;
     e.preventDefault();
     startX = e.clientX;
     startY = e.clientY;
-
     document.onmouseup = closeDragElement;
     document.onmousemove = elementDrag;
   }
 
   function elementDrag(e) {
-    e = e || window.event;
     e.preventDefault();
-
     offsetX = startX - e.clientX;
     offsetY = startY - e.clientY;
     startX = e.clientX;
     startY = e.clientY;
 
-    el.style.top = (el.offsetTop - offsetY) + "px";
-    el.style.left = (el.offsetLeft - offsetX) + "px";
+    container.style.top = (container.offsetTop - offsetY) + "px";
+    container.style.left = (container.offsetLeft - offsetX) + "px";
   }
 
   function closeDragElement() {
@@ -1160,3 +1168,4 @@ function makeDraggable(el) {
     document.onmousemove = null;
   }
 }
+

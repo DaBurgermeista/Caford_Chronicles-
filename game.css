@@ -668,7 +668,7 @@ legend {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(20, 20, 20, 0.9);
+  /* background-color: rgba(20, 20, 20, 0.9); */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -751,10 +751,17 @@ legend {
   font-size: 0.5rem;
 }
 
+#options-modal {
+  background-color: rgba(20, 20, 20, 0.85);
+}
+
+#story-event-modal{
+  background-color: rgba(20, 20, 20, 0.85);
+}
+
 #story-event-modal .modal-content {
   overflow: visible;
 }
-
 
 .console {
   position: fixed;
@@ -803,3 +810,12 @@ legend {
   cursor: move;
 }
 
+.drag-handle {
+  background-color: rgba(20, 20, 20, 0.9);
+  border-bottom: 2px solid #88b47f;
+  color: #fff1a8;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.45rem;
+  cursor: move;
+  text-align: center;
+}
