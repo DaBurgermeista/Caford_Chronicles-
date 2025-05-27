@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'Pixellari';
+  src: url('assets/fonts/Pixellari.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
   overflow: hidden;
   margin: 1;
@@ -7,7 +14,7 @@ body {
   box-sizing: border-box;
   box-shadow: 0 0 8px #00ff00; */
   min-height: 100vh;
-  font-family: 'Press Start 2P', monospace;
+  font-family: 'Pixellari', monospace;
   font-size: calc(12px + 0.25vw); /*Scale root font size based on screen width*/
   background-color: rgb(0, 0, 0);
   background-image: url('https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/cad90a2a-ca89-498f-ae03-26bd1f37c988/djpq3t6-f59b20c1-dea0-464f-be13-e6f7f134d58e.jpg/v1/fill/w_1170,h_651,q_75,strp/pixel__art_by_neosketcher1_djpq3t6-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NjUxIiwicGF0aCI6IlwvZlwvY2FkOTBhMmEtY2E4OS00OThmLWFlMDMtMjZiZDFmMzdjOTg4XC9kanBxM3Q2LWY1OWIyMGMxLWRlYTAtNDY0Zi1iZTEzLWU2ZjdmMTM0ZDU4ZS5qcGciLCJ3aWR0aCI6Ijw9MTE3MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.eG5IT3gLGdkLvqNKbaEFjqF6GSLe7U2Afp4yqgb7Ugc');
@@ -128,7 +135,7 @@ body {
   max-width: 500px;
   width: 90%;
   color: #baff5b;
-  font-family: 'Press Start 2P', monospace;
+  font-family: 'Pixellari', monospace;
   /* box-shadow: 0 0 10px #00ff00; */
   text-align: center;
 }
@@ -150,7 +157,7 @@ body {
 
 .modal-content button {
   margin: 1rem;
-  font-family: 'Press Start 2P', monospace;
+  font-family: 'Pixellari', monospace;
   font-size: 0.6rem;
   background: black;
   color: #baff5b;
@@ -172,7 +179,7 @@ body {
   right: 16px;
   font-size: 0.6rem;
   color: #88ff88;
-  font-family: 'Press Start 2P', monospace;
+  font-family: 'Pixellari', monospace;
   text-shadow: 0 0 4px #00ff00;
   z-index: 10;
   opacity: 0.7;

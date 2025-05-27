@@ -8,7 +8,9 @@ import { enemies } from './enemy.js';
 console.log("Loaded enemies:", enemies);
 import { talkToNpc, closeNpcModal } from './npc.js';
 import { npcs } from '/npcs.js';
+import { getAllEntries, unlockJournalEntry, getUnlockedEntries } from './journal.js';
 
+let activeJournalCategory = 'all';
 let currentEnemy = null; // Initialize current enemy
 let draggedItemID = null; // For drag-and-drop 
 function getEquippedWeapon() {
@@ -21,6 +23,8 @@ window.talkToNpc = talkToNpc;
 
 // functionality
 let isDragging = false; // Track if an item is being dragged
+
+unlockJournalEntry("chanter-of-bark");
 
 document.addEventListener('DOMContentLoaded', () => {
   setupSidebar();
@@ -41,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (action) {
       playerAction(action);
     }
+
   });
 
   makeDraggable(document.getElementById('combat-wrapper'));
@@ -49,6 +54,21 @@ document.addEventListener('DOMContentLoaded', () => {
   makeDraggable(document.getElementById('stats-modal'));
   makeDraggable(document.getElementById('inventory-modal'), '.drag-handle');
 
+  document.querySelectorAll(".journal-tab").forEach(button => {
+    button.addEventListener("click", () => {
+      activeJournalCategory = button.dataset.category;
+
+      // Clear current active state
+      document.querySelectorAll(".journal-tab").forEach(btn =>
+        btn.classList.remove("active")
+      );
+
+      // Set new active
+      button.classList.add("active");
+
+      renderJournal();
+    });
+  });
 
   document.getElementById('options-modal').addEventListener('click', (e) => {
     if (e.target.id === 'options-modal') {
@@ -58,14 +78,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
+
 function setupSidebar() {
   const sidebar = document.querySelector('.sidebar-wrapper');
   const sidebarR = document.querySelector('.sidebar-right');
   const tab = document.querySelector('.sidebar-tab');
-  const menuItems = document.querySelectorAll('.sidebar li');
 
   if (!sidebar || !tab) return;
 
+  const menuDefinitions = [
+    { label: "Stats", handler: openStats },
+    { label: "Inventory", handler: openInventory },
+    { label: "Quests", handler: openQuests },
+    { label: "Save Game", handler: () => {
+      console.log("Saving game... returning to menu.");
+      window.location.href = "index.html";
+    }},
+    { label: "Settings", handler: openSettings },
+    { label: "Journal", handler: openJournal },
+  ];
+
+  const sidebarList = document.querySelector(".sidebar ul");
+  sidebarList.innerHTML = "";
+
+  menuDefinitions.forEach(({ label, handler }) => {
+    const li = document.createElement("li");
+    li.textContent = label;
+    li.addEventListener("click", handler);
+    sidebarList.appendChild(li);
+  });
+
+  // Toggle button
   tab.addEventListener('click', () => {
     sidebar.classList.toggle('hidden');
     sidebarR.classList.toggle('hidden');
@@ -81,19 +124,27 @@ function setupSidebar() {
     }
   });
 
-  menuItems.forEach((item) => {
-    item.addEventListener('click', () => {
-      const text = item.textContent.trim();
-
-      if (text === 'Save Game') {
-        console.log('Saving game... returning to menu.');
-        window.location.href = 'index.html';
-      }
-
-      // TODO: Add logic for stats, inventory, quests, settings
-    });
-  });
+  // Close button on journal modal
+  document.getElementById("close-journal").addEventListener("click", closeJournal);
 }
+
+
+function openStats() {
+  document.getElementById("stats-modal").classList.remove("hidden");
+}
+
+function openInventory() {
+  document.getElementById("inventory-modal").classList.remove("hidden");
+}
+
+function openQuests() {
+  log("Quests system coming soon!");
+}
+
+function openSettings() {
+  document.getElementById('options-modal').classList.remove('hidden');
+}
+
 
 function renderDestinationSidebar() {
   const current = locations[player.location];
@@ -1169,3 +1220,99 @@ function makeDraggable(container, handleSelector = null) {
   }
 }
 
+
+function renderJournal() {
+  const list = document.getElementById("journal-list");
+  const text = document.getElementById("journal-entry-text");
+  const title = document.getElementById("journal-entry-title");
+  const image = document.getElementById("journal-entry-image");
+
+  title.textContent = "";
+  text.textContent = "";
+  image.classList.add("hidden");
+  image.src = "";
+
+  list.innerHTML = "";
+
+  const categories = ['enemy', 'location', 'legend'];
+  const entries = getAllEntries();
+
+  categories.forEach(cat => {
+    const header = document.createElement("div");
+    header.textContent = `▶ ${capitalize(cat)}s`;
+    header.classList.add("journal-category-header");
+
+    const container = document.createElement("div");
+    container.classList.add("journal-entry-container", "hidden");
+
+    entries
+      .filter(e => e.category === cat)
+      .forEach(entry => {
+        const item = document.createElement("div");
+        item.classList.add("journal-entry");
+        item.textContent = entry.unlocked ? entry.title : "???";
+
+        if (!entry.unlocked && entry.locationHint) {
+          item.title = `Hint: Try exploring ${entry.locationHint}`;
+        }
+
+        item.onclick = () => {
+          if (!entry.unlocked) return;
+
+          title.textContent = entry.title;
+          text.textContent = entry.text;
+
+          if (entry.image) {
+            image.src = entry.image;
+            image.classList.remove("hidden");
+          } else {
+            image.classList.add("hidden");
+          }
+
+          document.querySelectorAll(".journal-entry").forEach(el =>
+            el.classList.remove("selected")
+          );
+          item.classList.add("selected");
+        };
+
+        container.appendChild(item);
+      });
+
+    header.addEventListener("click", () => {
+      container.classList.toggle("hidden");
+      header.textContent = container.classList.contains("hidden")
+        ? `▶ ${capitalize(cat)}s`
+        : `▼ ${capitalize(cat)}s`;
+    });
+
+    list.appendChild(header);
+    list.appendChild(container);
+  });
+
+  // % Progress
+  const unlocked = getUnlockedEntries().length;
+  const total = getAllEntries().length;
+  document.getElementById("journal-progress").textContent = `${unlocked}/${total} unlocked`;
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+
+
+function openJournal() {
+  renderJournal();
+
+  // Set 'All' tab as active by default
+  document.querySelectorAll(".journal-tab").forEach(btn =>
+    btn.classList.remove("active")
+  );
+  document.querySelector('.journal-tab[data-category="all"]')?.classList.add("active");
+
+  document.getElementById("journal-modal").classList.remove("hidden");
+}
+
+function closeJournal() {
+  document.getElementById("journal-modal").classList.add("hidden");
+}

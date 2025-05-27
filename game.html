@@ -60,11 +60,11 @@
         <div class="sidebar">
           <h3>Player Menu</h3>
           <ul>
-            <li>Stats</li>
+            <li id="open-stats">Stats</li>
             <li id="open-inventory">Inventory</li>
-            <li>Quests</li>
-            <li>Save Game</li>
-            <li>Settings</li>
+            <li id="open-quests">Quests</li>
+            <li id="open-save">Save Game</li>
+            <li id="open-settings">Settings</li>
           </ul>
         </div>
         <div class="sidebar-tab">TAB</div>
@@ -80,12 +80,9 @@
 
 
         <div id="travel-options" class="travel-options"></div>
-        <div id="dialog-wrapper">
-          <fieldset class="dialog-box">
-            <legend id="location-name">Location Name</legend>
-            <p id="location-description">
-              A soft wind brushes the trees. You hear faint chanting deeper in the glade...
-            </p>
+          <div class="dialog-box layout-2col">
+            <!-- LEFT SIDE: Items + Log -->
+            <div class="dialog-left">
             <fieldset class="location-items">
               <legend>Items here:</legend>
               <p id="location-items" class="location-items"></p>
@@ -95,11 +92,14 @@
               <legend>Log</legend>
               <div id="action-log" class="log"></div>
             </fieldset>
-          </fieldset>
+          </div>
 
-          <div class="action-bar" id="action-bar">
-            <button id="explore-button">Explore</button>
-            <!-- <button id="travel-button">Travel</button> -->
+          <!-- RIGHT SIDE: Location Info -->
+          <div class="dialog-right">
+            <h3 id="location-name">Location Name</h3>
+            <p id="location-description">
+              A soft wind brushes the trees. You hear faint chanting deeper in the glade...
+            </p>
           </div>
         </div>
 
@@ -108,9 +108,13 @@
         <div class="log-box hidden" id="combat-log">
           <p>You ready your weapon...</p>
         </div>
+        <div class="action-bar" id="action-bar">
+          <button id="explore-button">Explore</button>
+        </div>
 
 
-      </div> <!-- end .game-container -->
+      </div> 
+      <!-- end .game-container -->
 
       <!-- RIGHT SIDEBAR (properly inside content-row) -->
       <div class="sidebar-right">
@@ -233,6 +237,26 @@
         
       </div>
     </div>
+
+    <div id="journal-modal" class="modal hidden">
+      <div class="modal-content" style="display: flex; gap: 1rem;">
+        <!-- LEFT: Entry List -->
+        <div style="width: 45%;">
+          <h2>📘 Journal</h2>
+          <div id="journal-list"></div>
+          <p id="journal-progress" style="font-size: 0.4rem; text-align: right; margin-top: 0.5rem;"></p>
+          <button id="close-journal" style="margin-top: 1rem;">Close</button>
+        </div>
+
+        <!-- RIGHT: Lore Viewer -->
+        <div id="journal-entry-panel" style="flex: 1; min-width: 0;">
+          <h3 id="journal-entry-title"></h3>
+          <img id="journal-entry-image" class="journal-image hidden" />
+          <p id="journal-entry-text"></p>
+        </div>
+      </div>
+    </div>
+
     <div id="tooltip" class="tooltip hidden">
       <h2 id="tooltip-name" class="tooltip-line">Item Name</h2>
       <p id="tooltip-damage" class="tooltip-pne"></p>

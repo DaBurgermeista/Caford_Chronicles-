@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'Pixellari';
+  src: url('assets/fonts/Pixellari.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
 body {
   background-color: #000;
   background: url('https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/cad90a2a-ca89-498f-ae03-26bd1f37c988/djpq3t6-f59b20c1-dea0-464f-be13-e6f7f134d58e.jpg/v1/fill/w_1170,h_651,q_75,strp/pixel__art_by_neosketcher1_djpq3t6-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NjUxIiwicGF0aCI6IlwvZlwvY2FkOTBhMmEtY2E4OS00OThmLWFlMDMtMjZiZDFmMzdjOTg4XC9kanBxM3Q2LWY1OWIyMGMxLWRlYTAtNDY0Zi1iZTEzLWU2ZjdmMTM0ZDU4ZS5qcGciLCJ3aWR0aCI6Ijw9MTE3MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.eG5IT3gLGdkLvqNKbaEFjqF6GSLe7U2Afp4yqgb7Ugc');
@@ -6,7 +14,7 @@ body {
   background-position: center top;
   background-attachment: fixed;
   color: #c5f5a3;
-  font-family: 'Press Start 2P', monospace;
+  font-family: 'Pixellari', monospace;
   font-size: calc(12px + 0.25vw); /*Scale root font size based on screen width*/
   margin: 0;
   padding: 0;
@@ -24,6 +32,9 @@ body.ruins-theme {
   background-attachment: fixed;
 }
 
+.hidden {
+  display: none !important;
+}
 
 .hud {
   width: 100vw;
@@ -78,32 +89,90 @@ body.ruins-theme {
   box-shadow: 0 0 6px #6a8e5c;
 }
 
-.action-log{
-  min-height: 150px;
-  max-height: 150px;;
-  overflow: hidden;;
-}
-
 .dialog-box {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  max-width: 100%;
+  height: calc(100vh - 160px); /* adjust as needed */
+  max-height: calc(100vh - 400px);
   background-color: rgba(0, 0, 0, 0.85);
   border: 2px solid #88b47f;
   padding: 1rem;
-  width: 480px;
-  max-width: 90vw;
-  font-size: 0.5rem;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
-.dialog-box h3 {
+.dialog-left {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0; /* ✅ required for scrollable children to behave */
+  overflow: hidden;
+}
+
+.dialog-right {
+  
+  flex: 1;
+  min-width: 280px;
+  max-width: 50%; /* optional */
+  overflow: hidden;
+}
+
+.dialog-right p {
+  font-size: clamp(0.4rem, 1.5vw, 0.5rem);
+  line-height: 1.4;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  margin: 0;
+}
+
+
+.dialog-left fieldset {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  border: 2px solid #88b47f;
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+.dialog-left legend {
   color: #dabd50;
+  font-weight: bold;
+  font-size: 0.5rem;
+  text-transform: uppercase;
+  padding: 0 0.5rem;
 }
 
-#dialog-wrapper {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 10;
-  width: fit-content;
+.action-log {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0; /* ✅ absolutely necessary */
+}
+
+#action-log {
+  flex: 1;
+  overflow-y: auto;
+  font-size: 0.45rem;
+  line-height: 1.4;
+  padding-right: 0.25rem;
+  min-height: 0; /* ✅ prevents overflow push */
+}
+
+
+
+.dialog-right h3 {
+  color: #dabd50;
+  margin-bottom: 0.5rem;
+}
+
+.dialog-right p {
+  line-height: 1.5;
+}
+
+#location-items {
+  line-height: 1.5;
 }
 
 
@@ -210,7 +279,7 @@ fieldset {
 legend {
   color: #e0d1a6;
   font-size: 0.6rem;
-  font-family: 'Press Start 2P', monospace;
+  font-family: 'Pixellari', monospace;
   padding: 0 0.5rem;
   text-shadow: 0 0 4px #4c6f3f;
 }
@@ -254,7 +323,7 @@ legend {
   width: 100px;
   padding: 0.4rem 0.6rem;
   font-size: 0.45rem;
-  font-family: 'Press Start 2P', monospace;
+  font-family: 'Pixellari', monospace;
   border: 2px solid #88b47f;
   background-color: rgba(20, 20, 20, 0.85);
   color: #c5f5a3;
@@ -311,7 +380,7 @@ legend {
 }
 
 .travel-btn {
-  font-family: 'Press Start 2P', monospace;
+  font-family: 'Pixellari', monospace;
   font-size: 0.45rem;
   padding: 0.5rem 0.75rem;
   background-color: rgba(26, 22, 18, 0.85);
@@ -333,7 +402,7 @@ legend {
 }
 
 .action-bar button {
-  font-family: 'Press Start 2P', monospace;
+  font-family: 'Pixellari', monospace;
   font-size: 0.5rem;
   padding: 0.5rem 1rem;
   margin: 0 0.25rem;
@@ -370,7 +439,7 @@ legend {
   padding: 1rem;
   /* box-shadow: 0 0 8px #4c6f3f; */
   color: #c5f5a3;
-  font-family: 'Press Start 2P', monospace;
+  font-family: 'Pixellari', monospace;
   font-size: 0.5rem;
 
   transform: translateX(0);
@@ -387,7 +456,7 @@ legend {
   border-left: none;
   border-top: none;
   color: #c5f5a3;
-  font-family: 'Press Start 2P', monospace;
+  font-family: 'Pixellari', monospace;
   font-size: 0.45rem;
   writing-mode: vertical-rl;
   text-align: center;
@@ -528,7 +597,7 @@ legend {
   background: #222;
   border: 2px solid #88b47f;
   color: #c5f5a3;
-  font-family: 'Press Start 2P', monospace;
+  font-family: 'Pixellari', monospace;
   font-size: 0.5rem;
   list-style: none;
   padding: 0.25rem 0;
@@ -565,7 +634,7 @@ legend {
   border: 2px solid #88b47f;
   border-radius: 4px;
   padding: 0.75rem;
-  font-family: 'Press Start 2P', monospace;
+  font-family: 'Pixellari', monospace;
   font-size: 0.45rem;
   color: #c5f5a3;
   z-index: 10001;
@@ -612,7 +681,7 @@ legend {
   background-color: rgba(20, 20, 20, 0.9);
   padding: 1rem;
   color: #c5f5a3;
-  font-family: 'Press Start 2P', monospace;
+  font-family: 'Pixellari', monospace;
   font-size: 0.5rem;
   transition: transform 0.3s ease;
   /* border-left: 2px solid #88b47f;
@@ -683,17 +752,17 @@ legend {
   background-color: rgba(0, 0, 0, 0.95);
   border: 2px solid #88b47f;
   color: #c5f5a3;
-  padding: 1rem;
-  font-family: 'Press Start 2P', monospace;
+  padding: 1.5rem;
+  font-family: 'Pixellari', monospace;
   font-size: 0.45rem;
-  width: 480px;
+  width: 720px;
   max-height: 95vh;
   overflow-y: visible;
   box-shadow: 0 0 10px #4c6f3f;
 }
 
 .modal-content button {
-  font-family: 'Press Start 2P', monospace;
+  font-family: 'Pixellari', monospace;
   font-size: 0.5rem;
   padding: 0.5rem 1rem;
   margin-top: 1rem;
@@ -715,7 +784,7 @@ legend {
 }
 
 .modal-content select {
-  font-family: 'Press Start 2P', monospace;
+  font-family: 'Pixellari', monospace;
   font-size: 0.5rem;
   padding: 0.4rem 0.6rem;
   background-color: rbga(26, 22, 18, 0.85);
@@ -772,7 +841,7 @@ legend {
   background-color: rgba(0, 0, 0, 0.95);
   border-top: 2px solid #88b47f;
   color: #c5f5a3;
-  font-family: 'Press Start 2P', monospace;
+  font-family: 'Pixellari', monospace;
   font-size: 0.45rem;
   display: flex;
   flex-direction: column;
@@ -795,7 +864,7 @@ legend {
   border: none;
   padding: 0.5rem;
   color: #c5f5a3;
-  font-family: 'Press Start 2P', monospace;
+  font-family: 'Pixellari', monospace;
   font-size: 0.45rem;
   outline: none;
 }
@@ -819,3 +888,98 @@ legend {
   cursor: move;
   text-align: center;
 }
+
+#journal-modal {
+  background-color: rgba(20, 20, 20, 0.85);
+}
+
+#journal-list li {
+  padding: 0.5rem;
+  border-bottom: 1px dashed #88b47f;
+}
+
+#journal-list li:hover {
+  color: #fff1a8;
+  text-shadow: 0 0 6px #dabd50;
+}
+
+.journal-tab {
+  font-family: 'Pixellari', monospace;
+  font-size: 0.45rem;
+  padding: 0.35rem 0.75rem;
+  background-color: rgba(10, 10, 10, 0.9);
+  color: #c5f5a3;
+  border: 2px solid #88b47f;
+  box-shadow: 0 0 4px #4c6f3f;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.journal-tab:hover {
+  background-color: #c5f5a3;
+  color: #000;
+  border-color: #e0d1a6;
+}
+
+.journal-tab.active {
+  background-color: #88b47f;
+  color: #000;
+  border-color: #fff1a8;
+  box-shadow: 0 0 6px #dabd50;
+}
+
+.journal-entry.selected {
+  background-color: #88b47f;
+  color: #000;
+  font-weight: bold;
+}
+
+.journal-image {
+  width: 100%;
+  max-height: 100px;
+  object-fit: contain;
+  border: 1px solid #88b47f;
+  margin: 0.5rem 0;
+}
+
+.journal-category-header {
+  font-weight: bold;
+  padding: 0.4rem;
+  cursor: pointer;
+  border-bottom: 1px solid #88b47f;
+  color: #c5f5a3;
+}
+
+.journal-category-header:hover {
+  color: #fff1a8;
+  text-shadow: 0 0 5px #dabd50;
+}
+
+.journal-entry-container {
+  padding-left: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.journal-entry {
+  padding: 0.4rem 0;
+  cursor: pointer;
+  margin-bottom: 0.3rem;
+}
+
+.journal-entry:hover {
+  color: #fff1a8;
+}
+
+.journal-entry.selected {
+  background-color: #88b47f;
+  color: #000;
+  font-weight: bold;
+}
+
+#journal-entry-panel {
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
