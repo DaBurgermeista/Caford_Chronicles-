@@ -7,6 +7,7 @@ body {
   background-attachment: fixed;
   color: #c5f5a3;
   font-family: 'Press Start 2P', monospace;
+  font-size: calc(12px + 0.25vw); /*Scale root font size based on screen width*/
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -635,6 +636,35 @@ legend {
   color: #141414;
   box-shadow: 0 0 6px #c5f5a3, 0 0 12px #88b47f;
 }
+
+.modal-content select {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.5rem;
+  padding: 0.4rem 0.6rem;
+  background-color: rbga(26, 22, 18, 0.85);
+  color: #c5f5a3;
+  border: 2px solid #88b47f;
+  cursor: pointer;
+  text-shadow: 0 0 2px #4c6f3f;
+  margin-top: 0.5rem;
+  box-shadow: 0 0 6px #4c6f3f;
+}
+
+.modal-content select:focus {
+  outline: none;
+  background-color: #c5f5a3;
+  color: #000;
+  border-color: #e0d1a6;
+}
+
+.modal-content label {
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 0.25rem;
+  color: #dabd50;
+  font-size: 0.5rem;
+}
+
 
 .console {
   position: fixed;

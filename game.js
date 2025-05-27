@@ -26,7 +26,9 @@ document.addEventListener('DOMContentLoaded', () => {
   renderDestinationSidebar();
   renderInventory();
 
-  //startCombat(enemies.goblin_raider); // Start combat with a goblin raider for testing
+  // Grab saved options in localstorage
+  const savedScale = localStorage.getItem('uiScale') || '1';
+  applyUIScale(savedScale);
 
   // Setup listeners for combat actions
   const combatActions = document.querySelector('.combat-actions');
@@ -993,4 +995,35 @@ export function triggerEventsFor(location, triggerType) {
 
   return false; // No event triggered
 }
+
+function applyUIScale(scale) {
+  const container = document.querySelector('.content-row');
+  container.style.transform = `scale(${scale})`;
+  container.style.transformOrigin = 'top left';
+  container.style.width = `${100 / scale}%`; // Prevent horizontal cutoff
+}
+
+// Hook into Settings option
+document.querySelectorAll('.sidebar li').forEach(li => {
+  if (li.textContent.trim() === 'Settings') {
+    li.addEventListener('click', () => {
+      document.getElementById('options-modal').classList.remove('hidden');
+      const currentScale = localStorage.getItem('uiScale') || '1';
+      document.getElementById('ui-scale').value = currentScale;
+    });
+  }
+});
+
+
+// Close button for Options Modal
+document.getElementById('close-options').addEventListener('click', () => {
+  document.getElementById('options-modal').classList.add('hidden');
+});
+
+// On change
+document.getElementById('ui-scale').addEventListener('change', (e) => {
+  const scale = e.target.value;
+  localStorage.setItem('uiScale', scale);
+  applyUIScale(scale);
+});
 
