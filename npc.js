@@ -1,4 +1,5 @@
 import { npcs } from './npcs.js';
+import { player } from './player.js'
 
 let currentNpc = null;
 let currentNode = null;
@@ -6,6 +7,7 @@ let currentNode = null;
 export function talkToNpc(npcId) {
     const npc = npcs[npcId];
     if (!npc) return;
+    if (player.inCombat) return;
 
     currentNpc = npc;
     currentNode = 'start';

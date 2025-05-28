@@ -13,6 +13,19 @@ export const locations = {
     // Optional Features
     ambientSound: 'birds-chirping.mp3',
     theme: 'forest', // for future background styling
+    flavorTexts: [
+      "You pause beneath a gnarled tree as the wind carries distant murmurs too faint to understand.",
+      "A soft shimmer passes through the underbrush, vanishing before your eyes can focus.",
+      "The scent of wildflowers and damp moss clings to the air, laced with something older.",
+      "Your footsteps make no sound here—as if the forest is muffling them on purpose.",
+      "Somewhere nearby, a branch creaks without wind, and every bird seems to fall silent for a breath.",
+    ],
+    journal: {
+      title: "Whispering Glade",
+      text: "A forested expanse where the wind seems to speak in hushed tones. Some say the trees remember...",
+      locationHint: "Start here to find echoes of what came before.",
+      tags: ["location", "forest"]
+    },
     events: [events['forest-chant'], events['glade-hollow-tree']],
     npcs: ["old_mystic"],
     hostiles: ['goblin_raider', 'whisper_wisp', 'mossling', 
@@ -34,6 +47,12 @@ export const locations = {
     // Optional Features
     ambientSound: 'wind-howl.mp3',
     theme: 'ruins',
+    journal: {
+      title: "Ruined Outpost",
+      text: "Once a proud guard post, now overrun with moss and memory. The walls hum with past violence.",
+      locationHint: "Explore beyond the glade to uncover what was lost.",
+      tags: ["location", "ruins"]
+    },
     events: [events['ruins-collapse'], events['ruins-echoes']],
     npcs: ['Ghostly Guard'],
     hostiles: ['bandit'],

@@ -13,9 +13,10 @@ import { getAllEntries, unlockJournalEntry, getUnlockedEntries } from './journal
 let activeJournalCategory = 'all';
 let currentEnemy = null; // Initialize current enemy
 let draggedItemID = null; // For drag-and-drop 
+
 function getEquippedWeapon() {
   const id = player.equipment["main-hand"];
-  return id ? items[id] : null;
+  return id ? items[id.id] : null;
 }
 
 window.closeNpcModal = closeNpcModal;
@@ -23,8 +24,6 @@ window.talkToNpc = talkToNpc;
 
 // functionality
 let isDragging = false; // Track if an item is being dragged
-
-unlockJournalEntry("chanter-of-bark");
 
 document.addEventListener('DOMContentLoaded', () => {
   setupSidebar();
@@ -155,6 +154,7 @@ function renderDestinationSidebar() {
     const li = document.createElement('li');
     li.textContent = dest;
     li.addEventListener('click', () => {
+      if (player.inCombat) return;
       player.location = dest;
       renderLocation();
       renderDestinationSidebar();  // refresh right sidebar
@@ -233,6 +233,7 @@ function renderLocation() {
   const locationData = locations[player.location];
   console.log("Current location:", player.location);
   console.log("All locations:", Object.keys(locations));
+  unlockJournalEntry(locationData.id)
 
   const npcList = locationData.npcs || [];
   const npcHTML = npcList.map(id => {
@@ -793,30 +794,66 @@ document.getElementById('explore-button').addEventListener('click', () => {
 })
 
 function handleExplore() {
+  if (player.inCombat){
+    return;
+  }
+
   const locationID = player.location;
   const current = locations[locationID];
 
   const eventTriggered = triggerEventsFor(current, 'onExplore');
 
-  if (!eventTriggered) {
-    // No event occurred, so roll for combat
-    if (Math.random() < 0.2 && current.hostiles && current.hostiles.length > 0) {
-      const randomID = current.hostiles[Math.floor(Math.random() * current.hostiles.length)];
-      const selectedEnemy = enemies[randomID];
+  if (eventTriggered) return;
 
-      if (selectedEnemy) {
-        startCombat(selectedEnemy);
-        return;
-      }
+  // Exploration Flavor text
+  const explorationFlavors = current.flavorTexts || [
+    "You feel something watching you from the shadows.",
+    "Cobwebs tangle the path ahead. You step carefully.",
+    "You brush by some damp foilage, eyes alert for signs of life."
+  ];
+  log(explorationFlavors[Math.floor(Math.random() * explorationFlavors.length)]);
+
+  // 15% chance to find a small item
+  if (Math.random() < 0.15 && current.loot && current.loot.length > 0) {
+    const lootID = current.loot[Math.floor(Math.random() * current.loot.length)];
+    const lootItem = items[lootID];
+
+    if (lootItem) {
+      player.inventory.push(lootID, 1);
+      log(`You find a ${lootItem.name}`);
+      renderInventory();
+      return;
+    }
+  }
+
+  // 20% chance to trigger combat
+  if (Math.random() < 0.2 && current.hostiles && current.hostiles.length > 0) {
+    let eligibleEnemies = current.hostiles
+      .map(id => enemies[id])
+      .filter(enemy => enemy && (enemy.level <= player.level + 1));
+
+    // Fallback if no eligible enemies found
+    if (eligibleEnemies.length === 0) {
+      eligibleEnemies = current.hostiles.map(id => enemies[id]);
     }
 
-    // If no combat either
-    log("🌿 You explore the area but find nothing of interest this time.");
+    const selectedEnemy = eligibleEnemies[Math.floor(Math.random() * eligibleEnemies.length)];
+
+    if (selectedEnemy) {
+      startCombat(selectedEnemy);
+      return;
+    }
   }
+
+  // If no combat either
+  log("🌿 You explore but you find nothing else of note this time.");
+  
 }
 
+player.inCombat = false;
 
 function startCombat(enemy) {
+  player.inCombat = true;
   currentEnemy = structuredClone(enemy); // Clone to avoid modifying original
   updateCombatUI(enemy);
   showCombatUI();
@@ -827,7 +864,7 @@ function startCombat(enemy) {
 function playerAction(type) {
   switch (type) {
     case 'attack': {
-      logCombat(`🗡️ You attack the enemy!`);
+      // logCombat(`🗡️ You attack the enemy!`);
 
       let weapon = getEquippedWeapon(); // always use this now
       let weaponDamage = 0;
@@ -837,6 +874,7 @@ function playerAction(type) {
       const strMod = (player.coreStats.strength - 10) / 2;
       const dexMod = (player.coreStats.dexterity - 10) / 2;
 
+      console.log(weapon);
       console.log(`Crit chance: ${player.derivedStats.critChance}%`);
       console.log(`strMod: ${strMod}`);
 
@@ -863,16 +901,13 @@ function playerAction(type) {
       // Crit bonus
       if (isCrit) {
         rawDamage += player.derivedStats.critDamage / 100 * rawDamage;
-        logCombat(`💥 Critical Hit! Damage: ${Math.floor(rawDamage)}`);
-      } else {
-        logCombat(`✖️ You will hit the ${currentEnemy.name} for ${Math.floor(rawDamage)} damage!`);
+        logCombat(`Critical Hit! Damage: ${Math.floor(rawDamage)}`);
       }
       
       // Check to see if the enemy can evade
       const evadeChance = currentEnemy.stats.evasion || 0;
-      logCombat(`🌀 ${currentEnemy.name} has an evade chance of ${evadeChance * 100}%`);
       if (Math.random() < evadeChance) {
-        logCombat(`🚫 ${currentEnemy.name} evaded your attack!`);
+        logCombat(`You miss the ${currentEnemy.name}`);
         return; // Exit if the attack was evaded
       }
 
@@ -881,15 +916,15 @@ function playerAction(type) {
       if (enemyArmor > 0) {
         const effectiveDamage = Math.max(rawDamage - enemyArmor, 0); // Ensure damage doesn't go below 0
         if (effectiveDamage <= 0) {
-          logCombat(`🛡️ ${currentEnemy.name} blocked your attack with armor! No damage dealt.`);
+          logCombat(`You hit the ${currentEnemy.name} but don't seem to do any damage!`);
           return; // Exit if no damage was dealt
         } else {
-          logCombat(`🛡️ ${currentEnemy.name} has armor! Effective damage: ${effectiveDamage}`);
+          // logCombat(`🛡️ ${currentEnemy.name} has armor! Effective damage: ${effectiveDamage}`);
           currentEnemy.stats.hp -= effectiveDamage;
-          logCombat(`💔 ${currentEnemy.name} takes ${effectiveDamage} damage!`);
+          logCombat(`Hit: ${currentEnemy.name} takes ${effectiveDamage} damage!`);
         }
       } else {
-        logCombat(`💔 ${currentEnemy.name} takes ${rawDamage} damage!`);
+        logCombat(`Hit: ${currentEnemy.name} takes ${rawDamage} damage!`);
         currentEnemy.stats.hp -= rawDamage
       }
       // Update combat UI and enemy HP bar
@@ -909,6 +944,8 @@ function playerAction(type) {
         player.progression.kills += 1; // Increment kill count
         renderHud();
         renderStatsToModal();
+
+        unlockJournalEntry(currentEnemy.id);
         // Remove enemy from combat
         currentEnemy = null;
         // Hide combat UI 
@@ -939,6 +976,7 @@ function endCombat() {
   document.getElementById('combat-log').classList.add('hidden');
   document.getElementById('player-panel').classList.add('hidden');
   logCombat("🛑 Combat has ended.");
+  player.inCombat = false;
 }
 
 
@@ -950,11 +988,36 @@ function logCombat(message) {
   logBox.scrollTop = logBox.scrollHeight; // Auto-scroll
 }
 
-export function log(message) {
+export function log(message, options = {}) {
   const logBox = document.getElementById('action-log');
+  if (!logBox) {
+    console.warn("logBox element not found.");
+    return;
+  }
+
+  // Optional Timestamp
+  const showTime = options.timestamp ?? false;
+  const maxEntries = options.maxEntries ?? 100;
+
   const entry = document.createElement('p');
-  entry.textContent = message;
+  entry.className = 'log-entry';
+
+  // Build Message
+  const time = new Date().toLocaleTimeString();
+  entry.textContent = showTime ? `[${time}] ${message}` : message;
+
+  // Optional color class
+  if (options.type) {
+    entry.classList.add(`log-${options.type}`);
+  }
+
   logBox.appendChild(entry);
+
+  // Remove old entries if needed
+  while (logBox.children.length > maxEntries) {
+    logBox.removeChild(logBox.firstChild);
+  }
+
   logBox.scrollTop = logBox.scrollHeight; // Auto-scroll
 }
 
@@ -1302,8 +1365,6 @@ function renderJournal() {
 function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
-
-
 
 function openJournal() {
   renderJournal();

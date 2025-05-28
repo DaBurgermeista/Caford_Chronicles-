@@ -10,7 +10,7 @@ export const enemies = {
       " <|=|=>  ",
       "  / \\    "
     ],
-    image: 'assets/goblin_warrior_32x32.png',
+    image: 'assets/enemies/goblin_warrior_32x32.png',
     stats: {
       hp: 30,
       maxHp: 30,
@@ -21,6 +21,12 @@ export const enemies = {
       critChance: 0.05,
       evasion: 0.1,
       attackPower: 5
+    },
+    journal: {
+      title: "The Goblin Raider",
+      text: "Savage and numerous, goblins haunt the fringe roads, scavenging with rusty steel and sharp teeth.",
+      locationHint: "Whispering Glade",
+      tags: ["enemy", "goblin"]
     },
     traits: ['aggressive'],
     aiType: 'berserker',
@@ -54,7 +60,7 @@ export const enemies = {
       "  | O |",
       "   '-' "
     ],
-    image: 'assets/whisper_wisp_32x32.png',
+    image: 'assets/enemies/whisper_wisp_32x32.png',
     stats: {
       hp: 20,
       maxHp: 20,
@@ -65,6 +71,12 @@ export const enemies = {
       critChance: 0.0,
       evasion: 0.2,
       attackPower: 3
+    },
+    journal: {
+      title: "The Whisper Wisp",
+      text: "These glowing spirits drift through the glade, murmuring truths only the trees understand.",
+      locationHint: "Whispering Glade",
+      tags: ["enemy", "spirit"]
     },
     traits: ['ethereal'],
     aiType: 'support',
@@ -98,7 +110,7 @@ export const enemies = {
       "  | O |",
       "   '-' "
     ],
-    image: 'assets/mossling_32x32.png',
+    image: 'assets/enemies/mossling_32x32.png',
     stats: {
       hp: 25,
       maxHp: 25,
@@ -109,6 +121,12 @@ export const enemies = {
       critChance: 0.02,
       evasion: 0.1,
       attackPower: 4
+    },
+    journal: {
+      title: "The Mossling",
+      text: "Barely more than moss and instinct, Mosslings hide beneath leaves until startled.",
+      locationHint: "Whispering Glade",
+      tags: ["enemy", "plant"]
     },
     traits: ['stealthy'],
     aiType: 'ambusher',
@@ -142,7 +160,7 @@ export const enemies = {
       "  | O |",
       "   '-' "
     ],
-    image: 'assets/verdant_shade_32x32.png',
+    image: 'assets/enemies/verdant_shade_32x32.png',
     stats: {
       hp: 50,
       maxHp: 50,
@@ -153,6 +171,12 @@ export const enemies = {
       critChance: 0.15,
       evasion: 0.2,
       attackPower: 8
+    },
+    journal: {
+      title: "Verdant Shade",
+      text: "A slithering echo of the grove’s forgotten wrath, the Verdant Shade drapes itself in living vines and silent hatred. It strikes not from hunger, but from memory.",
+      locationHint: "Whispering Glade",
+      tags: ["enemy", "spirit", "plant", "stealth"]
     },
     traits: ['elusive'],
     aiType: 'tactician',
@@ -186,7 +210,7 @@ export const enemies = {
       "  ( o.o ) ",
       "   > ^ <  "
     ],
-    image: 'assets/gladefang_wolf_32x32.png',
+    image: 'assets/enemies/gladefang_wolf_32x32.png',
     stats: {
       hp: 35,
       maxHp: 35,
@@ -197,6 +221,12 @@ export const enemies = {
       critChance: 0.1,
       evasion: 0.15,
       attackPower: 6
+    },
+    journal: {
+      title: "The Gladefang Wolf",
+      text: "Eyes like moss and jaws like steel traps, the Gladefang prowls the forest’s deeper trails. Lone travelers vanish without a sound, save for the snap of underbrush and a final growl.",
+      locationHint: "Whispering Glade - Hunting Trails",
+      tags: ["enemy", "beast", "forest", "predator"]
     },
     traits: ['predator'],
     aiType: 'hunter',
@@ -231,7 +261,7 @@ export const enemies = {
       " ( o o ) ",
       "  \\_O_/  "
     ],
-    image: 'assets/barbed_stag_32x32.png',
+    image: 'assets/enemies/barbed_stag_32x32.png',
     stats: {
       hp: 60,
       maxHp: 60,
@@ -242,6 +272,12 @@ export const enemies = {
       critChance: 0.2,
       evasion: 0.1,
       attackPower: 10
+    },
+    journal: {
+      title: "The Barbed Stag",
+      text: "Wreathed in thorn and fury, the Barbed Stag is a primal spirit given form. Its antlers shimmer with razorvine, and with every charge, the forest seems to lean in closer, eager to witness the reckoning.",
+      locationHint: "Whispering Glade - Hollow of Horns",
+      tags: ["enemy", "beast", "boss", "forest", "spirit"]
     },
     traits: ['guardian'],
     aiType: 'defender',
@@ -275,7 +311,7 @@ export const enemies = {
       " ( o.o ) ",
       "  > ^ <  "
     ],
-    image: 'assets/needlewing_swarm_32x32.png',
+    image: 'assets/enemies/needlewing_swarm_32x32.png',
     stats: {
       hp: 28,
       maxHp: 28,
@@ -286,6 +322,12 @@ export const enemies = {
       critChance: 0.05,
       evasion: 0.1,
       attackPower: 4
+    },
+    journal: {
+      title: "The Needlewing Swarm",
+      text: "Whispers say these insects once served a fae queen, now long vanished. Their wings shimmer like glass blades in the sun.",
+      locationHint: "Whispering Glade",
+      tags: ["enemy", "insect", "fey"]
     },
     traits: ['swarm'],
     aiType: 'horde',
@@ -319,7 +361,7 @@ export const enemies = {
       "  | O |",
       "   '-' "
     ],
-    image: 'assets/chanter_of_bark_32x32.png',
+    image: 'assets/enemies/chanter_of_bark_32x32.png',
     stats: {
       hp: 45,
       maxHp: 45,
@@ -330,6 +372,12 @@ export const enemies = {
       critChance: 0.1,
       evasion: 0.15,
       attackPower: 7
+    },
+    journal: {
+      title: "The Chanter of Bark",
+      text: "A once-wise druid who succumbed to forest madness, now chanting with roots coiled through his throat...",
+      locationHint: "Whispering Glade",
+      tags: ["enemy", "whispering-glade"]
     },
     traits: ['mystical'],
     aiType: 'caster',
@@ -363,7 +411,7 @@ export const enemies = {
       "  | O |",
       "   '-' "
     ],
-    image: 'assets/fey_trickster_32x32.png',
+    image: 'assets/enemies/fey_trickster_32x32.png',
     stats: {
       hp: 35,
       maxHp: 35,
@@ -374,6 +422,12 @@ export const enemies = {
       critChance: 0.1,
       evasion: 0.2,
       attackPower: 6
+    },
+    journal: {
+      title: "The Fey Trickster",
+      text: "Mischievous and cruel, the trickster lures travelers off the path with illusions and riddles—only to feast on their confusion.",
+      locationHint: "Whispering Glade - Deeper Grove",
+      tags: ["enemy", "fey", "magic"]
     },
     traits: ['trickster'],
     aiType: 'illusionist',
@@ -408,7 +462,7 @@ export const enemies = {
       "  | O |",
       "   '-' "
     ],
-    image: 'assets/hallow_eyed_watcher_32x32.png',
+    image: 'assets/enemies/hallow_eyed_watcher_32x32.png',
     stats: {
       hp: 55,
       maxHp: 55,
@@ -419,6 +473,12 @@ export const enemies = {
       critChance: 0.15,
       evasion: 0.1,
       attackPower: 9
+    },
+    journal: {
+      title: "The Hollow-Eyed Watcher",
+      text: "Once temple guardians, these spirits now drift through broken walls, their empty gaze unraveling sanity one thought at a time.",
+      locationHint: "Ruined Outpost - Watchtower Remnants",
+      tags: ["enemy", "undead", "spirit"]
     },
     traits: ['watchful'],
     aiType: 'sentinel',
@@ -452,7 +512,7 @@ export const enemies = {
       " ( o o ) ",
       "  \\_O_/  "
     ],
-    image: 'assets/thorned_sentinel_32x32.png',
+    image: 'assets/enemies/thorned_sentinel_32x32.png',
     stats: {
       hp: 80,
       maxHp: 80,
@@ -463,6 +523,12 @@ export const enemies = {
       critChance: 0.2,
       evasion: 0.05,
       attackPower: 12
+    },
+    journal: {
+      title: "The Thorned Sentinel",
+      text: "Older than the ruins it shelters, this sentinel awakens to trespassers with a groan of bark and a swing of thorned limbs.",
+      locationHint: "Ruined Outpost - Central Courtyard",
+      tags: ["enemy", "plant", "boss"]
     },
     traits: ['immovable'],
     aiType: 'defender',
@@ -492,7 +558,7 @@ export const enemies = {
     description: 'A cunning bandit with a dagger and a sly grin.',
     theme: 'ruins',
     asciiArt: [],
-    image: 'assets/bandit_32x32.png',
+    image: 'assets/enemies/bandit_32x32.png',
     stats: {
       hp: 40,
       maxHp: 40,
@@ -503,6 +569,12 @@ export const enemies = {
       critChance: 0.1,
       evasion: 0.15,
       attackPower: 7
+    },
+    journal: {
+      title: "The Bandit",
+      text: "Not all dangers wear fangs or bark. Some wear rusted mail and greed. Bandits haunt the glade’s fringe, preying on the lost and the hopeful. Their blades are chipped, but their intent is sharp.",
+      locationHint: "Whispering Glade - Old Trade Road",
+      tags: ["enemy", "humanoid", "bandit", "low-tier"]
     },
     traits: ['cunning'],
     aiType: 'strategist',

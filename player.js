@@ -7,6 +7,7 @@ export const player = {
   skillPoints: 0,
   gold: 56,
   location: 'Whispering Glade',
+  inCombat: false,
 
   coreStats: {
     strength: 10,

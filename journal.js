@@ -1,34 +1,39 @@
+import { enemies } from './enemy.js';
+import { locations } from './location.js';
+import { log } from './game.js'
+
 // journal.js
-export const journalEntries = {
-  "chanter-of-bark": {
-    id: "chanter-of-bark",
-    title: "The Chanter of Bark",
-    unlocked: false,
-    category: "enemy",
-    text: "A once-wise druid who succumbed to forest madness, now chanting with roots coiled through his throat...",
-    locationHint: "Whispering Glade",
-    tags: ["enemy", "whispering-glade"]
-  },
-  "ruined-outpost-origin": {
-    id: "ruined-outpost-origin",
-    title: "Origins of the Outpost",
-    unlocked: false,
-    category: "location",
-    text: "This outpost stood as a last bastion against creeping corruption. But the vines grew back, and so did something else...",
-    locationHint: "Ruined Outpost",
-    tags: ["location", "ruins"]
-  },
-  "hollow-watcher": {
-    id: "hollow-watcher",
-    title: "The Hollow-Eyed Watcher",
-    unlocked: false,
-    category: "enemy",
-    text: "A spectral owl with burning sockets, known to haunt the ancient woods. Some say it watches for the return of something long buried.",
-    locationHint: "Deeper Forest",
-    tags: ["enemy", "spirit"]
-  },
-  // More entries can be added here
-};
+export const journalEntries = {};
+
+// Load enemy-based journal entries
+Object.values(enemies).forEach(enemy => {
+  if (enemy.journal) {
+    journalEntries[enemy.id] = {
+      id: enemy.id,
+      title: enemy.journal.title,
+      text: enemy.journal.text,
+      unlocked: false,
+      category: "enemy",
+      locationHint: enemy.journal.locationHint,
+      tags: enemy.journal.tags || []
+    };
+  }
+});
+
+// Load location-based journal entries
+Object.values(locations).forEach(location => {
+  if (location.journal) {
+    journalEntries[location.id] = {
+      id: location.id,
+      title: location.journal.title,
+      text: location.journal.text,
+      unlocked: false,
+      category: "location",
+      locationHint: location.journal.locationHint,
+      tags: location.journal.tags || []
+    };
+  }
+});
 
 // This holds which entries are unlocked for the player
 export const playerJournal = {};
@@ -46,7 +51,7 @@ export function unlockJournalEntry(id) {
   if (!playerJournal[id]) {
     playerJournal[id] = true;
     entry.unlocked = true;
-    console.log(`📖 Unlocked journal entry: ${entry.title}`);
+    log(`📖 Unlocked journal entry: ${entry.title}`);
     return true;
   }
 
