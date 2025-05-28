@@ -942,6 +942,31 @@ function playerAction(type) {
         player.gold += goldAmount;
         logCombat(`You find ${goldAmount} gold on the ${currentEnemy.name}.`);
         player.progression.kills += 1; // Increment kill count
+
+        if (currentEnemy.loot && currentEnemy.loot.length > 0){
+          const loc = locations[player.location];
+
+          currentEnemy.loot.forEach(drop => {
+            const chance = drop.chance || 0;
+            if (Math.random() < chance) {
+              const amount = drop.amount
+                ? Array.isArray(drop.amount)
+                  ? Math.floor(Math.random() * (drop.amount[1] - drop.amount[0] + 1)) + drop.amount[0]
+                  : drop.amount
+                : 1;
+              
+              // Add to locations loot
+              const existing = loc.loot.find(entry => entry.id === drop.id);
+              if (existing) {
+                existing.quantity = (existing.quantity || 1) + amount;
+              } else {
+                loc.loot.push({ id: drop.id, quantity: amount});
+              }
+
+              log(`The ${currentEnemy} dropped ${amount} × ${drop.id.replace('_', ' ')}.`);
+            }
+          });
+        }
         renderHud();
         renderStatsToModal();
 

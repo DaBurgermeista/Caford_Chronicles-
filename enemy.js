@@ -41,9 +41,7 @@ export const enemies = {
         chanceToUse: 0.6
       }
     ],
-    loot: [
-      { id: 'gold', amount: [5, 10], chance: 1.0 }
-    ],
+    loot: [    ],
     xpReward: 18,
     goldReward: [5, 12],
     fleeChance: 0.1
@@ -91,9 +89,7 @@ export const enemies = {
         chanceToUse: 0.7
       }
     ],
-    loot: [
-      { id: 'gold', amount: [2, 5], chance: 1.0 }
-    ],
+    loot: [    ],
     xpReward: 10,
     goldReward: [2, 5],
     fleeChance: 0.05
@@ -141,9 +137,7 @@ export const enemies = {
         chanceToUse: 0.5
       }
     ],
-    loot: [
-      { id: 'gold', amount: [1, 3], chance: 1.0 }
-    ],
+    loot: [    ],
     xpReward: 12,
     goldReward: [1, 3],
     fleeChance: 0.05
@@ -192,7 +186,6 @@ export const enemies = {
       }
     ],
     loot: [
-      { id: 'gold', amount: [15, 30], chance: 1.0 },
       { id: 'nature_staff', chance: 0.2 }
     ],
     xpReward: 40,
@@ -242,7 +235,6 @@ export const enemies = {
       }
     ],
     loot: [
-      { id: 'gold', amount: [8, 15], chance: 1.0 },
       { id: 'wolf_pelt', chance: 0.3 }
     ],
     xpReward: 30,
@@ -293,7 +285,6 @@ export const enemies = {
       }
     ],
     loot: [
-      { id: 'gold', amount: [20, 40], chance: 1.0 },
       { id: 'stag_horn', chance: 0.4 }
     ],
     xpReward: 50,
@@ -342,9 +333,7 @@ export const enemies = {
         chanceToUse: 0.5
       }
     ],
-    loot: [
-      { id: 'gold', amount: [3, 8], chance: 1.0 }
-    ],
+    loot: [    ],
     xpReward: 15,
     goldReward: [3, 8],
     fleeChance: 0.1
@@ -392,7 +381,6 @@ export const enemies = {
       }
     ],
     loot: [
-      { id: 'gold', amount: [12, 25], chance: 1.0 },
       { id: 'bark_staff', chance: 0.3 }
     ],
     xpReward: 35,
@@ -443,7 +431,6 @@ export const enemies = {
       }
     ],
     loot: [
-      { id: 'gold', amount: [10, 15], chance: 1.0 },
       { id: 'fey_dust', chance: 0.4 }
     ],
     xpReward: 30,
@@ -493,7 +480,6 @@ export const enemies = {
       }
     ],
     loot: [
-      { id: 'gold', amount: [20, 35], chance: 1.0 },
       { id: 'watcher_eye', chance: 0.5 }
     ],
     xpReward: 45,
@@ -544,7 +530,6 @@ export const enemies = {
       }
     ],
     loot: [
-      { id: 'gold', amount: [30, 50], chance: 1.0 },
       { id: 'sentinel_shield', chance: 0.6 }
     ],
     xpReward: 60,
@@ -590,8 +575,7 @@ export const enemies = {
       }
     ],
     loot: [
-      { id: 'gold', amount: [10, 20], chance: 1.0 },
-      { id: 'dagger', chance: 0.3 }
+      { id: 'iron_sword', chance: 0.3 }
     ],
     xpReward: 25,
     goldReward: [10, 20],

@@ -47,6 +47,12 @@ export const locations = {
     // Optional Features
     ambientSound: 'wind-howl.mp3',
     theme: 'ruins',
+    flavorTexts: [
+      "The wind whistles through crumbling archways, carrying with it the faint clink of armor long rusted away.",
+      "A broken banner still clings to a splintered pole, its symbol faded.",
+      "An eerie silence blankets the outpost, broken only by the distant creak of rotting wood.",
+      "You find claw marks etched into the outpost walls, too high to be made by man."
+    ],
     journal: {
       title: "Ruined Outpost",
       text: "Once a proud guard post, now overrun with moss and memory. The walls hum with past violence.",
@@ -55,7 +61,7 @@ export const locations = {
     },
     events: [events['ruins-collapse'], events['ruins-echoes']],
     npcs: ['Ghostly Guard'],
-    hostiles: ['bandit'],
+    hostiles: ['bandit', 'goblin_raider'],
     loot: ['rusted sword', 'tattered journal'],
     tags: ['danger', 'ruins'],
 
