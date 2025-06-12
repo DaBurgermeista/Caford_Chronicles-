@@ -58,9 +58,18 @@ function closeModal(modal) {
   }
 }
 
+function showPrologue() {
+  const modal = document.getElementById('prologue-modal');
+  const btn = document.getElementById('prologue-close');
+  if (!modal || !btn) return;
+  btn.addEventListener('click', () => closeModal(modal), { once: true });
+  openModal(modal);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const params = new URLSearchParams(window.location.search);
-  if (params.get('load') === '1') {
+  const isLoad = params.get('load') === '1';
+  if (isLoad) {
     loadSavedGame();
   }
 
@@ -70,6 +79,10 @@ document.addEventListener('DOMContentLoaded', () => {
   renderLocation();
   renderDestinationSidebar();
   renderInventory();
+
+  if (!isLoad) {
+    showPrologue();
+  }
 
   // Grab saved options in localstorage
   const savedScale = localStorage.getItem('uiScale') || '1';
