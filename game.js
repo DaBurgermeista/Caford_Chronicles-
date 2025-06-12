@@ -5,6 +5,7 @@ console.log("Loaded locations:", locations);
 import { items } from './items.js';
 console.log("Loaded items:", items);
 import { useItem } from './itemUtils.js';
+import { getEquippedWeapon } from './equipment.js';
 import { enemies } from './enemy.js';
 console.log("Loaded enemies:", enemies);
 import { talkToNpc, closeNpcModal } from './npc.js';
@@ -35,10 +36,6 @@ function loadSavedGame() {
   }
 }
 
-function getEquippedWeapon() {
-  const id = player.equipment["main-hand"];
-  return id ? items[id.id] : null;
-}
 
 window.closeNpcModal = closeNpcModal;
 window.talkToNpc = talkToNpc;
