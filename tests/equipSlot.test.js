@@ -24,7 +24,7 @@ function loadRenderEquipped(context) {
   return script.runInContext(vm.createContext(context));
 }
 
-test('clicking empty slot still triggers the context menu', () => {
+test('clicking empty slot after unequipping does not trigger the context menu', () => {
   const dom = new JSDOM(`<span id="slot-main-hand">None</span>
     <span id="slot-off-hand">None</span>
     <span id="slot-head">None</span>
@@ -55,5 +55,38 @@ test('clicking empty slot still triggers the context menu', () => {
   const span = document.getElementById('slot-main-hand');
   span.dispatchEvent(new dom.window.Event('click'));
 
-  assert.strictEqual(opened, true);
+  assert.strictEqual(opened, false);
+});
+
+test('slot span resets to "None" and has no lingering click handler', () => {
+  const dom = new JSDOM(`<span id="slot-main-hand">None</span>
+    <span id="slot-off-hand">None</span>
+    <span id="slot-head">None</span>
+    <span id="slot-chest">None</span>
+    <span id="slot-accessory">None</span>
+    <div id="tooltip"></div>`);
+  global.document = dom.window.document;
+  global.window = dom.window;
+  global.items = items;
+  global.player = JSON.parse(JSON.stringify(basePlayer));
+  global.isDragging = false;
+  let opened = false;
+  global.openContextMenu = () => { opened = true; };
+  global.showTooltip = () => {};
+  global.hideTooltip = () => {};
+
+  const context = { player, items, document: dom.window.document, isDragging, openContextMenu, showTooltip, hideTooltip };
+  const renderEquipped = loadRenderEquipped(context);
+
+  player.equipment["main-hand"] = "iron_sword";
+  renderEquipped();
+
+  player.equipment["main-hand"] = null;
+  renderEquipped();
+
+  const span = document.getElementById('slot-main-hand');
+  assert.strictEqual(span.textContent, 'None');
+  span.dispatchEvent(new dom.window.Event('click'));
+
+  assert.strictEqual(opened, false);
 });

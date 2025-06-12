@@ -688,19 +688,19 @@ export function renderEquipped() {
   console.log("Rendering equipped items", slots);
 
   for (const [slot, rawItem] of Object.entries(slots)) {
-    const span = document.getElementById(`slot-${slot}`);
+    const oldSpan = document.getElementById(`slot-${slot}`);
+    const newSpan = document.createElement('span');
+    newSpan.id = `slot-${slot}`;
 
     const idStr = typeof rawItem === 'string' ? rawItem : rawItem?.id;
     const item = idStr ? items[idStr] : null;
 
     if (item) {
-      const newSpan = span.cloneNode(true);
       newSpan.textContent = item.name;
-      newSpan.classList.add("equipped-item");
+      newSpan.classList.add('equipped-item');
       newSpan.setAttribute('draggable', 'true');
       newSpan.dataset.itemId = idStr;
       newSpan.dataset.slot = slot;
-      span.replaceWith(newSpan);
 
       newSpan.addEventListener('dragstart', (e) => {
         e.dataTransfer.setData('text/plain', idStr);
@@ -714,22 +714,24 @@ export function renderEquipped() {
         isDragging = false;
       });
 
-      // ✅ Add context menu
-      newSpan.addEventListener("click", (e) => {
+      newSpan.addEventListener('click', (e) => {
         openContextMenu(idStr, e.clientX, e.clientY, true);
       });
 
-      // ✅ Tooltip events
-      newSpan.addEventListener("mouseenter", (e) => {
+      newSpan.addEventListener('mouseenter', (e) => {
         showTooltip(idStr, e.clientX, e.clientY);
       });
-      newSpan.addEventListener("mouseleave", hideTooltip);
-      newSpan.addEventListener("mousemove", (e) => {
-        const tooltip = document.getElementById("tooltip");
+      newSpan.addEventListener('mouseleave', hideTooltip);
+      newSpan.addEventListener('mousemove', (e) => {
+        const tooltip = document.getElementById('tooltip');
         tooltip.style.top = `${e.clientY + 10}px`;
         tooltip.style.left = `${e.clientX + 10}px`;
       });
+    } else {
+      newSpan.textContent = 'None';
     }
+
+    oldSpan.replaceWith(newSpan);
   }
 }
 
