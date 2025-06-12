@@ -680,7 +680,7 @@ function handleItemAction(action, itemId) {
   }
 }
 
-function renderEquipped() {
+export function renderEquipped() {
   const slots = {
     "main-hand": player.equipment["main-hand"],
     "off-hand": player.equipment["off-hand"],
@@ -735,8 +735,13 @@ function renderEquipped() {
       });
 
     } else {
-      span.textContent = "None";
-      span.classList.remove("equipped-item");
+      const newSpan = span.cloneNode(true);
+      newSpan.textContent = "None";
+      newSpan.classList.remove("equipped-item");
+      newSpan.removeAttribute('draggable');
+      delete newSpan.dataset.itemId;
+      delete newSpan.dataset.slot;
+      span.replaceWith(newSpan);
     }
   }
 }
