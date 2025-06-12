@@ -571,6 +571,16 @@ legend {
   text-shadow: 0 0 6px var(--color-accent);
 }
 
+.sidebar li:focus {
+  outline: 2px dashed var(--color-accent);
+  outline-offset: 2px;
+}
+
+li[role="button"]:focus {
+  outline: 2px dashed var(--color-accent);
+  outline-offset: 2px;
+}
+
 .sidebar-wrapper {
   height: 100%;
   display: flex;
