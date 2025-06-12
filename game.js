@@ -36,7 +36,6 @@ function loadSavedGame() {
   }
 }
 
-
 window.closeNpcModal = closeNpcModal;
 window.talkToNpc = talkToNpc;
 
@@ -688,23 +687,23 @@ function renderEquipped() {
 
   console.log("Rendering equipped items", slots);
 
-  for (const [slot, itemId] of Object.entries(slots)) {
+  for (const [slot, rawItem] of Object.entries(slots)) {
     const span = document.getElementById(`slot-${slot}`);
-    
-    if (itemId) {
-      const item = typeof itemId === 'string' ? items[itemId] : itemId;
-      player.equipment[slot] = item;
 
+    const idStr = typeof rawItem === 'string' ? rawItem : rawItem?.id;
+    const item = idStr ? items[idStr] : null;
+
+    if (item) {
       const newSpan = span.cloneNode(true);
       newSpan.textContent = item.name;
       newSpan.classList.add("equipped-item");
       newSpan.setAttribute('draggable', 'true');
-      newSpan.dataset.itemId = itemId;
+      newSpan.dataset.itemId = idStr;
       newSpan.dataset.slot = slot;
       span.replaceWith(newSpan);
 
       newSpan.addEventListener('dragstart', (e) => {
-        e.dataTransfer.setData('text/plain', itemId);
+        e.dataTransfer.setData('text/plain', idStr);
         e.dataTransfer.setData('slot', slot);
         e.currentTarget.classList.add('dragging');
         isDragging = true;
@@ -717,12 +716,12 @@ function renderEquipped() {
 
       // ✅ Add context menu
       newSpan.addEventListener("click", (e) => {
-        openContextMenu(itemId, e.clientX, e.clientY, true);
+        openContextMenu(idStr, e.clientX, e.clientY, true);
       });
 
       // ✅ Tooltip events
       newSpan.addEventListener("mouseenter", (e) => {
-        showTooltip(itemId, e.clientX, e.clientY);
+        showTooltip(idStr, e.clientX, e.clientY);
       });
       newSpan.addEventListener("mouseleave", hideTooltip);
       newSpan.addEventListener("mousemove", (e) => {
@@ -734,6 +733,9 @@ function renderEquipped() {
     } else {
       span.textContent = "None";
       span.classList.remove("equipped-item");
+      span.removeAttribute('draggable');
+      delete span.dataset.itemId;
+      delete span.dataset.slot;
     }
   }
 }
