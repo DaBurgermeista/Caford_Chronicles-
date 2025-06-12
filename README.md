@@ -86,3 +86,12 @@ Clone the repo and open `index.html` in your browser to start the game.
 ```bash
 git clone https://github.com/DaBurgermeista/Caford_Chronicles-.git
 cd Caford_Chronicles-
+npm install
+npm start
+```
+
+### Running Tests
+
+```bash
+npm test
+```
