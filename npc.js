@@ -1,5 +1,6 @@
 import { npcs } from './npcs.js';
 import { player } from './player.js'
+import { unlockJournalEntry } from './journal.js';
 
 let currentNpc = null;
 let currentNode = null;
@@ -8,6 +9,8 @@ export function talkToNpc(npcId) {
     const npc = npcs[npcId];
     if (!npc) return;
     if (player.inCombat) return;
+
+    unlockJournalEntry(npc.id);
 
     currentNpc = npc;
     currentNode = 'start';

@@ -1,5 +1,6 @@
 import { enemies } from './enemy.js';
 import { locations } from './location.js';
+import { npcs } from './npcs.js';
 import { log } from './game.js'
 
 // journal.js
@@ -31,6 +32,21 @@ Object.values(locations).forEach(location => {
       category: "location",
       locationHint: location.journal.locationHint,
       tags: location.journal.tags || []
+    };
+  }
+});
+
+// Load NPC-based journal entries
+Object.values(npcs).forEach(npc => {
+  if (npc.journal) {
+    journalEntries[npc.id] = {
+      id: npc.id,
+      title: npc.journal.title,
+      text: npc.journal.text,
+      unlocked: false,
+      category: "npc",
+      locationHint: npc.journal.locationHint,
+      tags: npc.journal.tags || []
     };
   }
 });

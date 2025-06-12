@@ -6,6 +6,12 @@ export const npcs = {
     name: "Old Mystic",
     location: "whispering-glade",
     portrait: "assets/npcs/old_mystic.png", // You can update this to your image path
+    journal: {
+      title: "Old Mystic",
+      text: "A reclusive seer muttering about forgotten futures and forest memories.",
+      locationHint: "Whispering Glade",
+      tags: ["npc"]
+    },
     dialogue: {
       "start": {
         text: `<span style="color: #dabd50;"><em>A hunched figure emerges from the mist, eyes glowing faintly beneath a hood.</em></span><br><br>\"Ah... another soul adrift in the glade.\"`,
@@ -79,6 +85,12 @@ export const npcs = {
     name: "Marla the Merchant",
     location: "oakheart-village",
     portrait: "assets/npcs/merchant.png",
+    journal: {
+      title: "Marla the Merchant",
+      text: "Always ready with a smile and a bargain, Marla keeps Oakheart supplied with necessities and gossip.",
+      locationHint: "Oakheart Village",
+      tags: ["npc"]
+    },
     dialogue: {
       "start": {
         text: "Welcome traveler! Care to browse my wares?",
@@ -97,6 +109,12 @@ export const npcs = {
     name: "Borik the Smith",
     location: "oakheart-village",
     portrait: "assets/npcs/blacksmith.png",
+    journal: {
+      title: "Borik the Smith",
+      text: "Gruff but dependable, Borik forges the arms that keep the village safe.",
+      locationHint: "Blacksmith Forge",
+      tags: ["npc"]
+    },
     dialogue: {
       "start": {
         text: "Weapons, armor... I forge it all.",
@@ -113,6 +131,12 @@ export const npcs = {
     name: "Tomas the Innkeeper",
     location: "oakheart-village",
     portrait: "assets/npcs/innkeeper.png",
+    journal: {
+      title: "Tomas the Innkeeper",
+      text: "Keeper of the Sleepy Stoat, Tomas always has a warm meal and a tale for those who linger.",
+      locationHint: "The Sleepy Stoat",
+      tags: ["npc"]
+    },
     dialogue: {
       "start": {
         text: "Need a place to rest? The beds are clean enough.",
