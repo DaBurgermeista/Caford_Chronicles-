@@ -864,7 +864,7 @@ function handleExplore() {
     const lootItem = items[lootID];
 
     if (lootItem) {
-      player.inventory.push(lootID, 1);
+      player.inventory.push({ id: lootID, quantity: 1 });
       log(`You find a ${lootItem.name}`);
       renderInventory();
       return;
