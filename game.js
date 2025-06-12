@@ -10,6 +10,7 @@ import { enemies } from './enemy.js';
 console.log("Loaded enemies:", enemies);
 import { talkToNpc, closeNpcModal } from './npc.js';
 import { npcs } from './npcs.js';
+import { openShop, closeShop } from './shops.js';
 import { getAllEntries, unlockJournalEntry, getUnlockedEntries } from './journal.js';
 
 let activeJournalCategory = 'all';
@@ -89,6 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
   makeDraggable(document.getElementById('npc-modal'));
   makeDraggable(document.getElementById('stats-modal'));
   makeDraggable(document.getElementById('inventory-modal'), '.drag-handle');
+  makeDraggable(document.getElementById('shop-modal'), '.drag-handle');
 
   document.querySelectorAll(".journal-tab").forEach(button => {
     button.addEventListener("click", () => {
@@ -769,6 +771,8 @@ document.getElementById('open-inventory').addEventListener('click', () => {
   renderEquipped();
   renderStatsToModal();
 });
+
+document.getElementById('close-shop').addEventListener('click', closeShop);
 
 document.getElementById('close-inventory').addEventListener('click', closeInventory);
 

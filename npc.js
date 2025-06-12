@@ -28,11 +28,18 @@ function renderNpcDialogue() {
     const btn = document.createElement('button');
     btn.textContent = option.text;
     btn.onclick = () => {
-      currentNode = option.next;
-      if (currentNode === 'end') {
+      if (typeof option.action === 'function') {
+        option.action();
+      }
+      if (option.next) {
+        currentNode = option.next;
+        if (currentNode === 'end') {
+          closeNpcModal();
+        } else {
+          renderNpcDialogue();
+        }
+      } else if (!option.action) {
         closeNpcModal();
-      } else {
-        renderNpcDialogue();
       }
     };
     optionsDiv.appendChild(btn);

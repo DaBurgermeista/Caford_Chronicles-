@@ -6,7 +6,7 @@ export const player = {
   statPoints: 0,
   skillPoints: 0,
   gold: 56,
-  location: 'Whispering Glade',
+  location: 'Oakheart Village',
   inCombat: false,
 
   coreStats: {

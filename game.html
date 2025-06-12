@@ -239,6 +239,24 @@
       </div>
     </div>
 
+    <div id="shop-modal" class="modal hidden draggable-window" role="dialog" aria-labelledby="shop-name" tabindex="-1">
+      <div class="modal-content">
+        <div class="drag-handle"></div>
+        <h2 id="shop-name">Shop</h2>
+        <div style="display:flex; gap:1rem;">
+          <div style="flex:1;">
+            <h3>Buy</h3>
+            <ul id="shop-items"></ul>
+          </div>
+          <div style="flex:1;">
+            <h3>Sell</h3>
+            <ul id="sell-items"></ul>
+          </div>
+        </div>
+        <button id="close-shop">Close</button>
+      </div>
+    </div>
+
     <div id="journal-modal" class="modal hidden" role="dialog" aria-labelledby="journal-title" aria-describedby="journal-progress" tabindex="-1">
       <div class="modal-content" style="display: flex; gap: 1rem;">
         <!-- LEFT: Entry List -->

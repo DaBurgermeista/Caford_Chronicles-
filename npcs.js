@@ -1,3 +1,5 @@
+import { openShop } from './shops.js';
+
 export const npcs = {
   "old_mystic": {
     id: "old_mystic",
@@ -70,6 +72,53 @@ export const npcs = {
       "end": {
         text: `<span style="color: #dabd50;"><em>The Old Mystic bows faintly.</em></span><br><br>\"Tread carefully, wanderer. Not all paths lead home...\"`
       }
+    }
+  },
+  "town_merchant": {
+    id: "town_merchant",
+    name: "Marla the Merchant",
+    location: "oakheart-village",
+    portrait: "assets/npcs/merchant.png",
+    dialogue: {
+      "start": {
+        text: "Welcome traveler! Care to browse my wares?",
+        options: [
+          { text: "Trade", action: () => openShop('general_goods') },
+          { text: "Goodbye", next: "end" }
+        ]
+      },
+      "end": {
+        text: "Come again when you need supplies."
+      }
+    }
+  },
+  "town_blacksmith": {
+    id: "town_blacksmith",
+    name: "Borik the Smith",
+    location: "oakheart-village",
+    portrait: "assets/npcs/blacksmith.png",
+    dialogue: {
+      "start": {
+        text: "Weapons, armor... I forge it all.",
+        options: [
+          { text: "Trade", action: () => openShop('blacksmith') },
+          { text: "Goodbye", next: "end" }
+        ]
+      },
+      "end": { text: "Keep your blade sharp." }
+    }
+  },
+  "innkeeper": {
+    id: "innkeeper",
+    name: "Tomas the Innkeeper",
+    location: "oakheart-village",
+    portrait: "assets/npcs/innkeeper.png",
+    dialogue: {
+      "start": {
+        text: "Need a place to rest? The beds are clean enough.",
+        options: [ { text: "Just looking", next: "end" } ]
+      },
+      "end": { text: "Safe travels." }
     }
   }
 };
