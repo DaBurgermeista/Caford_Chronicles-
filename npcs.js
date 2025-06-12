@@ -84,7 +84,7 @@ export const npcs = {
     id: "town_merchant",
     name: "Marla the Merchant",
     location: "oakheart-village",
-    portrait: "assets/npcs/merchant.png",
+    portrait: "assets/npcs/marla_the_merchant.png",
     journal: {
       title: "Marla the Merchant",
       text: "Always ready with a smile and a bargain, Marla keeps Oakheart supplied with necessities and gossip.",
@@ -108,7 +108,7 @@ export const npcs = {
     id: "town_blacksmith",
     name: "Borik the Smith",
     location: "oakheart-village",
-    portrait: "assets/npcs/blacksmith.png",
+    portrait: "assets/npcs/borik_the_smith.png",
     journal: {
       title: "Borik the Smith",
       text: "Gruff but dependable, Borik forges the arms that keep the village safe.",
@@ -130,7 +130,7 @@ export const npcs = {
     id: "innkeeper",
     name: "Tomas the Innkeeper",
     location: "oakheart-village",
-    portrait: "assets/npcs/innkeeper.png",
+    portrait: "assets/npcs/tomas_the_innkeeper.png",
     journal: {
       title: "Tomas the Innkeeper",
       text: "Keeper of the Sleepy Stoat, Tomas always has a warm meal and a tale for those who linger.",
