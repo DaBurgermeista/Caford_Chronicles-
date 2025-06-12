@@ -62,7 +62,10 @@ function showPrologue() {
   const modal = document.getElementById('prologue-modal');
   const btn = document.getElementById('prologue-close');
   if (!modal || !btn) return;
-  btn.addEventListener('click', () => closeModal(modal), { once: true });
+  btn.addEventListener('click', () => {
+    closeModal(modal);
+    unlockJournalEntry('legend-prologue');
+  }, { once: true });
   openModal(modal);
 }
 

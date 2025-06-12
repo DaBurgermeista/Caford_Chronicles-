@@ -1,6 +1,7 @@
 import { enemies } from './enemy.js';
 import { locations } from './location.js';
 import { npcs } from './npcs.js';
+import { legends } from './legends.js';
 import { log } from './game.js'
 
 // journal.js
@@ -49,6 +50,19 @@ Object.values(npcs).forEach(npc => {
       tags: npc.journal.tags || []
     };
   }
+});
+
+// Load legend-based journal entries
+Object.values(legends).forEach(legend => {
+  journalEntries[legend.id] = {
+    id: legend.id,
+    title: legend.title,
+    text: legend.text,
+    unlocked: false,
+    category: 'legend',
+    locationHint: legend.locationHint,
+    tags: legend.tags || []
+  };
 });
 
 // This holds which entries are unlocked for the player
