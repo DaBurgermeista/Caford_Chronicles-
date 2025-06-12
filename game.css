@@ -1092,3 +1092,63 @@ legend {
   padding-right: 0.5rem;
 }
 
+/* Responsive Layout Adjustments */
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+
+  .content-row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .game-container {
+    max-width: 100%;
+    min-width: 0;
+    order: 1;
+  }
+
+  .sidebar-wrapper {
+    width: 100%;
+    order: 2;
+  }
+
+  .sidebar-right {
+    width: 100%;
+    order: 3;
+  }
+
+  .sidebar,
+  .sidebar-right {
+    font-size: 0.6rem;
+  }
+
+  .sidebar-tab {
+    display: none;
+  }
+
+  .modal-content {
+    width: 95%;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 16px;
+  }
+
+  .sidebar-wrapper,
+  .sidebar-right {
+    display: none;
+  }
+
+  .game-container {
+    max-width: 100%;
+  }
+
+  .modal-content {
+    width: 95%;
+  }
+}
+
