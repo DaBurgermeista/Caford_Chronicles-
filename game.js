@@ -5,6 +5,7 @@ console.log("Loaded locations:", locations);
 import { items } from './items.js';
 console.log("Loaded items:", items);
 import { useItem } from './itemUtils.js';
+import { getEquippedWeapon } from './equipment.js';
 import { enemies } from './enemy.js';
 console.log("Loaded enemies:", enemies);
 import { talkToNpc, closeNpcModal } from './npc.js';
@@ -33,15 +34,6 @@ function loadSavedGame() {
       console.error('Failed to load save', e);
     }
   }
-}
-
-function getEquippedWeapon() {
-  const equipped = player.equipment["main-hand"];
-  if (!equipped) return null;
-  if (typeof equipped === "string") {
-    return items[equipped] || null;
-  }
-  return equipped;
 }
 
 window.closeNpcModal = closeNpcModal;
