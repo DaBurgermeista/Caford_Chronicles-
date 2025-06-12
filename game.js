@@ -12,7 +12,28 @@ import { getAllEntries, unlockJournalEntry, getUnlockedEntries } from './journal
 
 let activeJournalCategory = 'all';
 let currentEnemy = null; // Initialize current enemy
-let draggedItemID = null; // For drag-and-drop 
+let draggedItemID = null; // For drag-and-drop
+
+function saveGame() {
+  try {
+    localStorage.setItem('saveGame', JSON.stringify(player));
+    log('Game saved.', { type: 'info' });
+  } catch (e) {
+    alert('Failed to save game.');
+  }
+}
+
+function loadSavedGame() {
+  const data = localStorage.getItem('saveGame');
+  if (data) {
+    try {
+      const parsed = JSON.parse(data);
+      Object.assign(player, parsed);
+    } catch (e) {
+      console.error('Failed to load save', e);
+    }
+  }
+}
 
 function getEquippedWeapon() {
   const id = player.equipment["main-hand"];
@@ -26,6 +47,11 @@ window.talkToNpc = talkToNpc;
 let isDragging = false; // Track if an item is being dragged
 
 document.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('load') === '1') {
+    loadSavedGame();
+  }
+
   setupSidebar();
   setupStatsModal();
   renderHud();
@@ -89,10 +115,7 @@ function setupSidebar() {
     { label: "Stats", handler: openStats },
     { label: "Inventory", handler: openInventory },
     { label: "Quests", handler: openQuests },
-    { label: "Save Game", handler: () => {
-      console.log("Saving game... returning to menu.");
-      window.location.href = "index.html";
-    }},
+    { label: "Save Game", handler: saveGame },
     { label: "Settings", handler: openSettings },
     { label: "Journal", handler: openJournal },
   ];
