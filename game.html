@@ -126,9 +126,10 @@
     </div> <!-- end .content-row -->
 
     <!-- MODALS -->
-    <div id="stats-modal" class="modal hidden draggable-window">
+    <div id="stats-modal" class="modal hidden draggable-window" role="dialog" aria-labelledby="stats-title" aria-describedby="stats-desc" tabindex="-1">
       <div class="modal-content">
-        <h2>Player Stats</h2>
+        <h2 id="stats-title">Player Stats</h2>
+        <p id="stats-desc" class="sr-only">Player statistics</p>
 
         <div class="stat-group">
           <h3>Core Attributes</h3>
@@ -167,9 +168,10 @@
       </div>
     </div>
 
-    <div id="options-modal" class="modal hidden">
+    <div id="options-modal" class="modal hidden" role="dialog" aria-labelledby="options-title" aria-describedby="options-desc" tabindex="-1">
       <div class="modal-content">
-        <h2>Options</h2>
+        <h2 id="options-title">Options</h2>
+        <p id="options-desc" class="sr-only">Game options</p>
         <div>
           <label for="ui-scale">UI Scale:</label>
           <select id="ui-scale">
@@ -189,7 +191,7 @@
       <input type="text" id="console-input" placeholder="> Type command..." />
     </div>
 
-    <div id="story-event-modal" class="modal hidden">
+    <div id="story-event-modal" class="modal hidden" role="dialog" aria-labelledby="story-event-title" aria-describedby="story-event-text" tabindex="-1">
       <fieldset class="modal-content" id="story-event-content">
         <legend>Story Event</legend>
         <h2 id="story-event-title">Story Event</h2>
@@ -199,7 +201,7 @@
       <!-- <button id="close-event">Close</button> -->
     </div>
 
-    <div id="npc-modal" class="modal hidden draggable-window">
+    <div id="npc-modal" class="modal hidden draggable-window" role="dialog" aria-labelledby="npc-name" aria-describedby="npc-dialogue-text" tabindex="-1">
       <div class="modal-content">
         <img id="npc-portrait" class="location-art" alt="NPC portrait" />
         <h2 id="npc-name">NPC Name</h2>
@@ -210,10 +212,11 @@
     </div>
 
 
-    <div id="inventory-modal" class="modal hidden draggable-window">
+    <div id="inventory-modal" class="modal hidden draggable-window" role="dialog" aria-labelledby="inventory-title" aria-describedby="inventory-desc" tabindex="-1">
       <div class="modal-content inventory-layout">
         <div class="drag-handle"></div>
-        <h2>Inventory</h2>
+        <h2 id="inventory-title">Inventory</h2>
+        <p id="inventory-desc" class="sr-only">Player inventory and equipped gear</p>
         <div class="inventory-columns">
           <div class="inventory-list">
             <h3>Backpack</h3>
@@ -236,11 +239,11 @@
       </div>
     </div>
 
-    <div id="journal-modal" class="modal hidden">
+    <div id="journal-modal" class="modal hidden" role="dialog" aria-labelledby="journal-title" aria-describedby="journal-progress" tabindex="-1">
       <div class="modal-content" style="display: flex; gap: 1rem;">
         <!-- LEFT: Entry List -->
         <div style="width: 45%;">
-          <h2>📘 Journal</h2>
+          <h2 id="journal-title">📘 Journal</h2>
           <div id="journal-list"></div>
           <p id="journal-progress" style="font-size: calc(var(--base-font-size) * 0.4); text-align: right; margin-top: 0.5rem;"></p>
           <button id="close-journal" style="margin-top: 1rem;">Close</button>

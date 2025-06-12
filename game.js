@@ -45,6 +45,21 @@ window.talkToNpc = talkToNpc;
 
 // functionality
 let isDragging = false; // Track if an item is being dragged
+let lastFocusedElement = null;
+
+function openModal(modal) {
+  lastFocusedElement = document.activeElement;
+  modal.classList.remove('hidden');
+  modal.focus();
+}
+
+function closeModal(modal) {
+  modal.classList.add('hidden');
+  if (lastFocusedElement) {
+    lastFocusedElement.focus();
+    lastFocusedElement = null;
+  }
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   const params = new URLSearchParams(window.location.search);
@@ -97,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('options-modal').addEventListener('click', (e) => {
     if (e.target.id === 'options-modal') {
-      e.currentTarget.classList.add('hidden');
+      closeModal(e.currentTarget);
     }
   });
 
@@ -160,11 +175,20 @@ function setupSidebar() {
 
 
 function openStats() {
-  document.getElementById("stats-modal").classList.remove("hidden");
+  const modal = document.getElementById("stats-modal");
+  openModal(modal);
+}
+
+function closeStats() {
+  closeModal(document.getElementById("stats-modal"));
 }
 
 function openInventory() {
-  document.getElementById("inventory-modal").classList.remove("hidden");
+  openModal(document.getElementById("inventory-modal"));
+}
+
+function closeInventory() {
+  closeModal(document.getElementById("inventory-modal"));
 }
 
 function openQuests() {
@@ -172,7 +196,11 @@ function openQuests() {
 }
 
 function openSettings() {
-  document.getElementById('options-modal').classList.remove('hidden');
+  openModal(document.getElementById('options-modal'));
+}
+
+function closeSettings() {
+  closeModal(document.getElementById('options-modal'));
 }
 
 
@@ -209,16 +237,14 @@ function setupStatsModal() {
   const closeBtn = document.getElementById('close-stats');
 
   statsBtn.addEventListener('click', () => {
-    modal.classList.remove('hidden');
     renderStatsToModal();
+    openStats();
   });
 
-  closeBtn.addEventListener('click', () => {
-    modal.classList.add('hidden');
-  });
+  closeBtn.addEventListener('click', closeStats);
 
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') modal.classList.add('hidden');
+    if (e.key === 'Escape') closeStats();
   });
 }
 
@@ -746,15 +772,13 @@ consoleInput.addEventListener('keydown', (e) => {
 });
 
 document.getElementById('open-inventory').addEventListener('click', () => {
-  document.getElementById('inventory-modal').classList.remove('hidden');
+  openInventory();
   renderInventory();
   renderEquipped();
   renderStatsToModal();
 });
 
-document.getElementById('close-inventory').addEventListener('click', () => {
-  document.getElementById('inventory-modal').classList.add('hidden');
-});
+document.getElementById('close-inventory').addEventListener('click', closeInventory);
 
 function pickUpItem(itemId) {
   const loc = locations[player.location];
@@ -1162,7 +1186,7 @@ export function showStoryEventDialog(title, description, choices) {
 
       const closeBtn = document.createElement("button");
       closeBtn.textContent = "Close";
-      closeBtn.onclick = () => modal.classList.add("hidden");
+      closeBtn.onclick = () => closeModal(modal);
       choicesContainer.appendChild(closeBtn);
 
       // ✅ Rebind tooltips after dynamic result HTML is added
@@ -1171,7 +1195,7 @@ export function showStoryEventDialog(title, description, choices) {
     choicesContainer.appendChild(btn);
   });
 
-  modal.classList.remove("hidden");
+  openModal(modal);
 
   // ✅ Initial bind for tooltip-items in description
   bindTooltips(modal);
@@ -1239,7 +1263,7 @@ document.querySelectorAll('.sidebar li').forEach(li => {
 
 // Close button for Options Modal
 document.getElementById('close-options').addEventListener('click', () => {
-  document.getElementById('options-modal').classList.add('hidden');
+  closeSettings();
 });
 
 // On change
@@ -1403,9 +1427,9 @@ function openJournal() {
   );
   document.querySelector('.journal-tab[data-category="all"]')?.classList.add("active");
 
-  document.getElementById("journal-modal").classList.remove("hidden");
+  openModal(document.getElementById("journal-modal"));
 }
 
 function closeJournal() {
-  document.getElementById("journal-modal").classList.add("hidden");
+  closeModal(document.getElementById("journal-modal"));
 }
