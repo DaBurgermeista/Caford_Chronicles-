@@ -34,7 +34,7 @@
 
 ## Future Goals
 
-### 1. **Combat System Enhancements** <img src="assets/mossling_32x32.png" alt="Mossling" width="32" height="32">
+### 1. **Combat System Enhancements** <img src="assets/enemies/mossling_32x32.png" alt="Mossling" width="32" height="32">
 
 - Add combat animations.
 - Implement status effects (e.g., poison, stun).
