@@ -2,12 +2,27 @@ import { enemies } from "./enemy.js";
 import { events } from "./events.js";
 
 export const locations = {
+  'Oakheart Village': {
+    id: 'oakheart-village',
+    name: 'Oakheart Village',
+    description: 'A small frontier town bustling with traders and travellers.',
+    image: 'assets/oakheart_village_128x128.png',
+    connections: ['Market Square', 'Blacksmith Forge', 'The Sleepy Stoat', 'Whispering Glade'],
+    discovered: true,
+    theme: 'town',
+    npcs: ['innkeeper', 'town_merchant', 'town_blacksmith'],
+    hostiles: [],
+    loot: [],
+    tags: ['town', 'safe', 'starter'],
+    discoverText: 'You arrive at the humble Oakheart Village.',
+    revisitText: 'You return to the busy streets of Oakheart.'
+  },
   'Whispering Glade': {
     id: 'whispering-glade',
     name: 'Whispering Glade',
     description: 'Tall trees surround you, their ancient trunks twisted with age. Shafts of golden sunlight pierce the leafy canopy, illuminating patches of wildflowers and mossy stones. The air hums with faint magic, carrying the soft whispers of unseen spirits and the distant call of birds. Every step feels watched, yet oddly welcoming, as if the forest itself is alive and curious about your presence.',
     image: 'assets/whispering_glade_128x128.png',
-    connections: ['Ruined Outpost', 'Moss-Eaten Path'],
+    connections: ['Ruined Outpost', 'Moss-Eaten Path', 'Oakheart Village'],
     discovered: false,
 
     // Optional Features
@@ -89,5 +104,41 @@ export const locations = {
   hostiles: ["gladefang_wolf", "hollow_eyed_watcher", "barbed_stag"],
   loot: ["old_map_fragment", "glimmering_root", "rusted_signet"],
   tags: ["forest", "ruins", "road"]
-}
+  },
+  'Market Square': {
+    id: 'market-square',
+    name: 'Market Square',
+    description: 'Stalls filled with goods line the busy square.',
+    connections: ['Oakheart Village', 'Blacksmith Forge', 'The Sleepy Stoat'],
+    discovered: true,
+    theme: 'town',
+    npcs: ['town_merchant'],
+    hostiles: [],
+    loot: [],
+    tags: ['town']
+  },
+  'Blacksmith Forge': {
+    id: 'blacksmith-forge',
+    name: 'Blacksmith Forge',
+    description: 'Heat and hammering steel fill the air.',
+    connections: ['Oakheart Village', 'Market Square'],
+    discovered: true,
+    theme: 'town',
+    npcs: ['town_blacksmith'],
+    hostiles: [],
+    loot: [],
+    tags: ['town']
+  },
+  'The Sleepy Stoat': {
+    id: 'sleepy-stoat',
+    name: 'The Sleepy Stoat',
+    description: 'A cozy tavern welcoming weary adventurers.',
+    connections: ['Oakheart Village', 'Market Square'],
+    discovered: true,
+    theme: 'town',
+    npcs: ['innkeeper'],
+    hostiles: [],
+    loot: [],
+    tags: ['town']
+  }
 };

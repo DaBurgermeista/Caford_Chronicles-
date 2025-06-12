@@ -85,6 +85,24 @@ body.ruins-theme {
 
 }
 
+body.town-theme {
+  background: url('assets/town_background.png') no-repeat center top;
+  background-size: cover;
+  background-attachment: fixed;
+  --color-border: #5f8aa6;
+  --color-font-main: #d9e7ff;
+  --color-accent: #88c7ff;
+  --color-hover: #ffffff;
+  --color-muted: #9fb4c9;
+  --color-contrast: #406080;
+  --color-panel-bg: rgba(0, 0, 0, 0.8);
+  --color-btn-bg: rgba(26, 26, 34, 0.85);
+  --color-modal-bg: rgba(0, 0, 0, 0.95);
+  --color-dark: #000;
+  --color-light: #fff;
+  --color-shadow: #385068;
+}
+
 .hidden {
   display: none !important;
 }
