@@ -4,6 +4,7 @@ import { locations } from './location.js';
 console.log("Loaded locations:", locations);
 import { items } from './items.js';
 console.log("Loaded items:", items);
+import { useItem } from './itemUtils.js';
 import { enemies } from './enemy.js';
 console.log("Loaded enemies:", enemies);
 import { talkToNpc, closeNpcModal } from './npc.js';
@@ -602,7 +603,7 @@ function handleItemAction(action, itemId) {
   }
 } else if (action === 'use') {
     console.log(`Using ${itemId}`);
-    // TODO: implement use logic
+    useItem(itemId);
   } else if (action === 'drop') {
     console.log(`Dropping ${itemId}`);
     // Remove from player inventory
