@@ -729,8 +729,9 @@ export function renderEquipped() {
         tooltip.style.top = `${e.clientY + 10}px`;
         tooltip.style.left = `${e.clientX + 10}px`;
       });
-
-
+    }
+  }
+}
 
 // ==== Vars for Dev Console ==== //
 const consoleEl = document.getElementById('dev-console');

@@ -24,7 +24,7 @@ function loadRenderEquipped(context) {
   return script.runInContext(vm.createContext(context));
 }
 
-test('clicking empty slot does not attempt an unequip action', () => {
+test('clicking empty slot still triggers the context menu', () => {
   const dom = new JSDOM(`<span id="slot-main-hand">None</span>
     <span id="slot-off-hand">None</span>
     <span id="slot-head">None</span>
@@ -55,5 +55,5 @@ test('clicking empty slot does not attempt an unequip action', () => {
   const span = document.getElementById('slot-main-hand');
   span.dispatchEvent(new dom.window.Event('click'));
 
-  assert.strictEqual(opened, false);
+  assert.strictEqual(opened, true);
 });
