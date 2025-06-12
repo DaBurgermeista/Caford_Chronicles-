@@ -15,7 +15,13 @@ export const locations = {
     loot: [],
     tags: ['town', 'safe', 'starter'],
     discoverText: 'You arrive at the humble Oakheart Village.',
-    revisitText: 'You return to the busy streets of Oakheart.'
+    revisitText: 'You return to the busy streets of Oakheart.',
+    journal: {
+      title: "Oakheart Village",
+      text: "Oakheart Village grew up around a colossal oak said to have taken root in a fallen star. Over centuries its gnarled limbs were built into the original forge’s hearth—so that every blade quenched here carries a whisper of that celestial fire.",
+      locationHint: "Where your journey began...",
+      tags: ["location", "town"]
+    },
   },
   'Whispering Glade': {
     id: 'whispering-glade',
