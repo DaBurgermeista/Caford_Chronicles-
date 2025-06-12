@@ -6,6 +6,7 @@
 }
 
 :root {
+  --base-font-size: clamp(14px, 1vw + 0.5rem, 18px);
   --color-border: #88b47f;
   --color-font-main: #c5f5a3;
   --color-accent: #dabd50;
@@ -28,6 +29,10 @@
   --color-subtle-border: #222;
 }
 
+html {
+  font-size: var(--base-font-size);
+}
+
 body {
   background-color: #000;
   background: url('https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/cad90a2a-ca89-498f-ae03-26bd1f37c988/djpq3t6-f59b20c1-dea0-464f-be13-e6f7f134d58e.jpg/v1/fill/w_1170,h_651,q_75,strp/pixel__art_by_neosketcher1_djpq3t6-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NjUxIiwicGF0aCI6IlwvZlwvY2FkOTBhMmEtY2E4OS00OThmLWFlMDMtMjZiZDFmMzdjOTg4XC9kanBxM3Q2LWY1OWIyMGMxLWRlYTAtNDY0Zi1iZTEzLWU2ZjdmMTM0ZDU4ZS5qcGciLCJ3aWR0aCI6Ijw9MTE3MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.eG5IT3gLGdkLvqNKbaEFjqF6GSLe7U2Afp4yqgb7Ugc');
@@ -37,7 +42,7 @@ body {
   background-attachment: fixed;
   color: var(--color-font-main);
   font-family: 'Pixellari', monospace;
-  font-size: calc(12px + 0.25vw); /*Scale root font size based on screen width*/
+  font-size: var(--base-font-size);
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -93,7 +98,7 @@ body.ruins-theme {
   padding: 0.5rem 1rem;
   display: flex;
   justify-content: space-between;
-  font-size: 0.5rem;
+  font-size: calc(var(--base-font-size) * 0.5);
 }
 
 .log-entry {
@@ -187,7 +192,7 @@ body.ruins-theme {
 }
 
 .dialog-right p {
-  font-size: clamp(0.4rem, 1.5vw, 0.5rem);
+  font-size: clamp(calc(var(--base-font-size)*0.4), 1.5vw, calc(var(--base-font-size)*0.5));
   line-height: 1.4;
   overflow-wrap: break-word;
   word-break: break-word;
@@ -205,7 +210,7 @@ body.ruins-theme {
 .dialog-left legend {
   color: var(--color-accent);
   font-weight: bold;
-  font-size: 0.5rem;
+  font-size: calc(var(--base-font-size) * 0.5);
   text-transform: uppercase;
   padding: 0 0.5rem;
 }
@@ -221,7 +226,7 @@ body.ruins-theme {
 #action-log {
   flex: 1;
   overflow-y: hidden;
-  font-size: 0.35rem;
+  font-size: calc(var(--base-font-size) * 0.35);
   line-height: 1.2;
   padding-right: 0.25rem;
   margin: 0.15rem 0;
@@ -261,7 +266,7 @@ body.ruins-theme {
 .location-npcs legend {
   color: #e0d1a6;
   text-shadow: 0 0 4px #a2967c;
-  font-size: 0.55rem;
+  font-size: calc(var(--base-font-size) * 0.55);
   padding: 0 0.5rem;
 }
 
@@ -288,7 +293,7 @@ body.ruins-theme {
   border: 2px solid var(--color-border);
   padding: 1rem;
   width: 80%;
-  font-size: 0.5rem;
+  font-size: calc(var(--base-font-size) * 0.5);
 }
 
 .combat-ui {
@@ -300,7 +305,7 @@ body.ruins-theme {
   background-color: rgba(0, 0, 0, 0.85);
   border: 2px solid var(--color-border);
   padding: 1rem;
-  font-size: 0.45rem;
+  font-size: calc(var(--base-font-size) * 0.45);
   box-shadow: 0 0 6px #4c6f3f;
   z-index: 10;
 }
@@ -346,7 +351,7 @@ fieldset {
 
 legend {
   color: #e0d1a6;
-  font-size: 0.6rem;
+  font-size: calc(var(--base-font-size) * 0.6);
   font-family: 'Pixellari', monospace;
   padding: 0 0.5rem;
   text-shadow: 0 0 4px #4c6f3f;
@@ -381,7 +386,7 @@ legend {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.5rem;
+  font-size: calc(var(--base-font-size) * 0.5);
   color: #fff1a8;
   pointer-events: none;
   text-shadow: 0 0 3px black;
@@ -390,7 +395,7 @@ legend {
 .combat-actions button {
   width: 100px;
   padding: 0.4rem 0.6rem;
-  font-size: 0.45rem;
+  font-size: calc(var(--base-font-size) * 0.45);
   font-family: 'Pixellari', monospace;
   border: 2px solid var(--color-border);
   background-color: rgba(20, 20, 20, 0.85);
@@ -410,7 +415,7 @@ legend {
   padding: 0.5rem;
   background-color: rgba(10, 10, 10, 0.9);
   color: var(--color-accent);
-  font-size: 0.5rem;
+  font-size: calc(var(--base-font-size) * 0.5);
   max-height: 150px;
   overflow-y: auto;
   border: 1px dashed var(--color-border);
@@ -429,7 +434,7 @@ legend {
   background-color: rgba(0, 0, 0, 0.85);
   border: 2px solid var(--color-border);
   padding: 1rem;
-  font-size: 0.45rem;
+  font-size: calc(var(--base-font-size) * 0.45);
   box-shadow: 0 0 6px #4c6f3f;
   z-index: 10;
 }
@@ -449,7 +454,7 @@ legend {
 
 .travel-btn {
   font-family: 'Pixellari', monospace;
-  font-size: 0.45rem;
+  font-size: calc(var(--base-font-size) * 0.45);
   padding: 0.5rem 0.75rem;
   background-color: rgba(26, 22, 18, 0.85);
   color: var(--color-font-main);
@@ -471,7 +476,7 @@ legend {
 
 .action-bar button {
   font-family: 'Pixellari', monospace;
-  font-size: 0.5rem;
+  font-size: calc(var(--base-font-size) * 0.5);
   padding: 0.5rem 1rem;
   margin: 0 0.25rem;
   background-color: rgba(26, 22, 18, 0.85);
@@ -508,7 +513,7 @@ legend {
   /* box-shadow: 0 0 8px #4c6f3f; */
   color: var(--color-font-main);
   font-family: 'Pixellari', monospace;
-  font-size: 0.5rem;
+  font-size: calc(var(--base-font-size) * 0.5);
 
   transform: translateX(0);
   transition: transform 0.3s ease;
@@ -525,7 +530,7 @@ legend {
   border-top: none;
   color: var(--color-font-main);
   font-family: 'Pixellari', monospace;
-  font-size: 0.45rem;
+  font-size: calc(var(--base-font-size) * 0.45);
   writing-mode: vertical-rl;
   text-align: center;
   line-height: 1;
@@ -586,7 +591,7 @@ legend {
 #inventory-list {
   list-style: none;
   padding: 0;
-  font-size: 0.45rem;
+  font-size: calc(var(--base-font-size) * 0.45);
 }
 
 #inventory-list li {
@@ -606,7 +611,7 @@ legend {
 .inventory-layout {
   display: flex;
   flex-direction: column;
-  font-size: 0.45rem;
+  font-size: calc(var(--base-font-size) * 0.45);
 }
 
 .inventory-columns {
@@ -670,7 +675,7 @@ legend {
   border: 2px solid var(--color-border);
   color: var(--color-font-main);
   font-family: 'Pixellari', monospace;
-  font-size: 0.5rem;
+  font-size: calc(var(--base-font-size) * 0.5);
   list-style: none;
   padding: 0.25rem 0;
   margin: 0;
@@ -707,7 +712,7 @@ legend {
   border-radius: 4px;
   padding: 0.75rem;
   font-family: 'Pixellari', monospace;
-  font-size: 0.45rem;
+  font-size: calc(var(--base-font-size) * 0.45);
   color: var(--color-font-main);
   z-index: 10001;
   width: max-content;
@@ -718,7 +723,7 @@ legend {
 
 .tooltip h2 {
   margin: 0 0 0.5rem 0;
-  font-size: 0.55rem;
+  font-size: calc(var(--base-font-size) * 0.55);
   color: #e0d1a6;
 }
 
@@ -754,7 +759,7 @@ legend {
   padding: 1rem;
   color: var(--color-font-main);
   font-family: 'Pixellari', monospace;
-  font-size: 0.5rem;
+  font-size: calc(var(--base-font-size) * 0.5);
   transition: transform 0.3s ease;
   /* border-left: 2px solid var(--color-border);
   box-shadow: -2px 0 6px #4c6f3f; */
@@ -826,7 +831,7 @@ legend {
   color: var(--color-font-main);
   padding: 1.5rem;
   font-family: 'Pixellari', monospace;
-  font-size: 0.45rem;
+  font-size: calc(var(--base-font-size) * 0.45);
   width: 720px;
   max-height: 95vh;
   overflow-y: visible;
@@ -835,7 +840,7 @@ legend {
 
 .modal-content button {
   font-family: 'Pixellari', monospace;
-  font-size: 0.5rem;
+  font-size: calc(var(--base-font-size) * 0.5);
   padding: 0.5rem 1rem;
   margin-top: 1rem;
   display: block;
@@ -857,7 +862,7 @@ legend {
 
 .modal-content select {
   font-family: 'Pixellari', monospace;
-  font-size: 0.5rem;
+  font-size: calc(var(--base-font-size) * 0.5);
   padding: 0.4rem 0.6rem;
   background-color: rbga(26, 22, 18, 0.85);
   color: var(--color-font-main);
@@ -889,7 +894,7 @@ legend {
   margin-top: 1rem;
   margin-bottom: 0.25rem;
   color: var(--color-accent);
-  font-size: 0.5rem;
+  font-size: calc(var(--base-font-size) * 0.5);
 }
 
 #options-modal {
@@ -928,7 +933,7 @@ legend {
   border-top: 2px solid var(--color-border);
   color: var(--color-font-main);
   font-family: 'Pixellari', monospace;
-  font-size: 0.45rem;
+  font-size: calc(var(--base-font-size) * 0.45);
   display: flex;
   flex-direction: column;
   z-index: 100;
@@ -951,7 +956,7 @@ legend {
   padding: 0.5rem;
   color: var(--color-font-main);
   font-family: 'Pixellari', monospace;
-  font-size: 0.45rem;
+  font-size: calc(var(--base-font-size) * 0.45);
   outline: none;
 }
 
@@ -972,7 +977,7 @@ legend {
   margin-top: 0;
   color: #fff1a8;
   padding: 0.25rem 0.5rem;
-  font-size: 0.45rem;
+  font-size: calc(var(--base-font-size) * 0.45);
   cursor: move;
   text-align: center;
 }
@@ -1011,7 +1016,7 @@ legend {
 
 .journal-tab {
   font-family: 'Pixellari', monospace;
-  font-size: 0.45rem;
+  font-size: calc(var(--base-font-size) * 0.45);
   padding: 0.35rem 0.75rem;
   background-color: rgba(10, 10, 10, 0.9);
   color: var(--color-font-main);
