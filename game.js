@@ -7,7 +7,7 @@ console.log("Loaded items:", items);
 import { enemies } from './enemy.js';
 console.log("Loaded enemies:", enemies);
 import { talkToNpc, closeNpcModal } from './npc.js';
-import { npcs } from '/npcs.js';
+import { npcs } from './npcs.js';
 import { getAllEntries, unlockJournalEntry, getUnlockedEntries } from './journal.js';
 
 let activeJournalCategory = 'all';
