@@ -315,6 +315,8 @@ function renderLocation() {
     document.body.classList.add('forest-theme');
   } else if (locationData.theme === 'ruins') {
     document.body.classList.add('ruins-theme');
+  } else if (locationData.theme === 'town') {
+    document.body.classList.add('town-theme');
   }
 
   // HUD
