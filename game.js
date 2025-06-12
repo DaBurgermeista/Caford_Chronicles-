@@ -1350,7 +1350,7 @@ function renderJournal() {
 
   list.innerHTML = "";
 
-  const categories = ['enemy', 'location', 'legend'];
+  const categories = ['enemy', 'location', 'npc', 'legend'];
   const entries = getAllEntries();
 
   categories.forEach(cat => {

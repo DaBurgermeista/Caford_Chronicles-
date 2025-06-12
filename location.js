@@ -103,7 +103,13 @@ export const locations = {
   npcs: [],
   hostiles: ["gladefang_wolf", "hollow_eyed_watcher", "barbed_stag"],
   loot: ["old_map_fragment", "glimmering_root", "rusted_signet"],
-  tags: ["forest", "ruins", "road"]
+  tags: ["forest", "ruins", "road"],
+  journal: {
+    title: "Moss-Eaten Path",
+    text: "A once-proud roadway now lost beneath creeping moss. Travelers whisper that memories cling to every stone here.",
+    locationHint: "Between the Whispering Glade and the Ruined Outpost",
+    tags: ["location", "forest", "ruins"]
+  }
   },
   'Market Square': {
     id: 'market-square',
@@ -115,7 +121,13 @@ export const locations = {
     npcs: ['town_merchant'],
     hostiles: [],
     loot: [],
-    tags: ['town']
+    tags: ['town'],
+    journal: {
+      title: 'Market Square',
+      text: 'The heart of Oakheart commerce, where news and coin change hands in equal measure.',
+      locationHint: 'Within Oakheart Village',
+      tags: ['location', 'town']
+    }
   },
   'Blacksmith Forge': {
     id: 'blacksmith-forge',
@@ -127,7 +139,13 @@ export const locations = {
     npcs: ['town_blacksmith'],
     hostiles: [],
     loot: [],
-    tags: ['town']
+    tags: ['town'],
+    journal: {
+      title: 'Blacksmith Forge',
+      text: 'Borik\'s anvil rings from dawn till dusk, shaping the weapons that defend Oakheart.',
+      locationHint: 'Adjacent to Market Square',
+      tags: ['location', 'town']
+    }
   },
   'The Sleepy Stoat': {
     id: 'sleepy-stoat',
@@ -139,6 +157,12 @@ export const locations = {
     npcs: ['innkeeper'],
     hostiles: [],
     loot: [],
-    tags: ['town']
+    tags: ['town'],
+    journal: {
+      title: 'The Sleepy Stoat',
+      text: 'Many a quest begins over a mug of frothy ale at this humble tavern.',
+      locationHint: 'Oakheart Village',
+      tags: ['location', 'town']
+    }
   }
 };
