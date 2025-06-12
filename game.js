@@ -390,7 +390,7 @@ document.querySelectorAll('.equipped-gear li').forEach(slotEl => {
     slotEl.classList.remove("dragover");
 
     const itemId = e.dataTransfer.getData("text/plain");
-    const item = player.inventory.find(i => i.id === itemId);
+    const item = items[itemId]; // look up full item data
     if (item && item.slot === slotType) {
       equipItemToSlot(itemId, slotType);
     }
