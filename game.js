@@ -1223,7 +1223,6 @@ export function triggerEventsFor(location, triggerType) {
     ) {
       event.effect(player, location);
       console.log(`Event: ${event.name} triggered.`);
-      event.showStoryEventDialog;
 
       return true; // An event triggered
     }
