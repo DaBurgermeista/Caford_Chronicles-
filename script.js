@@ -13,11 +13,20 @@ let selectedIndex = 0;
 
 menuItems[selectedIndex].classList.add('selected');
 
-fetch('version.json')
-  .then((res) => res.json())
-  .then((data) => {
-    document.getElementById('version').textContent = `Version: ${data.version}`;
-  });
+  fetch('version.json')
+    .then((res) => res.json())
+    .then((data) => {
+      document.getElementById('version').textContent = `Version: ${data.version}`;
+    });
+
+function loadGame() {
+  const data = localStorage.getItem('saveGame');
+  if (data) {
+    window.location.href = 'game.html?load=1';
+  } else {
+    typeMessage('> No saved game found.');
+  }
+}
 
 
 function typeMessage(message) {
@@ -73,6 +82,8 @@ document.addEventListener('keydown', (e) => {
       setTimeout(() => {
         window.location.href = 'game.html';
       }, 1000);
+    } else if (selectedOption === 'Load Game') {
+      loadGame();
     }
   }
 });
@@ -86,6 +97,10 @@ document.querySelectorAll('.menu li').forEach((item) => {
       setTimeout(() => {
         window.location.href = 'game.html';
       }, 1000);
+    }
+
+    if (option === 'Load Game') {
+      loadGame();
     }
 
     if (option === 'Credits') {

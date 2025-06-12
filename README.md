@@ -23,6 +23,7 @@
 - Sidebars for player info and travel destinations.
 - Dev console for debugging or cheat commands.
 - Inventory and equipment system rendered in modal with hover tooltips.
+- Save and load progress via browser storage.
 
 ### Modular Code Structure
 
@@ -60,7 +61,7 @@
 
 ### 5. **UI/UX Additions**
 
-- Save/load system using browser storage.
+- ~~Save/load system using browser storage.~~ Implemented!
 - Music and sound effects toggle in settings.
 - Visual transitions between locations.
 
