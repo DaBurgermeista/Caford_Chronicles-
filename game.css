@@ -658,6 +658,10 @@ legend {
   background-color: rgba(136, 180, 127, 0.3);
 }
 
+#inventory-list.dragover {
+  background-color: rgba(136, 180, 127, 0.3);
+}
+
 
 .context-menu {
   position: absolute;

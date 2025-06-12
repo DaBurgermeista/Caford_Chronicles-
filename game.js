@@ -12,7 +12,6 @@ import { getAllEntries, unlockJournalEntry, getUnlockedEntries } from './journal
 
 let activeJournalCategory = 'all';
 let currentEnemy = null; // Initialize current enemy
-let draggedItemID = null; // For drag-and-drop
 
 function saveGame() {
   try {
@@ -398,31 +397,31 @@ document.querySelectorAll('.equipped-gear li').forEach(slotEl => {
   });
 });
 
+// Allow unequipping by dropping onto the inventory list
+const inventoryListEl = document.getElementById('inventory-list');
+inventoryListEl.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  inventoryListEl.classList.add('dragover');
+});
+inventoryListEl.addEventListener('dragleave', () => {
+  inventoryListEl.classList.remove('dragover');
+});
+inventoryListEl.addEventListener('drop', (e) => {
+  e.preventDefault();
+  inventoryListEl.classList.remove('dragover');
+
+  const fromSlot = e.dataTransfer.getData('slot');
+  const itemId = e.dataTransfer.getData('text/plain');
+  if (fromSlot && itemId) {
+    handleItemAction('unequip', itemId);
+  }
+});
+
 function equipItemToSlot(itemId, slotType) {
-  const inventoryIndex = player.inventory.findIndex(i => i.id === itemId);
-  if (inventoryIndex === -1) return;
+  const itemData = items[itemId];
+  if (!itemData || itemData.slot !== slotType) return;
 
-  const itemData = items[itemId]; // grab full item details
-  if (!itemData) {
-    console.warn(`Cannot equip itemId "${itemId}" — item not found in items.js`);
-    return;
-  }
-
-  // Remove 1 quantity
-  const entry = player.inventory[inventoryIndex];
-  if (entry.quantity > 1) {
-    entry.quantity--;
-  } else {
-    player.inventory.splice(inventoryIndex, 1);
-  }
-
-  // Equip it
-  player.equipment[slotType] = itemId; // store just the ID
-
-  console.log(`Equipped ${itemId} to ${slotType}`);
-
-  renderInventory();
-  renderEquipped();
+  handleItemAction('equip', itemId);
 }
 
 
@@ -441,10 +440,12 @@ export function renderInventory() {
     li.addEventListener("dragstart", (e) => {
       e.dataTransfer.setData("text/plain", item.id);
       e.currentTarget.classList.add("dragging");
+      isDragging = true;
     });
 
     li.addEventListener("dragend", (e) => {
       e.currentTarget.classList.remove("dragging");
+      isDragging = false;
     });
     list.appendChild(li);
 
@@ -456,39 +457,6 @@ export function renderInventory() {
         openContextMenu(entry.id, e.clientX, e.clientY);
       }
     });
-
-    document.querySelectorAll('.equip-slot').forEach(slotEl => {
-    const slotType = slotEl.dataset.slot;
-
-    // Allow drop
-    slotEl.addEventListener('dragover', (e) => {
-      e.preventDefault(); // must be here to allow drop
-      slotEl.classList.add('dragover');
-    });
-
-    // Remove visual cue
-    slotEl.addEventListener('dragleave', () => {
-      slotEl.classList.remove('dragover');
-    });
-
-    // Handle drop
-    slotEl.addEventListener('drop', (e) => {
-    e.preventDefault();
-    slotEl.classList.remove('dragover');
-
-    const itemId = e.dataTransfer.getData('text/plain');
-    const inventoryEntry = player.inventory.find(i => i.id === itemId);
-    const item = items[itemId]; // <== Get item definition from master list
-
-    if (inventoryEntry && item && item.slot === slotType) {
-      equipItemToSlot(itemId, slotType);
-    } else {
-      console.log("Can't equip item here.");
-      console.log(`Item: ${item ? item.name : 'Unknown'} | Slot: ${slotType}`);
-    }
-  });
-  });
-
 
     // Tooltip events
     li.addEventListener("mouseenter", (e) => {
@@ -682,7 +650,22 @@ function renderEquipped() {
       const newSpan = span.cloneNode(true);
       newSpan.textContent = item.name;
       newSpan.classList.add("equipped-item");
+      newSpan.setAttribute('draggable', 'true');
+      newSpan.dataset.itemId = itemId;
+      newSpan.dataset.slot = slot;
       span.replaceWith(newSpan);
+
+      newSpan.addEventListener('dragstart', (e) => {
+        e.dataTransfer.setData('text/plain', itemId);
+        e.dataTransfer.setData('slot', slot);
+        e.currentTarget.classList.add('dragging');
+        isDragging = true;
+      });
+
+      newSpan.addEventListener('dragend', (e) => {
+        e.currentTarget.classList.remove('dragging');
+        isDragging = false;
+      });
 
       // ✅ Add context menu
       newSpan.addEventListener("click", (e) => {
@@ -1121,42 +1104,6 @@ function enemyTurn() {
   // For now, just log a message
 }
 
-// When dragging starts, store the item ID
-document.addEventListener("dragstart", (e) => {
-  if (e.target.classList.contains("inventory-item")) {
-    draggedItemId = e.target.dataset.itemId;
-    isDragging = true;
-  }
-});
-
-document.addEventListener("dragend", () => {
-  isDragging = false;
-});
-
-// Allow drop target
-document.querySelectorAll(".inventory-item").forEach(item => {
-  item.addEventListener("click", (e) => {
-    if (isDragging) return; // prevent click if dragging
-    // Your context menu logic here
-    openContextMenu(e, item.dataset.itemId);
-  });
-});
-
-function isSlotCompatible(itemId, slot) {
-  const item = player.inventory.find(i => i.id === itemId);
-  return item && item.slot === slot;
-}
-
-function equipItem(itemId, slot) {
-  const itemIndex = player.inventory.findIndex(i => i.id === itemId);
-  if (itemIndex !== -1) {
-    const item = player.inventory[itemIndex];
-    player.equipment[slot] = item;
-    player.inventory.splice(itemIndex, 1);
-    updateInventoryUI();
-    updateEquipmentUI();
-  }
-}
 
 export function showStoryEventDialog(title, description, choices) {
   const modal = document.getElementById("story-event-modal");
