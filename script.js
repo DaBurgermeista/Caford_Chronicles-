@@ -90,6 +90,7 @@ document.addEventListener('keydown', (e) => {
 
 document.querySelectorAll('.menu li').forEach((item) => {
   const option = item.textContent;
+
   item.addEventListener('click', () => {
     typeMessage(`> ${option} selected.`);
 
@@ -105,6 +106,13 @@ document.querySelectorAll('.menu li').forEach((item) => {
 
     if (option === 'Credits') {
       document.getElementById('credits-modal').classList.remove('hidden');
+    }
+  });
+
+  item.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      item.click();
     }
   });
 });

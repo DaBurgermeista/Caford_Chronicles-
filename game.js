@@ -126,7 +126,15 @@ function setupSidebar() {
   menuDefinitions.forEach(({ label, handler }) => {
     const li = document.createElement("li");
     li.textContent = label;
+    li.setAttribute("role", "button");
+    li.setAttribute("tabindex", "0");
     li.addEventListener("click", handler);
+    li.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        handler();
+      }
+    });
     sidebarList.appendChild(li);
   });
 
@@ -176,11 +184,19 @@ function renderDestinationSidebar() {
   current.connections.forEach(dest => {
     const li = document.createElement('li');
     li.textContent = dest;
+    li.setAttribute('role', 'button');
+    li.setAttribute('tabindex', '0');
     li.addEventListener('click', () => {
       if (player.inCombat) return;
       player.location = dest;
       renderLocation();
       renderDestinationSidebar();  // refresh right sidebar
+    });
+    li.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        li.click();
+      }
     });
     list.appendChild(li);
   });
@@ -502,9 +518,17 @@ function openContextMenu(itemId, x, y, equipped = false) {
   actions.forEach(action => {
     const li = document.createElement('li');
     li.textContent = action;
+    li.setAttribute('role', 'button');
+    li.setAttribute('tabindex', '0');
     li.addEventListener('click', () => {
       handleItemAction(action.toLowerCase(), itemId);
       closeContextMenu();
+    });
+    li.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        li.click();
+      }
     });
     menu.appendChild(li);
   });
@@ -1236,7 +1260,15 @@ function renderNpcSidebar(npcList) {
     const li = document.createElement("li");
     li.textContent = npc.name;
     li.classList.add("sidebar-npc-entry");
+    li.setAttribute("role", "button");
+    li.setAttribute("tabindex", "0");
     li.onclick = () => talkToNpc(id);
+    li.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        li.click();
+      }
+    });
     npcUl.appendChild(li);
   });
 

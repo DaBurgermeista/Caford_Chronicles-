@@ -108,6 +108,16 @@ body {
   text-shadow: 0 0 6px #f9df6a, 0 0 12px #dabd50;
 }
 
+.menu li:focus {
+  outline: 2px dashed #f9df6a;
+  outline-offset: 2px;
+}
+
+li[role="button"]:focus {
+  outline: 2px dashed #f9df6a;
+  outline-offset: 2px;
+}
+
 .modal {
   position: fixed;
   top: 0;
