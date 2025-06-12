@@ -121,7 +121,7 @@ export const events = {
               text: "Continue",
               action: () => {
                 player.progression.completedEvents.push("ruins-echoes");
-                player.progression.xp += 10;
+                player.xp += 10;
                 renderHud();
                 return "The vision fades. You feel the weight of unseen memories... and gain 10 XP.";
               }
